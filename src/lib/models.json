@@ -1,0 +1,37 @@
+[
+	{
+		"description": "Advanced reasoning and coding capabilities",
+		"features": ["Long context", "Code generation", "Analysis"],
+		"name": "Claude 3.5 Sonnet",
+		"provider": "Anthropic",
+		"type": "premium"
+	},
+	{
+		"description": "Powerful multimodal model with vision capabilities",
+		"features": ["Vision", "Creative writing", "Problem solving"],
+		"name": "GPT-4",
+		"provider": "OpenAI",
+		"type": "premium"
+	},
+	{
+		"description": "Fast and efficient reasoning model",
+		"features": ["Fast responses", "Reasoning", "Mathematics"],
+		"name": "o3-mini-high",
+		"provider": "OpenAI",
+		"type": "premium"
+	},
+	{
+		"description": "Versatile model for general conversations",
+		"features": ["General chat", "Fast responses", "Multilingual"],
+		"name": "Gemini Pro",
+		"provider": "Google",
+		"type": "standard"
+	},
+	{
+		"description": "Open source model with strong performance",
+		"features": ["Open source", "General purpose", "Code assistance"],
+		"name": "Llama 3.1",
+		"provider": "Meta",
+		"type": "standard"
+	}
+]

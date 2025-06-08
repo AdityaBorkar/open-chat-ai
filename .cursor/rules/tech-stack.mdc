@@ -1,0 +1,48 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+# Tech Stack
+
+## TypeScript Best Practices
+
+- Utilize strong typing for all variables, function parameters, and return types.
+- Define interfaces or types for complex object structures and API responses.
+- Prefer `interface` for object shapes and `type` for aliases, unions, and intersections.
+- Use `enum` for a set of named constant values.
+- Enable strict mode in `tsconfig.json` for better type safety.
+- Leverage TypeScript's powerful refactoring capabilities.
+
+## React Best Practices
+
+- Use functional components and React Hooks for state management and side effects.
+- Prefer component composition over inheritance.
+- Use `PropTypes` or TypeScript for type checking component props.
+- Keep components small, focused, and reusable.
+- Implement a clear component hierarchy.
+- Optimize performance with `React.memo`, `useCallback`, and `useMemo` when necessary.
+
+## Next.js Best Practices
+
+- Use `app` directory for new features and prefer Server Components for improved performance.
+- Optimize images using `next/image` for automatic optimization and lazy loading.
+- For data fetching, prefer `getServerSideProps` or `getStaticProps` based on data freshness requirements.
+- Leverage API routes in `src/app/api` for backend logic and data mutations.
+- Ensure proper routing with `next/navigation` for client-side navigation.
+- Implement error boundaries for robust UI.
+
+## Tailwind CSS Best Practices
+
+- Use utility classes directly in your JSX/TSX for styling.
+- Leverage `@apply` for extracting common component patterns into custom classes if needed.
+- Configure `tailwind.config.js` to extend default themes and add custom utilities.
+- Utilize PostCSS for processing Tailwind CSS.
+- Purge unused CSS in production builds to minimize file size.
+
+## React Icons Best Practices
+
+- Import only the icons you need from specific icon packs (e.g., `import { FaBeer } from 'react-icons/fa';`).
+- Use only Tabler icons
+- Use `size` and `color` props for consistent icon styling across your application.
+- Wrap icons in a `<span>` or `<div>` with an `aria-label` for accessibility if the icon is purely decorative.

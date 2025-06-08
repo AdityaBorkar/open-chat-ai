@@ -1,0 +1,208 @@
+// TODO:
+// - core web vitals
+// - configure with editorconfig
+// - TailwindCSS Auto Class Sorting
+// - Integrate with Astro CI/CD on Vercel / SST
+{
+	"$schema": "https://biomejs.dev/schemas/2.0.0-beta.6/schema.json",
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							[
+								"server-only",
+								"use client",
+								"use server"
+							],
+							":BLANK_LINE:",
+							":URL:",
+							":BLANK_LINE:",
+							[
+								":NODE:",
+								":BUN:",
+								":PACKAGE:",
+								":PACKAGE_WITH_PROTOCOL:"
+							],
+							":BLANK_LINE:",
+							[
+								"@/components",
+								"@/lib"
+							],
+							":BLANK_LINE:",
+							[
+								":ALIAS:",
+								":PATH:"
+							]
+						]
+					}
+				},
+				"useSortedAttributes": "on",
+				"useSortedKeys": "on"
+			}
+		}
+	},
+	"files": {
+		"ignoreUnknown": false,
+		"includes": [
+			"**",
+			"!**/dist/*",
+			"!**/node_modules/*",
+			"!**/CHANGELOG.md"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"formatWithErrors": false,
+		"indentStyle": "tab",
+		"indentWidth": 2
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "single",
+			"semicolons": "always",
+			"trailingCommas": "all"
+		}
+	},
+	"json": {
+		"formatter": {
+			"trailingCommas": "none"
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"nursery": {
+				"useSortedClasses": {
+					"fix": "safe",
+					"level": "error",
+					"options": {
+						"attributes": [
+							"classList"
+						],
+						"functions": [
+							"clsx",
+							"cva",
+							"tw",
+							"tw.*"
+						]
+					}
+				}
+			}
+		}
+	}
+}
+// {
+//   "$schema": "https://biomejs.dev/schemas/1.7.0/schema.json",
+//   "linter": {
+//     "enabled": true,
+//     "rules": {
+//       "recommended": true
+//     }
+//   },
+//   "formatter": {
+//     "enabled": true,
+//     "formatWithErrors": false,
+//     "indentStyle": "space",
+//     "indentWidth": 2,
+//     "lineEnding": "lf",
+//     "lineWidth": 80,
+//     "attributePosition": "auto"
+//   },
+//   "organizeImports": {
+//     "enabled": true
+//   },
+//   "vcs": {
+//     "enabled": true,
+//     "clientKind": "git",
+//     "useIgnoreFile": true
+//   },
+//   "javascript": {
+//     "formatter": {
+//       "trailingCommas": "all",
+//       "semicolons": "asNeeded",
+//       "jsxQuoteStyle": "single",
+//       "quoteStyle": "single",
+//       "quoteProperties": "asNeeded",
+//       "arrowParentheses": "asNeeded",
+//       "attributePosition": "multiline"
+//     }
+//   }
+// }
+// - Biome.json
+//   - core web vitals
+//   - configure with editorconfig
+//   - TailwindCSS Auto Class Sorting
+//   - Integrate with Astro CI/CD on Vercel / SST
+// module.exports = {
+//   semi: false,
+//   singleQuote: true,
+//   trailingComma: 'all',
+//   importOrder: [
+//     'server-only',
+//     '<THIRD_PARTY_MODULES>',
+//     '^@/(.*)$',
+//     '^[./]',
+//     '^@/schemas(.*)$',
+//   ],
+//   importOrderSeparation: true,
+//   importOrderSortSpecifiers: true,
+//   tailwindFunctions: ['clsx', 'tw', 'cva'],
+//   plugins: [
+//     require.resolve('@trivago/prettier-plugin-sort-imports'),
+//     require.resolve('prettier-plugin-astro'),
+//     require.resolve('prettier-plugin-tailwindcss'),
+//     // require.resolve('prettier-plugin-organize-imports'),
+//   ],
+//   overrides: [
+//     {
+//       files: '*.astro',
+//       options: { parser: 'astro' },
+//     },
+//   ],
+// }
+// {
+//   "$schema": "https://biomejs.dev/schemas/1.9.3/schema.json",
+//   "files": {
+//     "ignoreUnknown": false,
+//     "ignore": []
+//   },
+//   "formatter": {
+//     "enabled": true,
+//     "indentWidth": 2,
+//     "indentStyle": "tab"
+//     // https://github.com/un-ts/prettier/tree/master/packages/sh
+//     // https://github.com/matzkoh/prettier-plugin-packagejson
+//     // https://github.com/JoshuaKGoldberg/prettier-plugin-curly
+//   },
+//   "organizeImports": {
+//     "enabled": true
+//   },
+//   "linter": {
+//     "enabled": true,
+//     "rules": {
+//       // "all": true
+//     }
+//     // https://github.com/gajus/eslint-plugin-jsdoc
+//     // https://github.com/ota-meshi/eslint-plugin-yml
+//     // https://github.com/ota-meshi/eslint-plugin-jsonc
+//     // https://github.com/gmullerb/eslint-plugin-regex
+//     // https://github.com/JoshuaKGoldberg/eslint-plugin-package-json
+//     // https://github.com/eslint-community/eslint-plugin-eslint-comments
+//     // https://perfectionist.dev/guide/introduction
+//     // MarkdownLint
+//   },
+//   "javascript": {
+//     "formatter": {
+//       "semicolons": "always",
+//       "quoteStyle": "single"
+//     }
+//   },
+//   "json": {
+//     "formatter": {
+//       "trailingCommas": "none"
+//     }
+//   }
+// }

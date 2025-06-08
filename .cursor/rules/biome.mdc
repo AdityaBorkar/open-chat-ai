@@ -1,0 +1,19 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+# Linting and Formatting
+
+## Biome Best Practices
+
+- Configure `biome.jsonc` for consistent code formatting and linting.
+- Integrate Biome into your CI/CD pipeline for automated checks.
+- Use Biome for linting, formatting, and organizing imports to maintain code quality.
+
+## ESLint Best Practices
+
+- Configure `eslint.config.mjs` to enforce code style and catch potential errors.
+- Use recommended ESLint configurations and extend them as needed.
+- Integrate ESLint into your development workflow for real-time feedback.
+- Resolve all linting errors and warnings before committing code.
