@@ -310,6 +310,8 @@ export default function ModelsPage() {
 		setSelectedModel(modelId);
 	};
 
+	// TODO: Search URL, Default Model, Remove Price
+
 	return (
 		<div className="max-w-6xl">
 			{/* Header */}
@@ -319,6 +321,10 @@ export default function ModelsPage() {
 					Configure and select AI models for your conversations.
 				</p>
 			</div>
+
+			<div>Also View Local Models</div>
+			<div>Is MCP available?</div>
+			<div>Copy Search Params & Setup Search Engine support</div>
 
 			{/* Controls */}
 			<div className="mb-6 flex items-center justify-between rounded-lg border border-border-primary bg-bg-secondary p-4">

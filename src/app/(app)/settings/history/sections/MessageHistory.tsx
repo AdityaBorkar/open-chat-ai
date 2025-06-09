@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 export default function MessageHistory() {
 	const [selectedMessageIds, setSelectedMessageIds] = useState<string[]>([]);
 
+	// TODO: Allow imports from ChatGPT and other sources
 	const handleImport = () => {
 		// Create file input element
 		const input = document.createElement('input');

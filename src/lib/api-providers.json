@@ -1,0 +1,56 @@
+[
+	{
+		"description": "Access Gemini Pro and other Google models",
+		"icon": "",
+		"name": "Google AI",
+		"status": "not_connected"
+	},
+	{
+		"description": "Access Claude 3.5 Sonnet and other Claude models",
+		"icon": "",
+		"name": "Anthropic",
+		"status": "connected"
+	},
+	{
+		"description": "Access GPT-4, GPT-3.5, and other OpenAI models",
+		"icon": "",
+		"name": "OpenAI",
+		"status": "connected"
+	},
+	{
+		"description": "Access DeepSeek models",
+		"icon": "",
+		"name": "DeepSeek",
+		"status": "connected"
+	},
+	{
+		"description": "Access xAI models",
+		"icon": "",
+		"name": "xAI",
+		"status": "connected"
+	},
+	{
+		"description": "Access Perplexity models",
+		"icon": "",
+		"name": "Perplexity",
+		"status": "not_connected"
+	},
+	{
+		"description": "Access Meta models",
+		"icon": "",
+		"name": "Meta",
+		"status": "not_connected"
+	},
+	{
+		"description": "Access Mistral 7B and other Mistral models",
+		"icon": "",
+		"name": "Mistral",
+		"status": "not_connected"
+	},
+	{
+		"description": "Access Qwen models",
+		"icon": "",
+		"name": "Qwen",
+		"status": "not_connected"
+	}
+]

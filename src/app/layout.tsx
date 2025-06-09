@@ -1,5 +1,8 @@
+// biome-ignore assist/source/organizeImports: ReactScan must be imported before anything else
+import { ReactScan } from '@/components/ReactScan';
+
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Figtree, Geist_Mono } from 'next/font/google';
 
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import { ThemeScript } from '@/components/theme/theme-script';
@@ -8,14 +11,14 @@ import { cn } from '@/lib/utils';
 
 import './globals.css';
 
-const geistSans = Geist({
+const fontSans = Figtree({
 	subsets: ['latin'],
-	variable: '--font-geist-sans',
+	variable: '--font-font-sans',
 });
 
-const geistMono = Geist_Mono({
+const fontMono = Geist_Mono({
 	subsets: ['latin'],
-	variable: '--font-geist-mono',
+	variable: '--font-font-mono',
 });
 
 export const metadata: Metadata = {
@@ -29,15 +32,16 @@ export default async function RootLayout({
 	children: React.ReactNode;
 }>) {
 	const themeClass = await getThemeClass();
-
+	const flags = { reactScan: false };
 	return (
 		<ThemeProvider>
 			<html className={themeClass} lang="en">
+				{flags.reactScan && <ReactScan />}
 				<body
 					className={cn(
-						geistSans.variable,
-						geistMono.variable,
-						'dark min-h-screen bg-background text-foreground text-sm antialiased',
+						fontSans.variable,
+						fontMono.variable,
+						'dark min-h-screen bg-background text-base text-foreground antialiased',
 					)}
 				>
 					<ThemeScript />

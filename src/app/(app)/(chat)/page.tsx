@@ -1,10 +1,18 @@
 'use client';
 
-import { PGlite } from '@electric-sql/pglite';
-import { MessageSquare, Send, Trash2 } from 'lucide-react';
+import type { PGlite } from '@electric-sql/pglite';
+import { MessageSquare } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-
-import { Button } from '@/components/ui/Button';
+import {
+	TbArrowUp,
+	TbBrain,
+	TbChevronDown,
+	TbGlobe,
+	TbLayoutGrid,
+	TbMicrophone,
+	TbPaperclip,
+	TbUser,
+} from 'react-icons/tb';
 
 interface Message {
 	id: number;
@@ -21,54 +29,13 @@ interface Chat {
 
 export default function NewChatPage() {
 	const [db, setDb] = useState<PGlite | null>(null);
+	const [isLoading, setIsLoading] = useState(false);
 	const [chats, setChats] = useState<Chat[]>([]);
+
 	const [currentChatId, setCurrentChatId] = useState<number | null>(null);
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [inputMessage, setInputMessage] = useState('');
-	const [isLoading, setIsLoading] = useState(false);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
-
-	// Initialize database
-	useEffect(() => {
-		const initDb = async () => {
-			const database = new PGlite();
-
-			// Create tables
-			await database.exec(`
-        CREATE TABLE IF NOT EXISTS chats (
-          id SERIAL PRIMARY KEY,
-          title TEXT NOT NULL,
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
-
-        CREATE TABLE IF NOT EXISTS messages (
-          id SERIAL PRIMARY KEY,
-          chat_id INTEGER REFERENCES chats(id) ON DELETE CASCADE,
-          content TEXT NOT NULL,
-          role TEXT NOT NULL CHECK (role IN ('user', 'assistant')),
-          timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
-      `);
-
-			setDb(database);
-		};
-
-		initDb();
-	}, []);
-
-	// Load chats
-	useEffect(() => {
-		if (!db) return;
-
-		const loadChats = async () => {
-			const result = await db.query(
-				'SELECT * FROM chats ORDER BY created_at DESC',
-			);
-			setChats(result.rows as Chat[]);
-		};
-
-		loadChats();
-	}, [db]);
 
 	// Load messages for current chat
 	useEffect(() => {
@@ -86,9 +53,9 @@ export default function NewChatPage() {
 	}, [db, currentChatId]);
 
 	// Scroll to bottom when messages change
-	useEffect(() => {
-		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-	}, [messages]);
+	// useEffect(() => {
+	// 	messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+	// });
 
 	const createNewChat = async (firstMessage: string) => {
 		if (!db) return null;
@@ -175,167 +142,156 @@ export default function NewChatPage() {
 		setMessages(result.rows as Message[]);
 	};
 
-	const selectChat = (chatId: number) => {
-		setCurrentChatId(chatId);
-	};
-
 	return (
-		<div className="flex h-screen ">
-			{/* Left Sidebar - Chat History */}
-			<div className="flex w-80 flex-col border-border border-r ">
-				<div className="border-gray-200 border-b p-4">
-					<Button
-						className="flex w-full items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
-						onClick={() => {
-							setCurrentChatId(null);
-							setMessages([]);
-						}}
-					>
-						<MessageSquare size={20} />
-						New Chat
-					</Button>
-				</div>
-				<div>
-					<input placeholder="Search chats" />
-				</div>
-
-				<div>Prompts</div>
-
-				<div>Projects</div>
-				{/* --------------------- */}
-
-				<div>Chat Folders</div>
-
-				<div>Pinned Chats</div>
-
-				<div>Today</div>
-
-				<div className="flex-1 overflow-y-auto">
-					{chats.map((chat) => (
-						<div
-							className={`group flex cursor-pointer items-center justify-between border-gray-100 border-b p-3 hover:bg-gray-50 ${
-								currentChatId === chat.id ? 'border-blue-200 bg-blue-50' : ''
-							}`}
-							key={chat.id}
-							onClick={() => selectChat(chat.id)}
-						>
-							<div className="min-w-0 flex-1">
-								<div className="truncate font-medium text-gray-900 text-sm">
-									{chat.title}
-								</div>
-								<div className="text-gray-500 text-xs">
-									{new Date(chat.created_at).toLocaleDateString()}
-								</div>
-							</div>
-							<button
-								className="rounded p-1 opacity-0 transition-all hover:bg-red-100 group-hover:opacity-100"
-								onClick={(e) => {
-									e.stopPropagation();
-									deleteChat(chat.id);
-								}}
+		<div className="relative flex h-full flex-1 flex-col">
+			{/* Messages */}
+			<div className="flex-1 overflow-y-auto p-6">
+				{currentChatId ? (
+					<div className="mx-auto max-w-4xl space-y-6">
+						{messages.map((message) => (
+							<div
+								className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+								key={message.id}
 							>
-								<Trash2 className="text-red-500" size={16} />
-							</button>
-						</div>
-					))}
-				</div>
-			</div>
-
-			{/* Main Chat Area */}
-			<div className="flex flex-1 flex-col">
-				{/* Messages */}
-				<div className="flex-1 overflow-y-auto p-6">
-					{currentChatId ? (
-						<div className="mx-auto max-w-4xl space-y-6">
-							{messages.map((message) => (
 								<div
-									className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-									key={message.id}
+									className={`max-w-3xl rounded-lg px-4 py-3 ${
+										message.role === 'user'
+											? 'bg-blue-600 text-white'
+											: 'border border-gray-200 bg-white text-gray-900'
+									}`}
 								>
+									<div className="whitespace-pre-wrap">{message.content}</div>
 									<div
-										className={`max-w-3xl rounded-lg px-4 py-3 ${
+										className={`mt-2 text-xs ${
 											message.role === 'user'
-												? 'bg-blue-600 text-white'
-												: 'border border-gray-200 bg-white text-gray-900'
+												? 'text-blue-100'
+												: 'text-gray-500'
 										}`}
 									>
-										<div className="whitespace-pre-wrap">{message.content}</div>
-										<div
-											className={`mt-2 text-xs ${
-												message.role === 'user'
-													? 'text-blue-100'
-													: 'text-gray-500'
-											}`}
-										>
-											{new Date(message.timestamp).toLocaleTimeString()}
-										</div>
+										{new Date(message.timestamp).toLocaleTimeString()}
 									</div>
 								</div>
-							))}
-							{isLoading && (
-								<div className="flex justify-start">
-									<div className="max-w-xs rounded-lg border border-gray-200 bg-white px-4 py-3">
-										<div className="flex space-x-1">
-											<div className="h-2 w-2 animate-bounce rounded-full bg-gray-400"></div>
-											<div
-												className="h-2 w-2 animate-bounce rounded-full bg-gray-400"
-												style={{ animationDelay: '0.1s' }}
-											></div>
-											<div
-												className="h-2 w-2 animate-bounce rounded-full bg-gray-400"
-												style={{ animationDelay: '0.2s' }}
-											></div>
-										</div>
-									</div>
-								</div>
-							)}
-							<div ref={messagesEndRef} />
-						</div>
-					) : (
-						<div className="flex h-full items-center justify-center">
-							<div className="text-center">
-								<MessageSquare
-									className="mx-auto mb-4 text-gray-400"
-									size={48}
-								/>
-								<h2 className="mb-2 font-medium text-gray-600 text-xl">
-									Welcome to AI Chat
-								</h2>
-								<p className="text-gray-500">
-									Select a chat from the sidebar or start a new conversation
-								</p>
 							</div>
-						</div>
-					)}
-				</div>
-
-				{/* Input Area */}
-				<div className="border-gray-200 border-t bg-white p-6">
-					<div className="mx-auto max-w-4xl">
-						<div className="flex space-x-4">
-							<input
-								className="flex-1 rounded-lg border border-gray-300 px-4 py-3 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
-								disabled={isLoading}
-								onChange={(e) => setInputMessage(e.target.value)}
-								onKeyPress={(e) =>
-									e.key === 'Enter' && !e.shiftKey && sendMessage()
-								}
-								placeholder="Type your message..."
-								type="text"
-								value={inputMessage}
-							/>
-							<button
-								className="flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700 disabled:bg-gray-400"
-								disabled={!inputMessage.trim() || isLoading}
-								onClick={sendMessage}
-							>
-								<Send size={20} />
-								Send
-							</button>
+						))}
+						{isLoading && (
+							<div className="flex justify-start">
+								<div className="max-w-xs rounded-lg border border-gray-200 bg-white px-4 py-3">
+									<div className="flex space-x-1">
+										<div className="h-2 w-2 animate-bounce rounded-full bg-gray-400"></div>
+										<div
+											className="h-2 w-2 animate-bounce rounded-full bg-gray-400"
+											style={{ animationDelay: '0.1s' }}
+										></div>
+										<div
+											className="h-2 w-2 animate-bounce rounded-full bg-gray-400"
+											style={{ animationDelay: '0.2s' }}
+										></div>
+									</div>
+								</div>
+							</div>
+						)}
+						<div ref={messagesEndRef} />
+					</div>
+				) : (
+					<div className="flex h-full items-center justify-center">
+						<div className="text-center">
+							<MessageSquare className="mx-auto mb-4 text-gray-400" size={48} />
+							<h2 className="mb-2 font-medium text-gray-600 text-xl">
+								Welcome to AI Chat
+							</h2>
+							<p className="text-gray-500">
+								Select a chat from the sidebar or start a new conversation
+							</p>
 						</div>
 					</div>
+				)}
+			</div>
+
+			{/* Input Area */}
+			<div>Scroll to bottom</div>
+			<div className="absolute bottom-0 left-[calc(50%-16rem)] mx-auto w-[32rem] rounded-t-2xl border border-border/10 bg-bg-secondary/20">
+				<div className="mx-2 mt-2 rounded-t-lg border border-border/10 bg-bg-secondary/20 backdrop-blur-2xl ">
+					<div className="flex space-x-4">
+						<input
+							className="flex-1 px-4 py-3 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+							disabled={isLoading}
+							onChange={(e) => setInputMessage(e.target.value)}
+							onKeyPress={(e) =>
+								e.key === 'Enter' && !e.shiftKey && sendMessage()
+							}
+							placeholder="Type your message..."
+							type="text"
+							value={inputMessage}
+						/>
+					</div>
+					<div className="flex flex-row gap-2 px-2 py-2 text-sm">
+						<div className="rounded-lg bg-bg-secondary px-3 py-1.5">
+							Model Selection
+							<TbChevronDown className="ml-2 inline-block size-4" />
+							<div className="inline-block">
+								<TbUser className="-mt-0.5 mr-1 inline-block size-4" />
+								Personas
+							</div>
+						</div>
+						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
+							<TbGlobe className="-mt-0.5 mr-1 inline-block size-4" />
+							Search
+						</div>
+						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
+							<TbBrain className="-mt-0.5 mr-1 inline-block size-4" />
+							Think
+						</div>
+						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
+							<TbBrain className="-mt-0.5 mr-1 inline-block size-4" />
+							Code Interpreter
+						</div>
+						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
+							<TbPaperclip className="-mt-0.5 mr-1 inline-block size-4" />
+							Attach
+						</div>
+						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
+							<TbLayoutGrid className="-mt-0.5 mr-1 inline-block size-4" />
+							Projects
+						</div>
+						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
+							<TbBrain className="-mt-0.5 mr-1 inline-block size-4" />
+							Connections
+						</div>
+						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
+							<TbBrain className="-mt-0.5 mr-1 inline-block size-4" />
+							MCPs
+						</div>
+						{/* DeepSearch / DeeperSearch */}
+						{/* Create Images */}
+						{/* Create Video */}
+						{/* Create Music */}
+						{/* Create Code Container */}
+						{/* Create Document */}
+						{/* Create Presentation */}
+						{/* Create Spreadsheet */}
+						{/* Voice Mode */}
+						<div className="grow"></div>
+						<TbMicrophone className="size-5 text-white" />
+						<div className="rounded-full bg-pink-800 p-1.5">
+							<TbArrowUp className="size-5 text-white" />
+						</div>
+						<div className="w-full flex-1" />
+						<div>Voice Mode / Chat Mode / Create Mode</div>
+						{/* Enter */}
+						{/* Alt + Enter */}
+						{/* Ctrl + Enter */}
+					</div>
+					<div>Thinking Budgets, System Instructions</div>
 				</div>
 			</div>
 		</div>
 	);
 }
+
+// Attachments:
+// YouTube Video
+// Record Audio
+// Camera / Webcam
+// Share Screen
+
+// Stream (Gemini) - LIVE CHAT
