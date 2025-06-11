@@ -1,18 +1,28 @@
 'use client';
 
 import type { PGlite } from '@electric-sql/pglite';
-import { MessageSquare } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import {
 	TbArrowUp,
+	TbBook2,
 	TbBrain,
 	TbChevronDown,
+	TbCopy,
+	TbDotsVertical,
+	TbGitBranch,
 	TbGlobe,
-	TbLayoutGrid,
+	TbInfoCircle,
 	TbMicrophone,
 	TbPaperclip,
+	TbPencil,
+	TbRefresh,
+	TbShare,
+	TbTools,
 	TbUser,
 } from 'react-icons/tb';
+
+import { Button } from '@/components/ui/Button';
+import { cn } from '@/lib/utils';
 
 interface Message {
 	id: number;
@@ -33,7 +43,21 @@ export default function NewChatPage() {
 	const [chats, setChats] = useState<Chat[]>([]);
 
 	const [currentChatId, setCurrentChatId] = useState<number | null>(null);
-	const [messages, setMessages] = useState<Message[]>([]);
+	const [messages, setMessages] = useState<Message[]>([
+		{
+			content: 'Hello, how are you?',
+			id: 1,
+			role: 'user',
+			timestamp: new Date().toISOString(),
+		},
+
+		{
+			content: 'I am fine, thank you!',
+			id: 2,
+			role: 'assistant',
+			timestamp: new Date().toISOString(),
+		},
+	]);
 	const [inputMessage, setInputMessage] = useState('');
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -144,56 +168,116 @@ export default function NewChatPage() {
 
 	return (
 		<div className="relative flex h-full flex-1 flex-col">
+			<header className="sticky top-0 z-10 flex w-full flex-row items-center gap-2 border-border/50 border-b bg-bg-secondary/20 px-6 py-1.5">
+				{/* <div>Chat / Create / Talk / Live / Assist ICON (draft)</div> */}
+				<div>Morph</div>
+				<div className="rounded-full bg-bg-secondary px-3 py-1 text-sm text-text-secondary">
+					Folder Name
+				</div>
+				<span className="text-text-secondary">/</span>
+				<div className="font-semibold text-text-secondary">
+					Some real long title that is going to wrap around
+				</div>
+				<div className="rounded-full bg-bg-secondary px-3 py-1 text-sm text-text-secondary">
+					Tags
+				</div>
+
+				<div className="grow" />
+				{/* <div>Temporary Mode / Incognito Mode</div> */}
+				<div className="flex flex-row gap-2">
+					<Button
+						className="rounded-xl border border-border/10 px-2"
+						variant="ghost"
+					>
+						<TbBook2 className="size-4" />
+					</Button>
+					<Button
+						className="rounded-xl border border-border/10 px-2"
+						variant="ghost"
+					>
+						<TbShare className="size-4" />
+					</Button>
+					<Button
+						className="rounded-xl border border-border/10 px-2"
+						variant="ghost"
+					>
+						<TbDotsVertical className="size-4" />
+					</Button>
+					{/*
+				<div>Export</div>
+				<div>Stats</div>
+				<div>Archive</div>
+				<div>Delete</div> */}
+				</div>
+			</header>
+
+			{/* <aside>Document Outline</aside> */}
+			{/* Artifacts */}
+			{/* Bookmarks / Notes  */}
+
 			{/* Messages */}
-			<div className="flex-1 overflow-y-auto p-6">
-				{currentChatId ? (
-					<div className="mx-auto max-w-4xl space-y-6">
-						{messages.map((message) => (
+			<main className="flex-1 overflow-y-auto p-6">
+				<div className="mx-auto w-[48rem] space-y-6">
+					{messages.map((message) => (
+						<div
+							className={cn(
+								'group',
+								message.role === 'user' && 'ml-auto w-fit',
+								message.role === 'assistant' && 'ml-0',
+							)}
+							key={message.id}
+						>
 							<div
-								className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-								key={message.id}
+								className={cn(
+									'max-w-3xl whitespace-pre-wrap rounded-lg px-4 py-3 text-base text-text-primary',
+									message.role === 'user' && 'bg-pink-400/10 ',
+								)}
 							>
-								<div
-									className={`max-w-3xl rounded-lg px-4 py-3 ${
-										message.role === 'user'
-											? 'bg-blue-600 text-white'
-											: 'border border-gray-200 bg-white text-gray-900'
-									}`}
-								>
-									<div className="whitespace-pre-wrap">{message.content}</div>
+								{message.content}
+							</div>
+							<div
+								className={cn(
+									'mt-2 flex flex-row justify-end gap-2 opacity-0 group-hover:opacity-100',
+									message.role === 'assistant' && 'flex-row-reverse',
+								)}
+							>
+								{message.role === 'assistant' && (
+									<div className="ml-auto flex flex-row gap-2">
+										<div>Model User</div>
+										<div>Tokens Speed</div>
+										<div>Tokens Used</div>
+										<div>Time Taken</div>
+									</div>
+								)}
+								<TbInfoCircle />
+								<TbRefresh />
+								<TbGitBranch />
+								<TbPencil />
+								<TbCopy />
+							</div>
+						</div>
+					))}
+					{isLoading && (
+						<div className="flex justify-start">
+							<div className="max-w-xs rounded-lg border border-gray-200 bg-white px-4 py-3">
+								<div className="flex space-x-1">
+									<div className="h-2 w-2 animate-bounce rounded-full bg-gray-400"></div>
 									<div
-										className={`mt-2 text-xs ${
-											message.role === 'user'
-												? 'text-blue-100'
-												: 'text-gray-500'
-										}`}
-									>
-										{new Date(message.timestamp).toLocaleTimeString()}
-									</div>
+										className="h-2 w-2 animate-bounce rounded-full bg-gray-400"
+										style={{ animationDelay: '0.1s' }}
+									></div>
+									<div
+										className="h-2 w-2 animate-bounce rounded-full bg-gray-400"
+										style={{ animationDelay: '0.2s' }}
+									></div>
 								</div>
 							</div>
-						))}
-						{isLoading && (
-							<div className="flex justify-start">
-								<div className="max-w-xs rounded-lg border border-gray-200 bg-white px-4 py-3">
-									<div className="flex space-x-1">
-										<div className="h-2 w-2 animate-bounce rounded-full bg-gray-400"></div>
-										<div
-											className="h-2 w-2 animate-bounce rounded-full bg-gray-400"
-											style={{ animationDelay: '0.1s' }}
-										></div>
-										<div
-											className="h-2 w-2 animate-bounce rounded-full bg-gray-400"
-											style={{ animationDelay: '0.2s' }}
-										></div>
-									</div>
-								</div>
-							</div>
-						)}
-						<div ref={messagesEndRef} />
-					</div>
-				) : (
-					<div className="flex h-full items-center justify-center">
+						</div>
+					)}
+					<div ref={messagesEndRef} />
+				</div>
+
+				{/* <div className="flex h-full items-center justify-center">
 						<div className="text-center">
 							<MessageSquare className="mx-auto mb-4 text-gray-400" size={48} />
 							<h2 className="mb-2 font-medium text-gray-600 text-xl">
@@ -203,87 +287,108 @@ export default function NewChatPage() {
 								Select a chat from the sidebar or start a new conversation
 							</p>
 						</div>
-					</div>
-				)}
-			</div>
+					</div> */}
+			</main>
 
 			{/* Input Area */}
-			<div>Scroll to bottom</div>
-			<div className="absolute bottom-0 left-[calc(50%-16rem)] mx-auto w-[32rem] rounded-t-2xl border border-border/10 bg-bg-secondary/20">
-				<div className="mx-2 mt-2 rounded-t-lg border border-border/10 bg-bg-secondary/20 backdrop-blur-2xl ">
-					<div className="flex space-x-4">
-						<input
-							className="flex-1 px-4 py-3 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
-							disabled={isLoading}
-							onChange={(e) => setInputMessage(e.target.value)}
-							onKeyPress={(e) =>
-								e.key === 'Enter' && !e.shiftKey && sendMessage()
-							}
-							placeholder="Type your message..."
-							type="text"
-							value={inputMessage}
-						/>
-					</div>
-					<div className="flex flex-row gap-2 px-2 py-2 text-sm">
-						<div className="rounded-lg bg-bg-secondary px-3 py-1.5">
-							Model Selection
-							<TbChevronDown className="ml-2 inline-block size-4" />
+			<div className="absolute bottom-0 left-[calc(50%-24rem)] mx-auto w-[48rem]">
+				<button
+					className="mx-auto mb-4 block w-fit rounded-full border border-border/10 bg-bg-secondary/20 px-4 py-2 text-center text-sm text-text-secondary hover:bg-bg-secondary/30"
+					type="button"
+				>
+					Scroll to bottom
+				</button>
+				<div className="rounded-t-2xl border border-border/10 bg-bg-secondary/20">
+					<div className="mx-2 mt-2 rounded-t-lg border border-border/10 bg-bg-secondary/20 backdrop-blur-2xl ">
+						<div className="flex space-x-4">
+							{/* (ALT + #) Assign Chat Folder */}
+							{/* (ALT + M) Start / End Transcribe */}
+							{/* (ALT + ENTER) Focus on Chat */}
+							{/* (DELETE) Delete Chat */}
+							{/* (F2) Rename Chat*/}
+							<textarea
+								className="min-h-24 flex-1 resize-none px-4 py-2 focus:border-transparent focus:outline-none"
+								disabled={isLoading}
+								onChange={(e) => setInputMessage(e.target.value)}
+								onKeyPress={(e) =>
+									e.key === 'Enter' && !e.shiftKey && sendMessage()
+								}
+								placeholder="Type your message..."
+								value={inputMessage}
+							></textarea>
+							{/* (!) create-model-persona */}
+							{/* (@) attach/prompt/chat-thread/project/data-source */}
+							{/* (~) MCP - NOT VISIBLE IN MESSAGE */}
+							{/* (Tab-Space) Search / Think */}
+						</div>
+						<div className="flex flex-row items-center gap-2 px-4 py-2 text-sm">
+							/{/* CTRL + / */}
+							{/* CTRL + ALT + / */}
+							<div>Chat with</div>
+							<div>Edit with</div>
+							<div>Create with</div>
+							{/* Create Images */}
+							{/* Create Video */}
+							{/* Create Music */}
+							{/* Create Code Container */}
+							{/* Create Document */}
+							{/* Create Presentation */}
+							{/* Create Spreadsheet */}
+							<div>Talk to</div>
+							<div>Go Live with</div>
+							<div>Assist using</div>
+							<div className="rounded-lg bg-bg-secondary px-3 py-1.5">
+								{/* Multi Model */}
+								{/* Group Chat */}
+								Model
+								<TbChevronDown className="ml-2 inline-block size-4" />
+								{/* <div>Auto</div> */}
+							</div>
+							<div>as {/* as a / as an / as the */}</div>
 							<div className="inline-block">
 								<TbUser className="-mt-0.5 mr-1 inline-block size-4" />
 								Personas
 							</div>
 						</div>
-						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
-							<TbGlobe className="-mt-0.5 mr-1 inline-block size-4" />
-							Search
-						</div>
-						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
-							<TbBrain className="-mt-0.5 mr-1 inline-block size-4" />
-							Think
-						</div>
-						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
+						<div className="flex w-full flex-row items-center gap-2 px-3 py-2 text-sm">
+							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
+								<TbPaperclip className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
+								Attach
+								{/* Local Files, Drive Files, Projects */}
+							</div>
+							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
+								<TbGlobe className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
+								Search
+							</div>
+							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
+								<TbBrain className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
+								Think
+								{/* Think / Research */}
+							</div>
+							{/* <div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
 							<TbBrain className="-mt-0.5 mr-1 inline-block size-4" />
 							Code Interpreter
+						</div> */}
+							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
+								<TbTools className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
+								MCPs
+							</div>
+							{/* Function Calling & MCP */}
+							<div className="grow"></div>
+							<div className="rounded-full bg-pink-400/10 p-1.5">
+								<TbMicrophone className="size-5 text-white/50" />
+							</div>
+							<div className="rounded-full bg-pink-800 p-1.5">
+								<TbArrowUp className="size-5 text-white" />
+							</div>
+							{/* Enter */}
+							{/* Alt + Enter */}
+							{/* Ctrl + Enter */}
 						</div>
-						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
-							<TbPaperclip className="-mt-0.5 mr-1 inline-block size-4" />
-							Attach
-						</div>
-						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
-							<TbLayoutGrid className="-mt-0.5 mr-1 inline-block size-4" />
-							Projects
-						</div>
-						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
-							<TbBrain className="-mt-0.5 mr-1 inline-block size-4" />
-							Connections
-						</div>
-						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
-							<TbBrain className="-mt-0.5 mr-1 inline-block size-4" />
-							MCPs
-						</div>
-						{/* DeepSearch / DeeperSearch */}
-						{/* Create Images */}
-						{/* Create Video */}
-						{/* Create Music */}
-						{/* Create Code Container */}
-						{/* Create Document */}
-						{/* Create Presentation */}
-						{/* Create Spreadsheet */}
-						{/* Voice Mode */}
-						<div className="grow"></div>
-						<TbMicrophone className="size-5 text-white" />
-						<div className="rounded-full bg-pink-800 p-1.5">
-							<TbArrowUp className="size-5 text-white" />
-						</div>
-						<div className="w-full flex-1" />
-						<div>Voice Mode / Chat Mode / Create Mode</div>
-						{/* Enter */}
-						{/* Alt + Enter */}
-						{/* Ctrl + Enter */}
 					</div>
-					<div>Thinking Budgets, System Instructions</div>
 				</div>
 			</div>
+			{/* <div>Thinking Budgets, System Instructions</div> */}
 		</div>
 	);
 }

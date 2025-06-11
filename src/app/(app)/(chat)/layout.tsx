@@ -112,7 +112,7 @@ export default function ChatLayout({
 					sidebarOpen ? '' : 'bg-bg-primary hover:bg-border/50',
 				)}
 			>
-				<div className="rounded-md p-1.5 hover:bg-bg-secondary">
+				<div className="rounded-md p-1.5 hover:bg-bg-secondary" tabIndex={0}>
 					<TbLayoutSidebar
 						className="size-5"
 						onKeyDown={(e) => {
@@ -128,6 +128,7 @@ export default function ChatLayout({
 						'rounded-md p-1.5 hover:bg-bg-secondary',
 						sidebarOpen && 'hidden',
 					)}
+					tabIndex={0}
 					// OPEN COMMAND-K
 				>
 					<TbSearch className="size-5" />
@@ -137,6 +138,7 @@ export default function ChatLayout({
 						'rounded-md p-1.5 hover:bg-bg-secondary',
 						sidebarOpen && 'hidden',
 					)}
+					tabIndex={0}
 				>
 					{/* If on NEW CHAT screen, disable the button */}
 					<TbPlus className="size-5" />
@@ -160,7 +162,10 @@ export default function ChatLayout({
 						<TbPlus className="-mt-0.5 mr-2 inline-block size-5" />
 						New Chat
 					</Link>
-					<div className="rounded-md px-2 py-1 hover:bg-bg-secondary">
+					<div
+						className="rounded-md px-2 py-1 hover:bg-bg-secondary"
+						tabIndex={0}
+					>
 						<TbSearch className="inline-block size-4.5" />
 						{/* <input
             className=" border border-border/50 px-4 py-2"
@@ -172,6 +177,14 @@ export default function ChatLayout({
 				<Link href="/data-sources" variant="compact">
 					<TbDatabase className="-mt-0.5 mr-2 inline-block size-5" />
 					Data Sources
+				</Link>
+				<Link href="/connections" variant="compact">
+					<TbLayoutGrid className="-mt-0.5 mr-2 inline-block size-5" />
+					Connections
+				</Link>
+				<Link href="/mcp" variant="compact">
+					<TbLayoutGrid className="-mt-0.5 mr-2 inline-block size-5" />
+					MCP
 				</Link>
 				<Link href="/projects" variant="compact">
 					<TbLayoutGrid className="-mt-0.5 mr-2 inline-block size-5" />
@@ -241,6 +254,7 @@ export default function ChatLayout({
 
 			{sidebarOpen && (
 				<button
+					aria-label="Resize Sidebar"
 					className="group w-4 cursor-ew-resize"
 					onDoubleClick={() => {
 						setSidebarWidth(SIDEBAR_DEFAULT_WIDTH);
@@ -254,6 +268,7 @@ export default function ChatLayout({
 					onMouseUp={() => {
 						setIsDragging(false);
 					}}
+					tabIndex={-1}
 					type="button"
 				>
 					<div className="mx-auto hidden h-full w-1 cursor-ew-resize bg-text-primary/20 transition-all group-hover:block group-active:bg-text-primary/50" />
