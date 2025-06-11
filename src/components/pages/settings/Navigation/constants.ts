@@ -7,5 +7,6 @@ export const SETTINGS_NAVIGATION = [
 	{ href: '/api-keys', label: 'API Keys', shortKey: 'K' },
 	{ href: '/usage', label: 'Usage', shortKey: 'U' },
 	{ href: '/attachments', label: 'Attachments', shortKey: 'T' },
+	{ href: '/shared-links', label: 'Shared Links', shortKey: 'L' },
 	{ href: '/contact', label: 'Contact Us', shortKey: 'C' },
 ];

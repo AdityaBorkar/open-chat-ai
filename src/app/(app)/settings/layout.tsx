@@ -5,7 +5,6 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { TbArrowLeft } from 'react-icons/tb';
 
 import { Navigation } from '@/components/pages/settings/Navigation';
-import { Sidebar } from '@/components/pages/settings/Sidebar';
 import { Button } from '@/components/ui/Button';
 import { Link } from '@/components/ui/Link';
 
@@ -32,17 +31,14 @@ export default function SettingsLayout({
 				<Button>Sign out</Button>
 			</div>
 
-			<div className=" grid grid-cols-[20rem_1fr] gap-16">
-				{/* Sidebar */}
-				<Sidebar />
+			<div className="flex h-[90vh] rounded-3xl ">
+				{/* Navigation */}
+				<Navigation />
 
-				<div>
-					{/* Navigation Tabs */}
-					<Navigation />
-
-					{/* Main Content */}
-					<main className="py-8">{children}</main>
-				</div>
+				{/* Main Content */}
+				<main className="flex-1 overflow-auto rounded-r-3xl border border-border/30 border-l-0 py-8 pl-8">
+					{children}
+				</main>
 			</div>
 		</div>
 	);

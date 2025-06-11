@@ -46,7 +46,7 @@ export function Navigation() {
 	}
 
 	return (
-		<nav className="flex w-fit flex-row gap-1 rounded-lg bg-bg-tertiary p-1">
+		<nav className="flex w-56 flex-col gap-1 rounded-l-3xl border border-border/30 bg-bg-secondary/50 p-4">
 			{SETTINGS_NAVIGATION.map(({ href, label, shortKey }) => (
 				<NavLink
 					href={`/settings${href}`}

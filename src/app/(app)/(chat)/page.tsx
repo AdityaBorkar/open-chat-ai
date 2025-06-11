@@ -6,7 +6,7 @@ import {
 	TbArrowUp,
 	TbBook2,
 	TbBrain,
-	TbChevronDown,
+	TbChartBar,
 	TbCopy,
 	TbDotsVertical,
 	TbGitBranch,
@@ -21,6 +21,9 @@ import {
 	TbUser,
 } from 'react-icons/tb';
 
+import TypingIndicator from '@/components/pages/chat/assistant/TypingIndicator';
+import Placeholder from '@/components/pages/chat/Placeholder';
+import ScrollToBottom from '@/components/pages/chat/ScrollToBottom';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 
@@ -166,6 +169,8 @@ export default function NewChatPage() {
 		setMessages(result.rows as Message[]);
 	};
 
+	const enableStatsForNerds = true;
+
 	return (
 		<div className="relative flex h-full flex-1 flex-col">
 			<header className="sticky top-0 z-10 flex w-full flex-row items-center gap-2 border-border/50 border-b bg-bg-secondary/20 px-6 py-1.5">
@@ -185,12 +190,22 @@ export default function NewChatPage() {
 				<div className="grow" />
 				{/* <div>Temporary Mode / Incognito Mode</div> */}
 				<div className="flex flex-row gap-2">
-					<Button
-						className="rounded-xl border border-border/10 px-2"
-						variant="ghost"
-					>
-						<TbBook2 className="size-4" />
-					</Button>
+					{enableStatsForNerds && (
+						<Button
+							className="rounded-xl border border-border/10 px-2"
+							variant="ghost"
+						>
+							<TbBook2 className="size-4" />
+						</Button>
+					)}
+					{enableStatsForNerds && (
+						<Button
+							className="rounded-xl border border-border/10 px-2"
+							variant="ghost"
+						>
+							<TbChartBar className="size-4" />
+						</Button>
+					)}
 					<Button
 						className="rounded-xl border border-border/10 px-2"
 						variant="ghost"
@@ -205,7 +220,6 @@ export default function NewChatPage() {
 					</Button>
 					{/*
 				<div>Export</div>
-				<div>Stats</div>
 				<div>Archive</div>
 				<div>Delete</div> */}
 				</div>
@@ -218,6 +232,7 @@ export default function NewChatPage() {
 			{/* Messages */}
 			<main className="flex-1 overflow-y-auto p-6">
 				<div className="mx-auto w-[48rem] space-y-6">
+					{messages.length === 0 && <Placeholder />}
 					{messages.map((message) => (
 						<div
 							className={cn(
@@ -257,47 +272,13 @@ export default function NewChatPage() {
 							</div>
 						</div>
 					))}
-					{isLoading && (
-						<div className="flex justify-start">
-							<div className="max-w-xs rounded-lg border border-gray-200 bg-white px-4 py-3">
-								<div className="flex space-x-1">
-									<div className="h-2 w-2 animate-bounce rounded-full bg-gray-400"></div>
-									<div
-										className="h-2 w-2 animate-bounce rounded-full bg-gray-400"
-										style={{ animationDelay: '0.1s' }}
-									></div>
-									<div
-										className="h-2 w-2 animate-bounce rounded-full bg-gray-400"
-										style={{ animationDelay: '0.2s' }}
-									></div>
-								</div>
-							</div>
-						</div>
-					)}
+					{isLoading && <TypingIndicator />}
 					<div ref={messagesEndRef} />
 				</div>
-
-				{/* <div className="flex h-full items-center justify-center">
-						<div className="text-center">
-							<MessageSquare className="mx-auto mb-4 text-gray-400" size={48} />
-							<h2 className="mb-2 font-medium text-gray-600 text-xl">
-								Welcome to AI Chat
-							</h2>
-							<p className="text-gray-500">
-								Select a chat from the sidebar or start a new conversation
-							</p>
-						</div>
-					</div> */}
 			</main>
 
-			{/* Input Area */}
 			<div className="absolute bottom-0 left-[calc(50%-24rem)] mx-auto w-[48rem]">
-				<button
-					className="mx-auto mb-4 block w-fit rounded-full border border-border/10 bg-bg-secondary/20 px-4 py-2 text-center text-sm text-text-secondary hover:bg-bg-secondary/30"
-					type="button"
-				>
-					Scroll to bottom
-				</button>
+				<ScrollToBottom />
 				<div className="rounded-t-2xl border border-border/10 bg-bg-secondary/20">
 					<div className="mx-2 mt-2 rounded-t-lg border border-border/10 bg-bg-secondary/20 backdrop-blur-2xl ">
 						<div className="flex space-x-4">
@@ -307,7 +288,10 @@ export default function NewChatPage() {
 							{/* (DELETE) Delete Chat */}
 							{/* (F2) Rename Chat*/}
 							<textarea
-								className="min-h-24 flex-1 resize-none px-4 py-2 focus:border-transparent focus:outline-none"
+								className={cn(
+									'field-sizing-content max-h-64 min-h-24 flex-1 resize-none px-4 py-2 placeholder:text-text-secondary',
+									'focus:border-transparent focus:outline-none',
+								)}
 								disabled={isLoading}
 								onChange={(e) => setInputMessage(e.target.value)}
 								onKeyPress={(e) =>
@@ -321,12 +305,16 @@ export default function NewChatPage() {
 							{/* (~) MCP - NOT VISIBLE IN MESSAGE */}
 							{/* (Tab-Space) Search / Think */}
 						</div>
-						<div className="flex flex-row items-center gap-2 px-4 py-2 text-sm">
-							/{/* CTRL + / */}
+						<div className="flex flex-row items-center gap-1 border-border/20 border-t px-4 pt-4 text-sm">
+							{/* CTRL + / */}
 							{/* CTRL + ALT + / */}
-							<div>Chat with</div>
-							<div>Edit with</div>
-							<div>Create with</div>
+							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
+								Chat
+							</div>
+							<span>with</span>
+							{/* <div>Chat with</div> */}
+							{/* <div>Edit with</div> */}
+							{/* <div>Create with</div> */}
 							{/* Create Images */}
 							{/* Create Video */}
 							{/* Create Music */}
@@ -334,47 +322,22 @@ export default function NewChatPage() {
 							{/* Create Document */}
 							{/* Create Presentation */}
 							{/* Create Spreadsheet */}
-							<div>Talk to</div>
-							<div>Go Live with</div>
-							<div>Assist using</div>
-							<div className="rounded-lg bg-bg-secondary px-3 py-1.5">
+							{/* <div>Talk to</div> */}
+							{/* <div>Go Live with</div> */}
+							{/* <div>Assist using</div> */}
+							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
 								{/* Multi Model */}
 								{/* Group Chat */}
-								Model
-								<TbChevronDown className="ml-2 inline-block size-4" />
+								Gemini 2.5 Pro (Exp)
+								{/* <TbChevronDown className="ml-2 inline-block size-4" /> */}
 								{/* <div>Auto</div> */}
 							</div>
 							<div>as {/* as a / as an / as the */}</div>
-							<div className="inline-block">
-								<TbUser className="-mt-0.5 mr-1 inline-block size-4" />
-								Personas
+							<div className="0 rounded-full border border-border/10 bg-bg-secondary px-4 py-1 opacity-50">
+								<TbUser className="-mt-0.5 -ml-0.5 mr-1 inline-block size-4" />
+								Persona
 							</div>
-						</div>
-						<div className="flex w-full flex-row items-center gap-2 px-3 py-2 text-sm">
-							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
-								<TbPaperclip className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
-								Attach
-								{/* Local Files, Drive Files, Projects */}
-							</div>
-							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
-								<TbGlobe className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
-								Search
-							</div>
-							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
-								<TbBrain className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
-								Think
-								{/* Think / Research */}
-							</div>
-							{/* <div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
-							<TbBrain className="-mt-0.5 mr-1 inline-block size-4" />
-							Code Interpreter
-						</div> */}
-							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
-								<TbTools className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
-								MCPs
-							</div>
-							{/* Function Calling & MCP */}
-							<div className="grow"></div>
+							<div className="grow" />
 							<div className="rounded-full bg-pink-400/10 p-1.5">
 								<TbMicrophone className="size-5 text-white/50" />
 							</div>
@@ -385,10 +348,35 @@ export default function NewChatPage() {
 							{/* Alt + Enter */}
 							{/* Ctrl + Enter */}
 						</div>
+						<div className="flex w-full flex-row items-center gap-2 px-4 pt-2 pb-4 text-sm">
+							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
+								<TbPaperclip className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
+								Attach
+								{/* Local Files, Drive Files, Projects */}
+							</div>
+							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1 opacity-50">
+								<TbGlobe className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
+								Search
+							</div>
+							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1 opacity-50">
+								<TbBrain className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
+								Think
+								{/* Think / Research */}
+							</div>
+							{/* <div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
+							<TbBrain className="-mt-0.5 mr-1 inline-block size-4" />
+							Code Interpreter
+						</div> */}
+							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1 opacity-50">
+								<TbTools className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
+								MCPs
+							</div>
+							{/* Function Calling & MCP */}
+						</div>
 					</div>
 				</div>
 			</div>
-			{/* <div>Thinking Budgets, System Instructions</div> */}
+			{/* <div>Token Count, Thinking Budgets, System Instructions, Memories and Personalized Information</div> */}
 		</div>
 	);
 }

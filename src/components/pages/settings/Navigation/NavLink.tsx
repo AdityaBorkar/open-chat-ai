@@ -42,10 +42,10 @@ export function NavLink({
 	return (
 		<Link
 			className={cn(
-				'rounded-md px-3 py-1 font-semibold text-base text-text-tertiary',
+				'rounded-lg px-3 py-1 font-medium text-base text-text-tertiary/50',
 				isActive
-					? 'bg-bg-primary/75 text-text-primary'
-					: 'hover:bg-bg-primary/50',
+					? 'bg-bg-tertiary text-text-primary hover:bg-bg-tertiary '
+					: 'hover:bg-bg-tertiary/25',
 			)}
 			href={href}
 		>

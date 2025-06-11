@@ -43,6 +43,10 @@ export default function ShortcutsPage() {
 					<div>Add ShadCN Mod</div>
 					<div>Hide Personal Information</div>
 					<div>Stats for Nerds</div>
+					<div>Disable Auto-Scroll</div>
+					<div>Show Follow Up Suggestions</div>
+					<div>Disable Typeahead Suggestions</div>
+
 					{/* - Implement Notifications & Sound Indicators when a chat response is completed. */}
 				</div>
 			</Section>
@@ -50,6 +54,13 @@ export default function ShortcutsPage() {
 			<Section caption="Chat Components" title="Chat Components">
 				<div>
 					<div>Code Blocks</div>
+
+					{/* Code Blocks
+- Warp Lines
+- Theme
+- Code Formatting */}
+					<div>Transitions and Animations</div>
+					{/* Enhanced / Reduced / None */}
 					<div>Tables</div>
 					<div>Images</div>
 				</div>
