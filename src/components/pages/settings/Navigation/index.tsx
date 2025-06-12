@@ -1,8 +1,10 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { TbExternalLink } from 'react-icons/tb';
 
 import { SETTINGS_NAVIGATION } from '@/components/pages/settings/Navigation/constants';
+import { Link } from '@/components/ui/Link';
 import { NavLink } from './NavLink';
 
 export function Navigation() {
@@ -56,6 +58,30 @@ export function Navigation() {
 					shortKey={shortKey}
 				/>
 			))}
+			<div className="grow" />
+			<SecondaryLink href="/changelog" label="Changelog" />
+			<SecondaryLink href="/community" label="Community" />
+			<SecondaryLink
+				href="https://docs.hello-world.com"
+				label="Documentation"
+			/>
+			<SecondaryLink
+				href="https://status.hello-world.com"
+				label="Platform Status"
+			/>
 		</nav>
+	);
+}
+
+function SecondaryLink({ href, label }: { href: string; label: string }) {
+	return (
+		<Link
+			className="group flex items-center justify-between px-3 py-1 font-medium text-sm text-text-tertiary/25 hover:bg-bg-secondary hover:text-text-tertiary"
+			href={href}
+			target="_blank"
+		>
+			{label}
+			<TbExternalLink className="-mt-0.5 hidden size-4 group-hover:block" />
+		</Link>
 	);
 }

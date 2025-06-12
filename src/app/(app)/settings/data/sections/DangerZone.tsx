@@ -18,8 +18,13 @@ export default function DangerZone() {
 			title="Danger Zone"
 		>
 			<div className="flex items-center justify-between">
-				<div>Automatically delete chats</div>
+				<div>Automatically delete active chats</div>
 				<div>older than 30 days</div>
+			</div>
+			<div className="flex items-center justify-between">
+				<div>Automatically delete temporary chats</div>
+				<div>instantly</div>
+				{/* instantly / 1 hr / 1 day */}
 			</div>
 			<div className="pt-4">
 				<Button onClick={handleClearAll} type="button" variant="destructive">

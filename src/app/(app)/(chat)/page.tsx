@@ -4,11 +4,8 @@ import type { PGlite } from '@electric-sql/pglite';
 import { useEffect, useRef, useState } from 'react';
 import {
 	TbArrowUp,
-	TbBook2,
 	TbBrain,
-	TbChartBar,
 	TbCopy,
-	TbDotsVertical,
 	TbGitBranch,
 	TbGlobe,
 	TbInfoCircle,
@@ -16,29 +13,15 @@ import {
 	TbPaperclip,
 	TbPencil,
 	TbRefresh,
-	TbShare,
 	TbTools,
 	TbUser,
 } from 'react-icons/tb';
 
 import TypingIndicator from '@/components/pages/chat/assistant/TypingIndicator';
+import { Header } from '@/components/pages/chat/Header';
 import Placeholder from '@/components/pages/chat/Placeholder';
 import ScrollToBottom from '@/components/pages/chat/ScrollToBottom';
-import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
-
-interface Message {
-	id: number;
-	content: string;
-	role: 'user' | 'assistant';
-	timestamp: string;
-}
-
-interface Chat {
-	id: number;
-	title: string;
-	created_at: string;
-}
 
 export default function NewChatPage() {
 	const [db, setDb] = useState<PGlite | null>(null);
@@ -169,61 +152,9 @@ export default function NewChatPage() {
 		setMessages(result.rows as Message[]);
 	};
 
-	const enableStatsForNerds = true;
-
 	return (
-		<div className="relative flex h-full flex-1 flex-col">
-			<header className="sticky top-0 z-10 flex w-full flex-row items-center gap-2 border-border/50 border-b bg-bg-secondary/20 px-6 py-1.5">
-				{/* <div>Chat / Create / Talk / Live / Assist ICON (draft)</div> */}
-				<div>Morph</div>
-				<div className="rounded-full bg-bg-secondary px-3 py-1 text-sm text-text-secondary">
-					Folder Name
-				</div>
-				<span className="text-text-secondary">/</span>
-				<div className="font-semibold text-text-secondary">
-					Some real long title that is going to wrap around
-				</div>
-				<div className="rounded-full bg-bg-secondary px-3 py-1 text-sm text-text-secondary">
-					Tags
-				</div>
-
-				<div className="grow" />
-				{/* <div>Temporary Mode / Incognito Mode</div> */}
-				<div className="flex flex-row gap-2">
-					{enableStatsForNerds && (
-						<Button
-							className="rounded-xl border border-border/10 px-2"
-							variant="ghost"
-						>
-							<TbBook2 className="size-4" />
-						</Button>
-					)}
-					{enableStatsForNerds && (
-						<Button
-							className="rounded-xl border border-border/10 px-2"
-							variant="ghost"
-						>
-							<TbChartBar className="size-4" />
-						</Button>
-					)}
-					<Button
-						className="rounded-xl border border-border/10 px-2"
-						variant="ghost"
-					>
-						<TbShare className="size-4" />
-					</Button>
-					<Button
-						className="rounded-xl border border-border/10 px-2"
-						variant="ghost"
-					>
-						<TbDotsVertical className="size-4" />
-					</Button>
-					{/*
-				<div>Export</div>
-				<div>Archive</div>
-				<div>Delete</div> */}
-				</div>
-			</header>
+		<div className="relative flex h-full flex-1 flex-col bg-bg-tertiary/30">
+			<Header />
 
 			{/* <aside>Document Outline</aside> */}
 			{/* Artifacts */}
@@ -277,102 +208,100 @@ export default function NewChatPage() {
 				</div>
 			</main>
 
-			<div className="absolute bottom-0 left-[calc(50%-24rem)] mx-auto w-[48rem]">
+			<div className="absolute bottom-2 left-[calc(50%-24rem)] mx-auto w-[48rem]">
 				<ScrollToBottom />
-				<div className="rounded-t-2xl border border-border/10 bg-bg-secondary/20">
-					<div className="mx-2 mt-2 rounded-t-lg border border-border/10 bg-bg-secondary/20 backdrop-blur-2xl ">
-						<div className="flex space-x-4">
-							{/* (ALT + #) Assign Chat Folder */}
-							{/* (ALT + M) Start / End Transcribe */}
-							{/* (ALT + ENTER) Focus on Chat */}
-							{/* (DELETE) Delete Chat */}
-							{/* (F2) Rename Chat*/}
-							<textarea
-								className={cn(
-									'field-sizing-content max-h-64 min-h-24 flex-1 resize-none px-4 py-2 placeholder:text-text-secondary',
-									'focus:border-transparent focus:outline-none',
-								)}
-								disabled={isLoading}
-								onChange={(e) => setInputMessage(e.target.value)}
-								onKeyPress={(e) =>
-									e.key === 'Enter' && !e.shiftKey && sendMessage()
-								}
-								placeholder="Type your message..."
-								value={inputMessage}
-							></textarea>
-							{/* (!) create-model-persona */}
-							{/* (@) attach/prompt/chat-thread/project/data-source */}
-							{/* (~) MCP - NOT VISIBLE IN MESSAGE */}
-							{/* (Tab-Space) Search / Think */}
+				<div className="rounded-4xl border border-border/40 bg-bg-primary/75 backdrop-blur-2xl">
+					<div className="flex space-x-4">
+						{/* (ALT + #) Assign Chat Folder */}
+						{/* (ALT + M) Start / End Transcribe */}
+						{/* (ALT + ENTER) Focus on Chat */}
+						{/* (DELETE) Delete Chat */}
+						{/* (F2) Rename Chat*/}
+						<textarea
+							className={cn(
+								'field-sizing-content max-h-64 min-h-24 flex-1 resize-none px-4 pt-3 pb-2 placeholder:text-text-secondary/50',
+								'focus:border-transparent focus:outline-none',
+							)}
+							disabled={isLoading}
+							onChange={(e) => setInputMessage(e.target.value)}
+							onKeyPress={(e) =>
+								e.key === 'Enter' && !e.shiftKey && sendMessage()
+							}
+							placeholder="Type your message..."
+							value={inputMessage}
+						></textarea>
+						{/* (!) create-model-persona */}
+						{/* (@) attach/prompt/chat-thread/project/data-source */}
+						{/* (~) MCP - NOT VISIBLE IN MESSAGE */}
+						{/* (Tab-Space) Search / Think */}
+					</div>
+					<div className="flex flex-row items-center gap-1 border-border/20 border-t px-4 pt-4 text-sm text-text-tertiary">
+						{/* CTRL + / */}
+						{/* CTRL + ALT + / */}
+						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1 font-semibold text-text-secondary">
+							Chat
 						</div>
-						<div className="flex flex-row items-center gap-1 border-border/20 border-t px-4 pt-4 text-sm">
-							{/* CTRL + / */}
-							{/* CTRL + ALT + / */}
-							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
-								Chat
-							</div>
-							<span>with</span>
-							{/* <div>Chat with</div> */}
-							{/* <div>Edit with</div> */}
-							{/* <div>Create with</div> */}
-							{/* Create Images */}
-							{/* Create Video */}
-							{/* Create Music */}
-							{/* Create Code Container */}
-							{/* Create Document */}
-							{/* Create Presentation */}
-							{/* Create Spreadsheet */}
-							{/* <div>Talk to</div> */}
-							{/* <div>Go Live with</div> */}
-							{/* <div>Assist using</div> */}
-							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
-								{/* Multi Model */}
-								{/* Group Chat */}
-								Gemini 2.5 Pro (Exp)
-								{/* <TbChevronDown className="ml-2 inline-block size-4" /> */}
-								{/* <div>Auto</div> */}
-							</div>
-							<div>as {/* as a / as an / as the */}</div>
-							<div className="0 rounded-full border border-border/10 bg-bg-secondary px-4 py-1 opacity-50">
-								<TbUser className="-mt-0.5 -ml-0.5 mr-1 inline-block size-4" />
-								Persona
-							</div>
-							<div className="grow" />
-							<div className="rounded-full bg-pink-400/10 p-1.5">
-								<TbMicrophone className="size-5 text-white/50" />
-							</div>
-							<div className="rounded-full bg-pink-800 p-1.5">
-								<TbArrowUp className="size-5 text-white" />
-							</div>
-							{/* Enter */}
-							{/* Alt + Enter */}
-							{/* Ctrl + Enter */}
+						<span>with</span>
+						{/* <div>Chat with</div> */}
+						{/* <div>Edit with</div> */}
+						{/* <div>Create with</div> */}
+						{/* Create Images */}
+						{/* Create Video */}
+						{/* Create Music */}
+						{/* Create Code Container */}
+						{/* Create Document */}
+						{/* Create Presentation */}
+						{/* Create Spreadsheet */}
+						{/* <div>Talk to</div> */}
+						{/* <div>Go Live with</div> */}
+						{/* <div>Assist using</div> */}
+						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1 font-semibold text-text-secondary">
+							{/* Multi Model */}
+							{/* Group Chat */}
+							Gemini 2.5 Pro (Exp)
+							{/* <TbChevronDown className="ml-2 inline-block size-4" /> */}
+							{/* <div>Auto</div> */}
 						</div>
-						<div className="flex w-full flex-row items-center gap-2 px-4 pt-2 pb-4 text-sm">
-							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
-								<TbPaperclip className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
-								Attach
-								{/* Local Files, Drive Files, Projects */}
-							</div>
-							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1 opacity-50">
-								<TbGlobe className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
-								Search
-							</div>
-							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1 opacity-50">
-								<TbBrain className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
-								Think
-								{/* Think / Research */}
-							</div>
-							{/* <div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
+						<div>as {/* as a / as an / as the */}</div>
+						<div className="0 rounded-full border border-border/10 bg-bg-secondary px-4 py-1 opacity-50">
+							<TbUser className="-mt-0.5 -ml-0.5 mr-1 inline-block size-4" />
+							Persona
+						</div>
+						<div className="grow" />
+						<div className="rounded-full bg-pink-400/10 p-2">
+							<TbMicrophone className="size-4 text-white/50" />
+						</div>
+						<div className="ml-1 rounded-full bg-pink-800 p-2">
+							<TbArrowUp className="size-4 text-white" />
+						</div>
+						{/* Enter */}
+						{/* Alt + Enter */}
+						{/* Ctrl + Enter */}
+					</div>
+					<div className="flex w-full flex-row items-center gap-2 px-4 pt-2 pb-4 text-sm">
+						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
+							<TbPaperclip className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
+							Attach
+							{/* Local Files, Drive Files, Projects */}
+						</div>
+						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1 opacity-50">
+							<TbGlobe className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
+							Search
+						</div>
+						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1 opacity-50">
+							<TbBrain className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
+							Think
+							{/* Think / Research */}
+						</div>
+						{/* <div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1">
 							<TbBrain className="-mt-0.5 mr-1 inline-block size-4" />
 							Code Interpreter
 						</div> */}
-							<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1 opacity-50">
-								<TbTools className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
-								MCPs
-							</div>
-							{/* Function Calling & MCP */}
+						<div className="rounded-full border border-border/10 bg-bg-secondary px-3 py-1 opacity-50">
+							<TbTools className="-mt-0.5 -ml-1 mr-1.5 inline-block size-4" />
+							MCPs
 						</div>
+						{/* Function Calling & MCP */}
 					</div>
 				</div>
 			</div>

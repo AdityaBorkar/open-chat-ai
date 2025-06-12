@@ -1,6 +1,5 @@
 // biome-ignore assist/source/organizeImports: ReactScan must be imported before anything else
 import { ReactScan } from '@/components/ReactScan';
-
 import type { Metadata } from 'next';
 import { Figtree, Geist_Mono } from 'next/font/google';
 
@@ -32,7 +31,7 @@ export default async function RootLayout({
 	children: React.ReactNode;
 }>) {
 	const themeClass = await getThemeClass();
-	const flags = { reactScan: false };
+	const flags = { reactScan: true };
 	return (
 		<ThemeProvider>
 			<html className={themeClass} lang="en">

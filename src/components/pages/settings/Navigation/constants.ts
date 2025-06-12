@@ -1,12 +1,15 @@
 export const SETTINGS_NAVIGATION = [
 	{ href: '/account', label: 'Account', shortKey: 'A' },
-	{ href: '/customization', label: 'Customization', shortKey: 'U' },
-	{ href: '/history', label: 'Chat', shortKey: 'H' },
+	{ href: '/customization', label: 'User Interface', shortKey: 'I' },
+	{ href: '/personalization', label: 'Personalization', shortKey: 'P' },
+	{ href: '/browser-search', label: 'Browser Search', shortKey: 'B' },
 	{ href: '/models', label: 'Models', shortKey: 'M' },
-	{ href: '/mcp', label: 'MCP', shortKey: 'P' },
 	{ href: '/api-keys', label: 'API Keys', shortKey: 'K' },
-	{ href: '/usage', label: 'Usage', shortKey: 'U' },
-	{ href: '/attachments', label: 'Attachments', shortKey: 'T' },
+	{ href: '/mcp', label: 'MCP', shortKey: 'O' }, // !
+	{ href: '/connections', label: 'Connections', shortKey: 'C' },
+	{ href: '/attachments', label: 'Attachments', shortKey: 'T' }, // !
 	{ href: '/shared-links', label: 'Shared Links', shortKey: 'L' },
-	{ href: '/contact', label: 'Contact Us', shortKey: 'C' },
+	{ href: '/data', label: 'Data', shortKey: 'D' },
+	{ href: '/usage', label: 'Usage', shortKey: 'U' },
+	{ href: '/contact', label: 'Support', shortKey: 'S' },
 ];

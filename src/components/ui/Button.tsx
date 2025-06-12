@@ -11,6 +11,8 @@ export const buttonVariants = cva(
 				default: '',
 				destructive: 'bg-red-500 hover:bg-red-600',
 				hero: 'bg-gradient-to-r from-pink-600 to-pink-700 px-16 py-2 font-semibold text-white shadow-lg transition-all hover:scale-105 hover:from-pink-700 hover:to-pink-800',
+				shadow:
+					'rounded-full border border-transparent text-text-primary/75 hover:border-border/50 hover:bg-bg-tertiary hover:text-text-primary',
 			},
 		},
 	},
