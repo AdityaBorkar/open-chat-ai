@@ -27,6 +27,7 @@ export default function MessageHistory() {
 						);
 					} catch (error) {
 						alert('Error parsing JSON file');
+						console.error(error);
 					}
 				};
 				reader.readAsText(file);

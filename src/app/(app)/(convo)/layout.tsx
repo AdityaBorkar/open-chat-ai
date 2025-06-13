@@ -3,7 +3,7 @@
 import { useAtomValue } from 'jotai';
 import dynamic from 'next/dynamic';
 
-import { sidebarAtom } from '@/components/pages/sidebar/atoms';
+import { sidebarAtom } from '@/app/(app)/atoms';
 import { cn } from '@/lib/utils';
 
 const Sidebar = dynamic(
@@ -22,9 +22,9 @@ export default function ChatLayout({
 			<Sidebar />
 			<div
 				className={cn(
-					'grow border bg-bg-primary',
+					'grow border bg-bg-tertiary/30',
 					open
-						? 'my-2 mr-4 rounded-xl border-border/50'
+						? 'my-2 mr-4 rounded-2xl border-border/50'
 						: 'm-0 border-border/0',
 				)}
 			>

@@ -9,8 +9,12 @@ export default function Placeholder() {
 					Start a new conversation to get started
 				</p>
 
-				<div>Chat Suggestions</div>
+				<ChatSuggestions />
 			</div>
 		</div>
 	);
+}
+
+function ChatSuggestions() {
+	return <div>ChatSuggestions</div>;
 }

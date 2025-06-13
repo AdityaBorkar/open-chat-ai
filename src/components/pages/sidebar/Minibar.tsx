@@ -3,7 +3,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import type { HTMLAttributes } from 'react';
 import { TbLayoutSidebar, TbPlus, TbSearch } from 'react-icons/tb';
 
-import { sidebarAtom } from '@/components/pages/sidebar/atoms';
+import { sidebarAtom } from '@/app/(app)/atoms';
 import { cn } from '@/lib/utils';
 
 const onValidKeyPress =

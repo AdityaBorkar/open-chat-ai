@@ -12,7 +12,7 @@ import {
 } from 'react-icons/tb';
 import { toast } from 'sonner';
 
-import { sidebarAtom } from '@/components/pages/sidebar/atoms';
+import { sidebarAtom } from '@/app/(app)/atoms';
 import { Button } from '@/components/ui/Button';
 import {
 	Command,
@@ -37,18 +37,13 @@ import {
 } from '@/components/ui/popover';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { cn } from '@/lib/utils';
-import {
-	configAtom,
-	conversationAtom,
-	type Folder,
-	foldersAtom,
-} from './atoms';
+import { configAtom, conversationAtom, foldersAtom } from './atoms';
 
 export function Header() {
 	const { statsForNerds } = useAtomValue(configAtom);
 	const { open } = useAtomValue(sidebarAtom);
 	const conversation = useAtomValue(conversationAtom);
-	const [folders, setFolders] = useAtom(foldersAtom);
+	const [folders] = useAtom(foldersAtom);
 	const router = useRouter();
 	const [exportOpen, setExportOpen] = useState(false);
 	const [deleteOpen, setDeleteOpen] = useState(false);
@@ -79,6 +74,7 @@ export function Header() {
 				toast('Failed to export conversation');
 			}
 		} catch (error) {
+			console.error(error);
 			toast('Error exporting conversation');
 		}
 		setExportOpen(false);
@@ -92,15 +88,15 @@ export function Header() {
 		}
 	};
 
-	const handleCreateFolder = (folderName: string) => {
-		const newFolder: Folder = {
-			color: 'gray',
-			id: Date.now().toString(),
-			name: folderName,
-		};
-		setFolders([...folders, newFolder]);
-		handleFolderChange(newFolder.id);
-	};
+	// const handleCreateFolder = (folderName: string) => {
+	// 	const newFolder: Folder = {
+	// 		color: 'gray',
+	// 		id: Date.now().toString(),
+	// 		name: folderName,
+	// 	};
+	// 	setFolders([...folders, newFolder]);
+	// 	handleFolderChange(newFolder.id);
+	// };
 
 	return (
 		<header
@@ -223,8 +219,9 @@ export function Header() {
 											},
 										);
 										toast('Conversation archived');
-										router.push('/');
+										// router.push('/');
 									} catch (error) {
+										console.error(error);
 										toast('Failed to archive conversation');
 									}
 								}}
@@ -310,6 +307,7 @@ export function Header() {
 									toast('Conversation deleted');
 									router.push('/');
 								} catch (error) {
+									console.error(error);
 									toast('Failed to delete conversation');
 								}
 							}}

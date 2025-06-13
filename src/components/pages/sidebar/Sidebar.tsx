@@ -2,7 +2,7 @@ import { useAtomValue } from 'jotai';
 import { useState } from 'react';
 import { TbPlus, TbSearch } from 'react-icons/tb';
 
-import { sidebarAtom } from '@/components/pages/sidebar/atoms';
+import { sidebarAtom } from '@/app/(app)/atoms';
 import { Minibar } from '@/components/pages/sidebar/Minibar';
 import { ResizeHandle } from '@/components/pages/sidebar/ResizeHandle';
 import { ConversationSection } from '@/components/pages/sidebar/sections/Conversation';

@@ -1,7 +1,7 @@
 import { useSetAtom } from 'jotai';
 import { useState } from 'react';
 
-import { sidebarAtom } from '@/components/pages/sidebar/atoms';
+import { sidebarAtom } from '@/app/(app)/atoms';
 import {
 	SIDEBAR_DEFAULT_WIDTH,
 	SIDEBAR_MAX_WIDTH,

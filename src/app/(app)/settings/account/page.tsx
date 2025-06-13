@@ -1,5 +1,4 @@
 export default function AccountPage() {
-	const is_pro = false;
 	return (
 		<div>
 			{/* {is_pro ? <BillingSection /> : <UpgradeSection />} */}

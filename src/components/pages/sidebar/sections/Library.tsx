@@ -1,11 +1,5 @@
 import type { IconType } from 'react-icons/lib';
-import {
-	TbFileText,
-	TbLayoutGrid,
-	TbPlus,
-	TbRobotFace,
-	TbUser,
-} from 'react-icons/tb';
+import { TbFileText, TbLayoutGrid, TbPlus, TbUser } from 'react-icons/tb';
 
 import { Link } from '@/components/ui/Link';
 
@@ -13,19 +7,23 @@ export function LibrarySection() {
 	// Support Dragging
 	// New Folder / New Component
 	return (
-		<div className="flex flex-1 flex-col pt-4">
+		<div className="flex flex-1 flex-col gap-1 pt-4">
+			<hr />
 			<NavLink href="/projects" icon={TbLayoutGrid}>
 				Projects
 			</NavLink>
-			<NavLink href="/agents" icon={TbRobotFace}>
+			<hr />
+			{/* <NavLink href="/agents" icon={TbRobotFace}>
 				Agents
-			</NavLink>
+			</NavLink> */}
 			<NavLink href="/prompts" icon={TbFileText}>
 				Prompts
 			</NavLink>
+			<hr />
 			<NavLink href="/personas" icon={TbUser}>
 				Personas
 			</NavLink>
+			<hr />
 		</div>
 	);
 }
@@ -41,7 +39,7 @@ function NavLink({
 }) {
 	return (
 		<Link
-			className="flex flex-row items-center gap-2 rounded-none border-border/50 border-t px-2 py-4 text-text-secondary"
+			className="flex flex-row items-center gap-2 rounded-none px-2 py-3 text-text-secondary"
 			href={href}
 			variant="compact"
 		>

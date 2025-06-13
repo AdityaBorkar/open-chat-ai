@@ -4,11 +4,11 @@ import type { Metadata } from 'next';
 import { Figtree, Geist_Mono } from 'next/font/google';
 
 import { ThemeProvider } from '@/components/theme/theme-provider';
-import { ThemeScript } from '@/components/theme/theme-script';
 import { getThemeClass } from '@/lib/theme-utils';
 import { cn } from '@/lib/utils';
 
 import './globals.css';
+import Script from 'next/script';
 
 const fontSans = Figtree({
 	subsets: ['latin'],
@@ -43,7 +43,21 @@ export default async function RootLayout({
 						'dark min-h-screen bg-background text-base text-foreground antialiased',
 					)}
 				>
-					<ThemeScript />
+					<Script id="theme-script" strategy="beforeInteractive">
+						{`
+				(function() {
+					function getTheme() {
+						const stored = localStorage.getItem('theme');
+						if (stored && stored !== 'system') return stored;
+						return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+					}
+
+					const theme = getTheme();
+					document.documentElement.classList.remove('light', 'dark');
+					document.documentElement.classList.add(theme);
+				})()
+			`}
+					</Script>
 					{children}
 				</body>
 			</html>

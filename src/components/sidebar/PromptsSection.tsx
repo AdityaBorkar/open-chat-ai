@@ -49,10 +49,10 @@ export function PromptsSection() {
 		console.log(`Toggle starred for prompt ${promptId}`);
 	};
 
-	const usePrompt = (prompt: Prompt) => {
-		// In a real app, this would apply the prompt to the chat
-		console.log(`Using prompt: ${prompt.title}`);
-	};
+	// const usePrompt = (prompt: Prompt) => {
+	// 	// In a real app, this would apply the prompt to the chat
+	// 	console.log(`Using prompt: ${prompt.title}`);
+	// };
 
 	return (
 		<div className="relative">
@@ -128,7 +128,7 @@ export function PromptsSection() {
 											</button>
 											<button
 												className="rounded bg-gradient-to-r from-purple-600 to-pink-600 p-1.5 text-white transition-all hover:from-purple-500 hover:to-pink-500"
-												onClick={() => usePrompt(prompt)}
+												// onClick={() => usePrompt(prompt)}
 												type="button"
 											>
 												<Plus size={12} />

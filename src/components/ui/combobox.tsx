@@ -100,7 +100,7 @@ export function Combobox({
 											onClick={handleCreateNew}
 											variant="compact"
 										>
-											Create "{searchValue.trim()}"
+											Create &quot;{searchValue.trim()}&quot;
 										</Button>
 									</div>
 								)}
@@ -130,34 +130,13 @@ export function Combobox({
 								) && (
 									<CommandItem onSelect={handleCreateNew}>
 										<Check className="mr-2 h-4 w-4 opacity-0" />
-										Create "{searchValue.trim()}"
+										Create &quot;{searchValue.trim()}&quot;
 									</CommandItem>
 								)}
 						</CommandGroup>
 					</CommandList>
 				</Command>
 			</PopoverContent>
-		</Popover>
-	);
-}
-		</Popover>
-	);
-}
-		</Popover>
-	);
-}
-		</Popover>
-	);
-}
-		</Popover>
-	);
-}
-		</Popover>
-	);
-}
-		</Popover>
-	);
-}
 		</Popover>
 	);
 }

@@ -5,6 +5,7 @@ export function Sidebar() {
 				{/* Profile Section */}
 				<div className="mb-8">
 					<div className="mb-6 flex flex-col items-center gap-4">
+						{/* eslint-disable-next-line @next/next/no-img-element */}
 						<img
 							// ignore for accessibility
 							alt=""

@@ -22,7 +22,7 @@ const chats = [
 		created_at: '2021-01-01',
 		id: 'aasda222x',
 		title: 'Chat 2',
-		type: 'voice',
+		type: 'talk',
 	},
 	{
 		created_at: '2021-01-01',
@@ -36,30 +36,30 @@ const chats = [
 		title: 'Chat 4',
 		type: 'chat',
 	},
-];
+] as const;
 
 export function ConversationSection() {
+	const doNotGroupChats = true;
 	const folders = [
-		{
-			color: 'blue',
-			id: '1',
-			name: 'Default',
-		},
-		{
-			color: 'green',
-			id: '2',
-			name: 'Work',
-		},
+		{ color: 'blue', id: '1', name: 'Default' },
+		{ color: 'green', id: '2', name: 'Work' },
 	];
-	const conversations = [
-		{ chats: chats, title: 'Today' },
-		{ chats: chats, title: 'Yesterday' },
-		{ chats: chats, title: 'Last Week' },
-		{ chats: chats, title: 'Last Month' },
-		{ chats: chats, title: 'Earlier' },
-	];
+	const conversations = doNotGroupChats
+		? [
+				{
+					chats, // : [...chats, ...chats, ...chats, ...chats, ...chats],
+					title: 'All',
+				},
+			]
+		: [
+				{ chats: chats, title: 'Today' },
+				{ chats: chats, title: 'Yesterday' },
+				{ chats: chats, title: 'Last Week' },
+				{ chats: chats, title: 'Last Month' },
+				{ chats: chats, title: 'Earlier' },
+			];
 
-	// Branch, Move to Folder, Delete, Pin, Add to Project
+	// TODO: Context Menu - Rename, Pin, Branch, Add to Project, Move to Folder, Share, Export, Archive, Delete
 
 	return (
 		<div className="contents">
@@ -71,7 +71,7 @@ export function ConversationSection() {
 			{folders.map((folder) => (
 				<FolderItem folder={folder} key={folder.id} />
 			))}
-			<div className="flex-1 overflow-y-auto text-base">
+			<div className="mt-2 flex-1 overflow-y-auto border-border/40 border-t pt-2 text-base">
 				{conversations.map((conversation) => (
 					<div className="mb-2 contents" key={conversation.title}>
 						<Title>{conversation.title}</Title>

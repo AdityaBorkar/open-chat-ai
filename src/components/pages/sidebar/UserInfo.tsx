@@ -1,7 +1,7 @@
 import { useAtomValue } from 'jotai';
 import Image from 'next/image';
 
-import { userAtom } from '@/components/pages/sidebar/atoms';
+import { userAtom } from '@/app/(app)/atoms';
 import { Link } from '@/components/ui/Link';
 import { cn } from '@/lib/utils';
 

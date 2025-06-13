@@ -36,6 +36,7 @@ export function Navigation() {
 	// ALT + shortkey combinations for navigation
 	const router = useRouter();
 	for (const { href, shortKey } of SETTINGS_NAVIGATION) {
+		// eslint-disable-next-line
 		useHotkeys(`alt+${shortKey}`, () => {
 			router.push(`/settings${href}`);
 			// setTimeout(() => {

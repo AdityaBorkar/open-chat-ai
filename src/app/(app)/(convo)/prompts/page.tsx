@@ -1,9 +1,11 @@
 export default function PromptsPage() {
 	return (
 		<div>
-			<div>Prompt Name</div>
-			<div>Prompt Description</div>
-			<div>Prompt Content</div>
+			<div className="border-border/50 border-b px-4 py-2.5">
+				Name - Share, Delete
+			</div>
+
+			<div>Content</div>
 
 			<hr />
 
