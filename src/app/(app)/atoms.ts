@@ -2,6 +2,8 @@ import { atom } from 'jotai';
 
 import { SIDEBAR_DEFAULT_WIDTH } from '@/lib/constants';
 
+// TODO: Migrate to nanostores
+
 export const sidebarAtom = atom({
 	open: true,
 	width: SIDEBAR_DEFAULT_WIDTH,

@@ -31,3 +31,9 @@ export function GET(_request: Request) {
 // TODO: SERVER WILL HAVE ALL PROVIDERS
 // SCHEMA FROM CLIENT TO RECEIVE INFORMATION
 // SCHEMA FROM SERVER TO SEND INFORMATION
+
+
+// TODO: Rate limit five requests per 30 seconds or anything that is reasonable
+// TODO: Implement CAPTCHA on New Chat Button
+
+// TODo: NO DATABASE WRITES UNTIL USER IS LINKED

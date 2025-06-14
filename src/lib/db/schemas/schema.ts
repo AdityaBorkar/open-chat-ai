@@ -8,56 +8,84 @@ import {
 	uuid,
 } from 'drizzle-orm/pg-core';
 
-// Better-auth required tables
-export const user = pgTable('user', {
-	createdAt: timestamp('createdAt').notNull().defaultNow(),
-	email: text('email').notNull().unique(),
-	emailVerified: boolean('emailVerified').notNull().default(false),
-	id: uuid('id').primaryKey().defaultRandom(),
-	image: text('image'),
-	name: text('name').notNull(),
-	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-});
+import {
+	type account,
+	type passkey,
+	type session,
+	user,
+	type verification,
+} from '@/lib/db/schemas/auth';
 
-export const session = pgTable('session', {
-	createdAt: timestamp('createdAt').notNull().defaultNow(),
-	expiresAt: timestamp('expiresAt').notNull(),
-	id: text('id').primaryKey(),
-	ipAddress: text('ipAddress'),
-	token: text('token').notNull().unique(),
-	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-	userAgent: text('userAgent'),
-	userId: uuid('userId')
-		.notNull()
-		.references(() => user.id, { onDelete: 'cascade' }),
-});
+// // Better-auth required tables
+// export const user = pgTable('user', {
+// 	// Additional fields for plugins
+// 	bio: text('bio'),
+// 	createdAt: timestamp('createdAt').notNull().defaultNow(),
+// 	email: text('email').notNull().unique(),
+// 	emailVerified: boolean('emailVerified').notNull().default(false),
+// 	id: uuid('id').primaryKey().defaultRandom(),
+// 	image: text('image'),
+// 	isAnonymous: boolean('isAnonymous').notNull().default(false),
+// 	name: text('name').notNull(),
+// 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
+// 	username: text('username'),
+// });
 
-export const account = pgTable('account', {
-	accessToken: text('accessToken'),
-	accessTokenExpiresAt: timestamp('accessTokenExpiresAt'),
-	accountId: text('accountId').notNull(),
-	createdAt: timestamp('createdAt').notNull().defaultNow(),
-	id: uuid('id').primaryKey().defaultRandom(),
-	idToken: text('idToken'),
-	password: text('password'),
-	providerId: text('providerId').notNull(),
-	refreshToken: text('refreshToken'),
-	refreshTokenExpiresAt: timestamp('refreshTokenExpiresAt'),
-	scope: text('scope'),
-	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-	userId: uuid('userId')
-		.notNull()
-		.references(() => user.id, { onDelete: 'cascade' }),
-});
+// export const session = pgTable('session', {
+// 	createdAt: timestamp('createdAt').notNull().defaultNow(),
+// 	expiresAt: timestamp('expiresAt').notNull(),
+// 	id: text('id').primaryKey(),
+// 	ipAddress: text('ipAddress'),
+// 	token: text('token').notNull().unique(),
+// 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
+// 	userAgent: text('userAgent'),
+// 	userId: uuid('userId')
+// 		.notNull()
+// 		.references(() => user.id, { onDelete: 'cascade' }),
+// });
 
-export const verification = pgTable('verification', {
-	createdAt: timestamp('createdAt').notNull().defaultNow(),
-	expiresAt: timestamp('expiresAt').notNull(),
-	id: uuid('id').primaryKey().defaultRandom(),
-	identifier: text('identifier').notNull(),
-	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-	value: text('value').notNull(),
-});
+// export const account = pgTable('account', {
+// 	accessToken: text('accessToken'),
+// 	accessTokenExpiresAt: timestamp('accessTokenExpiresAt'),
+// 	accountId: text('accountId').notNull(),
+// 	createdAt: timestamp('createdAt').notNull().defaultNow(),
+// 	id: uuid('id').primaryKey().defaultRandom(),
+// 	idToken: text('idToken'),
+// 	password: text('password'),
+// 	providerId: text('providerId').notNull(),
+// 	refreshToken: text('refreshToken'),
+// 	refreshTokenExpiresAt: timestamp('refreshTokenExpiresAt'),
+// 	scope: text('scope'),
+// 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
+// 	userId: uuid('userId')
+// 		.notNull()
+// 		.references(() => user.id, { onDelete: 'cascade' }),
+// });
+
+// export const verification = pgTable('verification', {
+// 	createdAt: timestamp('createdAt').notNull().defaultNow(),
+// 	expiresAt: timestamp('expiresAt').notNull(),
+// 	id: uuid('id').primaryKey().defaultRandom(),
+// 	identifier: text('identifier').notNull(),
+// 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
+// 	value: text('value').notNull(),
+// });
+
+// export const passkey = pgTable('passkey', {
+// 	aaguid: text('aaguid'),
+// 	backedUp: boolean('backedUp').notNull(),
+// 	counter: integer('counter').notNull(),
+// 	createdAt: timestamp('createdAt').notNull().defaultNow(),
+// 	credentialID: text('credentialID').notNull(),
+// 	deviceType: text('deviceType').notNull(),
+// 	id: text('id').primaryKey(),
+// 	name: text('name'),
+// 	publicKey: text('publicKey').notNull(),
+// 	transports: text('transports'),
+// 	userId: uuid('userId')
+// 		.notNull()
+// 		.references(() => user.id, { onDelete: 'cascade' }),
+// });
 
 // Chat application tables
 export const folders = pgTable('folders', {
@@ -277,6 +305,8 @@ export type Account = typeof account.$inferSelect;
 export type NewAccount = typeof account.$inferInsert;
 export type Verification = typeof verification.$inferSelect;
 export type NewVerification = typeof verification.$inferInsert;
+export type Passkey = typeof passkey.$inferSelect;
+export type NewPasskey = typeof passkey.$inferInsert;
 export type Folder = typeof folders.$inferSelect;
 export type NewFolder = typeof folders.$inferInsert;
 export type Conversation = typeof conversations.$inferSelect;

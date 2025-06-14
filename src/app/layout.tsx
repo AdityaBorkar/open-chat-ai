@@ -7,7 +7,6 @@ import { Figtree, Geist_Mono } from 'next/font/google';
 import Script from 'next/script';
 
 import { ThemeProvider } from '@/components/theme/theme-provider';
-import { AuthProvider } from '@/lib/auth-client';
 import { APP } from '@/lib/constants';
 import { getThemeClass } from '@/lib/theme-utils';
 import { cn } from '@/lib/utils';
@@ -32,7 +31,6 @@ export const metadata: Metadata = {
 		title: APP.name,
 	},
 	description: APP.description,
-	// themeColor: '#000000',
 	title: APP.name,
 };
 
@@ -74,7 +72,7 @@ export default async function RootLayout({
 						id="theme-script"
 						strategy="beforeInteractive"
 					/>
-					<AuthProvider>{children}</AuthProvider>
+					{children}
 				</body>
 			</html>
 		</ThemeProvider>

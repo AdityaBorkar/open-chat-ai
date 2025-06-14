@@ -54,13 +54,13 @@ export default function manifest(): MetadataRoute.Manifest {
 				type: 'image/png',
 			},
 		],
-		share_target: {
-			action: '/',
-			method: 'GET',
-			params: {
-				files: ['image/*'],
-			},
-		},
+		// share_target: {
+		// 	action: '/',
+		// 	method: 'GET',
+		// 	params: {
+		// 		files: ['image/*'],
+		// 	},
+		// },
 		short_name: APP.name,
 		shortcuts: [
 			{
