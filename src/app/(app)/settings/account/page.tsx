@@ -1,21 +1,6 @@
 export default function AccountPage() {
 	return (
 		<div>
-			{/* {is_pro ? <BillingSection /> : <UpgradeSection />} */}
-
-			<section>
-				<h2 className="mb-3 font-bold text-2xl text-white">Workspaces</h2>
-				<div>
-					<div className="mb-8 text-gray-400 leading-relaxed">
-						List Workspace Name, Icon, Description and Leave Workspace
-					</div>
-					<div className="mb-8 text-gray-400 leading-relaxed">
-						Create a new workspace
-					</div>
-				</div>
-			</section>
-
-			{/* Danger Zone */}
 			<section>
 				<h2 className="mb-3 font-bold text-2xl text-white">Account Zone</h2>
 				<div>
@@ -48,6 +33,8 @@ export default function AccountPage() {
 					</div>
 				</div>
 			</section>
+
+			{/* {is_pro ? <BillingSection /> : <UpgradeSection />} */}
 
 			{/* Danger Zone */}
 			<section>

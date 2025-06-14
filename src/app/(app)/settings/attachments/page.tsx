@@ -23,7 +23,7 @@ export default function AttachmentsPage() {
 							</p>
 						</div>
 						<label className="relative inline-flex cursor-pointer items-center">
-							<input type="checkbox" className="peer sr-only" defaultChecked />
+							<input className="peer sr-only" defaultChecked type="checkbox" />
 							<div className="peer h-6 w-11 rounded-full bg-gray-600 after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-pink-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
 						</label>
 					</div>
@@ -36,7 +36,7 @@ export default function AttachmentsPage() {
 							</p>
 						</div>
 						<label className="relative inline-flex cursor-pointer items-center">
-							<input type="checkbox" className="peer sr-only" defaultChecked />
+							<input className="peer sr-only" defaultChecked type="checkbox" />
 							<div className="peer h-6 w-11 rounded-full bg-gray-600 after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-pink-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
 						</label>
 					</div>
@@ -50,7 +50,7 @@ export default function AttachmentsPage() {
 						</p>
 						<select className="w-full rounded-lg border border-gray-600 bg-gray-700 px-4 py-3 text-white focus:border-pink-500 focus:outline-none">
 							<option value="5">5 MB</option>
-							<option value="10" selected>
+							<option selected value="10">
 								10 MB
 							</option>
 							<option value="25">25 MB</option>
@@ -75,7 +75,7 @@ export default function AttachmentsPage() {
 						</h3>
 						<div className="space-y-2">
 							{['JPEG', 'PNG', 'GIF', 'WebP', 'SVG'].map((format) => (
-								<div key={format} className="flex items-center justify-between">
+								<div className="flex items-center justify-between" key={format}>
 									<span className="text-gray-400 text-sm">{format}</span>
 									<div className="h-3 w-3 rounded-full bg-green-500"></div>
 								</div>
@@ -91,7 +91,7 @@ export default function AttachmentsPage() {
 						</h3>
 						<div className="space-y-2">
 							{['PDF', 'DOC', 'DOCX', 'TXT', 'MD'].map((format) => (
-								<div key={format} className="flex items-center justify-between">
+								<div className="flex items-center justify-between" key={format}>
 									<span className="text-gray-400 text-sm">{format}</span>
 									<div className="h-3 w-3 rounded-full bg-green-500"></div>
 								</div>
@@ -107,7 +107,7 @@ export default function AttachmentsPage() {
 						</h3>
 						<div className="space-y-2">
 							{['JS', 'TS', 'PY', 'HTML', 'CSS'].map((format) => (
-								<div key={format} className="flex items-center justify-between">
+								<div className="flex items-center justify-between" key={format}>
 									<span className="text-gray-400 text-sm">{format}</span>
 									<div className="h-3 w-3 rounded-full bg-green-500"></div>
 								</div>
@@ -123,7 +123,7 @@ export default function AttachmentsPage() {
 						</h3>
 						<div className="space-y-2">
 							{['JSON', 'CSV', 'XML', 'YAML', 'SQL'].map((format) => (
-								<div key={format} className="flex items-center justify-between">
+								<div className="flex items-center justify-between" key={format}>
 									<span className="text-gray-400 text-sm">{format}</span>
 									<div className="h-3 w-3 rounded-full bg-green-500"></div>
 								</div>
@@ -179,14 +179,14 @@ export default function AttachmentsPage() {
 
 				<div className="flex gap-3">
 					<button
-						type="button"
 						className="rounded-lg bg-pink-600 px-6 py-2 font-semibold text-white transition-colors hover:bg-pink-700"
+						type="button"
 					>
 						Manage Files
 					</button>
 					<button
-						type="button"
 						className="rounded-lg bg-gray-700 px-6 py-2 font-semibold text-white transition-colors hover:bg-gray-600"
+						type="button"
 					>
 						Delete Old Files
 					</button>

@@ -4,7 +4,6 @@ const nextConfig: NextConfig = {
 	async headers() {
 		return [
 			{
-				source: '/(.*)',
 				headers: [
 					{
 						key: 'Accept-CH',
@@ -15,6 +14,7 @@ const nextConfig: NextConfig = {
 						value: 'Sec-CH-Prefers-Color-Scheme',
 					},
 				],
+				source: '/(.*)',
 			},
 		];
 	},

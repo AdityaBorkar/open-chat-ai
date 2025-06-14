@@ -6,24 +6,6 @@
 		"status": "not_connected"
 	},
 	{
-		"description": "Access to multiple models through Google Vertex AI",
-		"icon": "",
-		"name": "Google Vertex AI",
-		"status": "not_connected"
-	},
-	{
-		"description": "Access to multiple models through Azure AI Foundry",
-		"icon": "",
-		"name": "Azure AI Foundry",
-		"status": "not_connected"
-	},
-	{
-		"description": "Access to multiple models through Amazon Bedrock",
-		"icon": "",
-		"name": "Amazon Bedrock",
-		"status": "not_connected"
-	},
-	{
 		"description": "Access to multiple models through Groq",
 		"icon": "",
 		"name": "Groq",
@@ -54,15 +36,33 @@
 		"status": "not_connected"
 	},
 	{
-		"description": "Access to multiple models through Cloudflare Workers",
-		"icon": "",
-		"name": "Cloudflare Workers",
-		"status": "not_connected"
-	},
-	{
 		"description": "Access to multiple models through Hugging Face",
 		"icon": "",
 		"name": "Hugging Face",
 		"status": "not_connected"
+	},
+	{
+		"description": "Access to multiple models through Google Vertex AI",
+		"icon": "",
+		"name": "Google Vertex AI",
+		"status": "not_supported"
+	},
+	{
+		"description": "Access to multiple models through Azure AI Foundry",
+		"icon": "",
+		"name": "Azure AI Foundry",
+		"status": "not_supported"
+	},
+	{
+		"description": "Access to multiple models through Amazon Bedrock",
+		"icon": "",
+		"name": "Amazon Bedrock",
+		"status": "not_supported"
+	},
+	{
+		"description": "Access to multiple models through Cloudflare Workers",
+		"icon": "",
+		"name": "Cloudflare Workers",
+		"status": "not_supported"
 	}
 ]

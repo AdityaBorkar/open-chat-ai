@@ -1,6 +1,7 @@
 'use client';
 
 import { IconDeviceDesktop, IconMoon, IconSun } from '@tabler/icons-react';
+
 import { useTheme } from './theme-provider';
 
 export function ThemeToggle() {
@@ -44,11 +45,11 @@ export function ThemeToggle() {
 
 	return (
 		<button
-			type="button"
-			onClick={handleToggle}
-			className="flex items-center gap-2 rounded-md px-3 py-2 transition-colors hover:bg-secondary"
 			aria-label={`Switch to ${theme === 'light' ? 'dark' : theme === 'dark' ? 'system' : 'light'} theme`}
+			className="flex items-center gap-2 rounded-md px-3 py-2 transition-colors hover:bg-secondary"
+			onClick={handleToggle}
 			title={getLabel()}
+			type="button"
 		>
 			{getIcon()}
 			<span className="text-sm">{getLabel()}</span>

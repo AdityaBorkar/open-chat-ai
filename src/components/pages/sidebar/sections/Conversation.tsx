@@ -65,7 +65,7 @@ export function ConversationSection() {
 		<div className="contents">
 			<Title icon={TbPin}>Pinned</Title>
 			{chats.map((chat) => (
-				<ConversationItem chat={chat} key={chat.id} />
+				<ConvoItem convo={chat} key={chat.id} />
 			))}
 			<Title icon={TbFolder}>Folders</Title>
 			{folders.map((folder) => (
@@ -76,7 +76,7 @@ export function ConversationSection() {
 					<div className="mb-2 contents" key={conversation.title}>
 						<Title>{conversation.title}</Title>
 						{conversation.chats.map((chat) => (
-							<ConversationItem chat={chat} key={chat.id} />
+							<ConvoItem convo={chat} key={chat.id} />
 						))}
 					</div>
 				))}
@@ -96,25 +96,22 @@ function FolderItem({ folder }: { folder: Partial<Folder> }) {
 			</summary>
 			<div className="ml-2 flex flex-col gap-1">
 				{conversations.map((conversation) => (
-					<ConversationItem chat={conversation} key={conversation.id} />
+					<ConvoItem convo={conversation} key={conversation.id} />
 				))}
 			</div>
 		</details>
 	);
 }
 
-function ConversationItem({ chat }: { chat: Partial<Conversation> }) {
-	// const deleteChat = (id: string) => {
-	// 	console.log(id);
-	// };
+function ConvoItem({ convo }: { convo: Partial<Conversation> }) {
 	return (
 		<Link
 			className="group relative mx-1 block px-3 py-2 font-medium text-base text-text-tertiary hover:bg-bg-secondary"
-			href={`/chat/${chat.id}`}
-			key={chat.id}
+			href={`/convo/${convo.id}`}
+			key={convo.id}
 		>
 			<Icon icon={TbMessage} />
-			<span className="truncate">{chat.title}</span>
+			<span className="truncate">{convo.title}</span>
 			<div className="absolute top-1 right-1 flex flex-row gap-1.5 opacity-0 group-hover:opacity-100">
 				<button className="size-7 rounded-md bg-bg-tertiary/50" type="button">
 					<TbPin className="mx-auto size-4 " />

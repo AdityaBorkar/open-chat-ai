@@ -83,7 +83,7 @@ export function ThemeProvider({
 
 	return (
 		<ThemeContext.Provider
-			value={{ theme, setTheme: handleSetTheme, resolvedTheme }}
+			value={{ resolvedTheme, setTheme: handleSetTheme, theme }}
 		>
 			{children}
 		</ThemeContext.Provider>

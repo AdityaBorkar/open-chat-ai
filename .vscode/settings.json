@@ -1,7 +1,5 @@
 {
-	"cSpell.words": [
-		"Convo"
-	],
+	"cSpell.words": ["Convo"],
 	"editor.codeActionsOnSave": {
 		"quickfix.biome": "explicit",
 		"source.action.useSortedAttributes.biome": "explicit",
@@ -13,8 +11,6 @@
 		"strings": "on"
 	},
 	"javascript.preferences.importModuleSpecifier": "non-relative",
-	"typescript.preferences.autoImportSpecifierExcludeRegexes": [
-		"^(node:)?os$"
-	],
+	"typescript.preferences.autoImportSpecifierExcludeRegexes": ["^(node:)?os$"],
 	"typescript.preferences.importModuleSpecifier": "non-relative"
 }

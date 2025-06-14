@@ -12,30 +12,15 @@
 					"level": "on",
 					"options": {
 						"groups": [
-							[
-								"server-only",
-								"use client",
-								"use server"
-							],
+							["server-only", "use client", "use server"],
 							":BLANK_LINE:",
 							":URL:",
 							":BLANK_LINE:",
-							[
-								":NODE:",
-								":BUN:",
-								":PACKAGE:",
-								":PACKAGE_WITH_PROTOCOL:"
-							],
+							[":NODE:", ":BUN:", ":PACKAGE:", ":PACKAGE_WITH_PROTOCOL:"],
 							":BLANK_LINE:",
-							[
-								"@/components",
-								"@/lib"
-							],
+							["@/components", "@/lib"],
 							":BLANK_LINE:",
-							[
-								":ALIAS:",
-								":PATH:"
-							]
+							[":ALIAS:", ":PATH:"]
 						]
 					}
 				},
@@ -50,6 +35,7 @@
 			"**",
 			"!**/dist/*",
 			"!**/node_modules/*",
+			"!**/.next/*",
 			"!**/CHANGELOG.md"
 		]
 	},
@@ -79,15 +65,8 @@
 					"fix": "safe",
 					"level": "error",
 					"options": {
-						"attributes": [
-							"classList"
-						],
-						"functions": [
-							"clsx",
-							"cva",
-							"tw",
-							"tw.*"
-						]
+						"attributes": ["classList"],
+						"functions": ["clsx", "cva", "tw", "tw.*"]
 					}
 				}
 			}

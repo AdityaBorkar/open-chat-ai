@@ -4,28 +4,17 @@ export type Theme = 'light' | 'dark' | 'system';
 export type ResolvedTheme = 'light' | 'dark';
 
 /**
- * Get the theme preference from Client Hints
- * Falls back to 'dark' if no hint is available
+ * Get theme CSS class for server-side rendering
  */
-export async function getServerTheme(): Promise<ResolvedTheme> {
+export async function getThemeClass(): Promise<string> {
 	const headersList = await headers();
 	const colorSchemeHint = headersList.get('sec-ch-prefers-color-scheme');
 
 	// Client hint values: 'dark', 'light', or null
-	if (colorSchemeHint === 'light') {
-		return 'light';
-	}
+	if (colorSchemeHint === 'light') return 'light';
 
 	// Default to dark if no hint or hint is 'dark'
 	return 'dark';
-}
-
-/**
- * Get theme CSS class for server-side rendering
- */
-export async function getThemeClass(): Promise<string> {
-	const theme = await getServerTheme();
-	return theme;
 }
 
 /**
