@@ -1,20 +1,20 @@
 'use client';
 
 import { Link } from '@/components/ui/Link';
-import { signIn, useSession } from '@/lib/auth-client';
+import { signIn, signOut, useSession } from '@/lib/auth/client';
+import { useDatabase } from '@/lib/db/client';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
 	const auth = useSession();
-	const database = { isPending: false };
-	// const database = useDatabase({ userId: auth.data?.user.id });
+	const database = useDatabase({ userId: auth.data?.user.id });
 
-	console.log('auth', auth.isPending, auth.data);
-	if (auth.isPending || database.isPending) return <div>Loading...</div>;
+	if (auth.isPending) return <div>Loading...</div>;
 	if (auth.data === null) {
+		// ! POSSIBLE INFINITE LOOP
+		console.log('Signing in as Anonymous...');
 		signIn.anonymous();
 		return <div>Signing in as Anonymous...</div>;
 	}
-
 	if (auth.error)
 		return (
 			<div>
@@ -26,21 +26,25 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 			</div>
 		);
 
-	// if (database.error)
-	// 	return (
-	// 		<div>
-	// 			<div>
-	// 				Could not not verify user. This is unusual and not expected. We have
-	// 				reported the issue and shall fix it soon.
-	// 			</div>
-	// 			<button type="button">Logout</button>
-	// 		</div>
-	// 	);
+	if (database.isPending) return <div>DB Loading...</div>;
+	if (database.error)
+		return (
+			<div>
+				<div>
+					Could not not connect to database. This is unusual and not expected.
+					We have reported the issue and shall fix it soon.
+				</div>
+				{/*  */}
+			</div>
+		);
 
 	return (
 		<div>
 			{/* {children} */}
-			OK
+			NOT-OK
+			<button onClick={() => signOut()} type="button">
+				Logout
+			</button>
 			{/* <div className="fixed top-0 left-0 h-screen w-screen bg-bg-primary/50 backdrop-blur-sm">
 				Shortcuts
 

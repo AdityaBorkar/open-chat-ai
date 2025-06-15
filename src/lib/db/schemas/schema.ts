@@ -16,77 +16,6 @@ import {
 	type verification,
 } from '@/lib/db/schemas/auth';
 
-// // Better-auth required tables
-// export const user = pgTable('user', {
-// 	// Additional fields for plugins
-// 	bio: text('bio'),
-// 	createdAt: timestamp('createdAt').notNull().defaultNow(),
-// 	email: text('email').notNull().unique(),
-// 	emailVerified: boolean('emailVerified').notNull().default(false),
-// 	id: uuid('id').primaryKey().defaultRandom(),
-// 	image: text('image'),
-// 	isAnonymous: boolean('isAnonymous').notNull().default(false),
-// 	name: text('name').notNull(),
-// 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-// 	username: text('username'),
-// });
-
-// export const session = pgTable('session', {
-// 	createdAt: timestamp('createdAt').notNull().defaultNow(),
-// 	expiresAt: timestamp('expiresAt').notNull(),
-// 	id: text('id').primaryKey(),
-// 	ipAddress: text('ipAddress'),
-// 	token: text('token').notNull().unique(),
-// 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-// 	userAgent: text('userAgent'),
-// 	userId: uuid('userId')
-// 		.notNull()
-// 		.references(() => user.id, { onDelete: 'cascade' }),
-// });
-
-// export const account = pgTable('account', {
-// 	accessToken: text('accessToken'),
-// 	accessTokenExpiresAt: timestamp('accessTokenExpiresAt'),
-// 	accountId: text('accountId').notNull(),
-// 	createdAt: timestamp('createdAt').notNull().defaultNow(),
-// 	id: uuid('id').primaryKey().defaultRandom(),
-// 	idToken: text('idToken'),
-// 	password: text('password'),
-// 	providerId: text('providerId').notNull(),
-// 	refreshToken: text('refreshToken'),
-// 	refreshTokenExpiresAt: timestamp('refreshTokenExpiresAt'),
-// 	scope: text('scope'),
-// 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-// 	userId: uuid('userId')
-// 		.notNull()
-// 		.references(() => user.id, { onDelete: 'cascade' }),
-// });
-
-// export const verification = pgTable('verification', {
-// 	createdAt: timestamp('createdAt').notNull().defaultNow(),
-// 	expiresAt: timestamp('expiresAt').notNull(),
-// 	id: uuid('id').primaryKey().defaultRandom(),
-// 	identifier: text('identifier').notNull(),
-// 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-// 	value: text('value').notNull(),
-// });
-
-// export const passkey = pgTable('passkey', {
-// 	aaguid: text('aaguid'),
-// 	backedUp: boolean('backedUp').notNull(),
-// 	counter: integer('counter').notNull(),
-// 	createdAt: timestamp('createdAt').notNull().defaultNow(),
-// 	credentialID: text('credentialID').notNull(),
-// 	deviceType: text('deviceType').notNull(),
-// 	id: text('id').primaryKey(),
-// 	name: text('name'),
-// 	publicKey: text('publicKey').notNull(),
-// 	transports: text('transports'),
-// 	userId: uuid('userId')
-// 		.notNull()
-// 		.references(() => user.id, { onDelete: 'cascade' }),
-// });
-
 // Chat application tables
 export const folders = pgTable('folders', {
 	color: text('color').notNull().default('#6366f1'),
@@ -94,7 +23,7 @@ export const folders = pgTable('folders', {
 	id: uuid('id').primaryKey().defaultRandom(),
 	name: text('name').notNull(),
 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-	userId: uuid('userId')
+	userId: text('userId')
 		.notNull()
 		.references(() => user.id, { onDelete: 'cascade' }),
 });
@@ -115,7 +44,7 @@ export const conversations = pgTable('conversations', {
 	title: text('title').notNull(), // model settings like temperature, etc.
 	type: text('type').notNull().default('chat'),
 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-	userId: uuid('userId')
+	userId: text('userId')
 		.notNull()
 		.references(() => user.id, { onDelete: 'cascade' }),
 });
@@ -143,7 +72,7 @@ export const apiKeys = pgTable('apiKeys', {
 	name: text('name'),
 	provider: text('provider').notNull(),
 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-	userId: uuid('userId')
+	userId: text('userId')
 		.notNull()
 		.references(() => user.id, { onDelete: 'cascade' }),
 });
@@ -156,7 +85,7 @@ export const projects = pgTable('projects', {
 	settings: jsonb('settings'),
 	status: text('status').notNull().default('active'),
 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-	userId: uuid('userId')
+	userId: text('userId')
 		.notNull()
 		.references(() => user.id, { onDelete: 'cascade' }),
 });
@@ -173,7 +102,7 @@ export const prompts = pgTable('prompts', {
 	title: text('title').notNull(),
 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
 	usageCount: integer('usageCount').notNull().default(0),
-	userId: uuid('userId')
+	userId: text('userId')
 		.notNull()
 		.references(() => user.id, { onDelete: 'cascade' }),
 });
@@ -189,7 +118,7 @@ export const personas = pgTable('personas', {
 	name: text('name').notNull(),
 	tags: text('tags').array(),
 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-	userId: uuid('userId')
+	userId: text('userId')
 		.notNull()
 		.references(() => user.id, { onDelete: 'cascade' }),
 });
@@ -204,7 +133,7 @@ export const modelPresets = pgTable('modelPresets', {
 	provider: text('provider').notNull(),
 	settings: jsonb('settings').notNull(), // temperature, maxTokens, etc.
 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-	userId: uuid('userId')
+	userId: text('userId')
 		.notNull()
 		.references(() => user.id, { onDelete: 'cascade' }),
 });
@@ -219,7 +148,7 @@ export const connections = pgTable('connections', {
 	name: text('name').notNull(),
 	type: text('type').notNull(), // 'database', 'api', 'service', etc.
 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-	userId: uuid('userId')
+	userId: text('userId')
 		.notNull()
 		.references(() => user.id, { onDelete: 'cascade' }),
 });
@@ -233,7 +162,7 @@ export const mcps = pgTable('mcps', {
 	name: text('name').notNull(),
 	type: text('type').notNull(), // 'filesystem', 'database', 'api', etc.
 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-	userId: uuid('userId')
+	userId: text('userId')
 		.notNull()
 		.references(() => user.id, { onDelete: 'cascade' }),
 	version: text('version'),
@@ -251,7 +180,7 @@ export const sharedLinks = pgTable('sharedLinks', {
 	password: text('password'), // hashed password for protected links
 	slug: text('slug').notNull().unique(),
 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-	userId: uuid('userId')
+	userId: text('userId')
 		.notNull()
 		.references(() => user.id, { onDelete: 'cascade' }),
 	viewCount: integer('viewCount').notNull().default(0),
@@ -267,7 +196,7 @@ export const uploadedAttachments = pgTable('uploadedAttachments', {
 	path: text('path').notNull(), // storage path
 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
 	uploadedAt: timestamp('uploadedAt').notNull().defaultNow(),
-	userId: uuid('userId')
+	userId: text('userId')
 		.notNull()
 		.references(() => user.id, { onDelete: 'cascade' }),
 });
@@ -277,7 +206,7 @@ export const settingsConfig = pgTable('settingsConfig', {
 	id: uuid('id').primaryKey().defaultRandom(),
 	settings: jsonb('settings').notNull(), // all user settings as JSON
 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-	userId: uuid('userId')
+	userId: text('userId')
 		.notNull()
 		.references(() => user.id, { onDelete: 'cascade' })
 		.unique(), // one settings record per user
@@ -291,7 +220,7 @@ export const modelsConfig = pgTable('modelsConfig', {
 	model: text('model').notNull(),
 	provider: text('provider').notNull(),
 	updatedAt: timestamp('updatedAt').notNull().defaultNow(),
-	userId: uuid('userId')
+	userId: text('userId')
 		.notNull()
 		.references(() => user.id, { onDelete: 'cascade' }),
 });

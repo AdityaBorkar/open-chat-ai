@@ -31,8 +31,9 @@ export const {
 	signUp,
 	useSession,
 	// getSession,
-	// passkey,
-	// oneTap,
+	passkey,
+	oneTap,
+	useListPasskeys,
 } = authClient;
 
 // interface AuthContextType {

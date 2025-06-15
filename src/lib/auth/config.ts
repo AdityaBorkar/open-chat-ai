@@ -10,12 +10,13 @@ export const auth = betterAuth({
 	database: drizzleAdapter(db, { provider: 'pg', schema }),
 	plugins: [
 		passkey({
+			authenticatorSelection: {
+				residentKey: 'preferred',
+				userVerification: 'preferred',
+			},
 			origin: process.env.NEXT_PUBLIC_URL as string,
 			rpID: process.env.NEXT_PUBLIC_URL as string,
 			rpName: 'Converse AI',
-			// authenticatorSelection: {
-			// 	""
-			// }
 			// advanced
 			// schema
 		}),

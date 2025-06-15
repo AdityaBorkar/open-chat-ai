@@ -1,3 +1,4 @@
+import { createId } from '@paralleldrive/cuid2';
 import {
 	boolean,
 	integer,
@@ -14,7 +15,9 @@ export const user = pgTable('user', {
 	emailVerified: boolean('email_verified')
 		.$defaultFn(() => false)
 		.notNull(),
-	id: text('id').primaryKey(),
+	id: text('id')
+		.primaryKey()
+		.$defaultFn(() => createId()),
 	image: text('image'),
 	isAnonymous: boolean('is_anonymous'),
 	name: text('name').notNull(),
