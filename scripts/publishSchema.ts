@@ -1,16 +1,39 @@
-import { defineConfig } from 'drizzle-kit';
+import { schemaVersions } from '@/lib/db/schemas';
+import { client, db } from '@/lib/db/server';
+import { calculateChecksum } from './_sync/calculateChecksum';
+import { getSchema } from './_sync/drizzle/getSchema';
 
-// TODO: Generate local schema (with specific tables) using some kind of markup or comments or notes or metadata. think about it.
+async function _sync_public_new(): Promise<void> {
+	try {
+		// Generate Latest Schema
+		const { sql, tag } = await getSchema();
+		const checksum = calculateChecksum(sql);
 
-// READ JOURNAL
-// TODO: GENERATE SCHEMA SQL (NEW)
-// TODO: STORE IN DB -> MIGRATION SQL, SNAPSHOT, VERSION
+		// Get Active Version
+		// const latest = await getCurrentVersion();
+		// if (latest.checksum === checksum) {
+		// 	throw new Error('Same checksum');
+		// }
 
-const generateSchemaConfig = defineConfig({
-	dbCredentials: { url: process.env.SERVER_DB_URL as string },
-	dialect: 'postgresql',
-	out: './drizzle',
-	schema: './src/lib/db/schemas/index.ts',
-	strict: true,
-	verbose: true,
-});
+		const version = tag;
+
+		// Insert new schema version
+		await db.insert(schemaVersions).values({
+			checksum,
+			isActive: true,
+			sql,
+			version: tag,
+		});
+
+		return { checksum, sql };
+
+		console.log(`Schema version ${first_tag} published successfully`);
+	} catch (error) {
+		console.error('Error publishing schema:', error);
+		throw error;
+	} finally {
+		await client.end();
+	}
+}
+
+_sync_public_new();

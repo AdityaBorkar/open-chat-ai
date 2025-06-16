@@ -1,9 +1,8 @@
 'use client';
 
-import { useAtomValue } from 'jotai';
 import dynamic from 'next/dynamic';
 
-import { sidebarAtom } from '@/app/(app)/atoms';
+import Background from '@/components/Background';
 import { cn } from '@/lib/utils';
 
 const Sidebar = dynamic(
@@ -16,20 +15,13 @@ export default function ChatLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	const { open } = useAtomValue(sidebarAtom);
+	// const { open } = useAtomValue(sidebarAtom);
 	return (
-		<div className="flex h-screen flex-row">
-			<Sidebar />
-			<div
-				className={cn(
-					'grow border bg-bg-tertiary/30',
-					open
-						? 'my-2 mr-4 rounded-2xl border-border/50'
-						: 'm-0 border-border/0',
-				)}
-			>
-				{children}
+		<Background>
+			<div className="flex h-screen flex-row">
+				<Sidebar />
+				<div className={cn('grow')}>{children}</div>
 			</div>
-		</div>
+		</Background>
 	);
 }

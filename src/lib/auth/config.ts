@@ -3,7 +3,7 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { anonymous, oneTap } from 'better-auth/plugins';
 import { passkey } from 'better-auth/plugins/passkey';
 
-import * as schema from '../db/schemas/auth';
+import * as schema from '../db/schemas/_auth';
 import { db } from '../db/server';
 
 export const auth = betterAuth({

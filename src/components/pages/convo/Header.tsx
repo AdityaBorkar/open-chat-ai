@@ -4,7 +4,6 @@ import { useState } from 'react';
 import {
 	TbBook2,
 	TbChartBar,
-	TbCheck,
 	TbChevronDown,
 	TbDotsVertical,
 	TbFolderPlus,
@@ -14,14 +13,14 @@ import { toast } from 'sonner';
 
 import { sidebarAtom } from '@/app/(app)/atoms';
 import { Button } from '@/components/ui/Button';
-import {
-	Command,
-	CommandEmpty,
-	CommandGroup,
-	CommandInput,
-	CommandItem,
-	CommandList,
-} from '@/components/ui/command';
+// import {
+// 	Command,
+// 	CommandEmpty,
+// 	CommandGroup,
+// 	CommandInput,
+// 	CommandItem,
+// 	CommandList,
+// } from '@/components/ui/command';
 import {
 	Dialog,
 	DialogContent,
@@ -117,7 +116,7 @@ export function Header() {
 					</Button>
 				</PopoverTrigger>
 				<PopoverContent align="start" className="w-64 p-0">
-					<Command>
+					{/* <Command>
 						<CommandInput placeholder="Search folders..." />
 						<CommandList>
 							<CommandEmpty>
@@ -158,7 +157,7 @@ export function Header() {
 								))}
 							</CommandGroup>
 						</CommandList>
-					</Command>
+					</Command> */}
 				</PopoverContent>
 			</Popover>
 			<span className="text-lg text-text-secondary">/</span>

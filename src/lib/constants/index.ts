@@ -4,7 +4,7 @@ export const PRO_PLAN = {
 	std_credits: 1500,
 };
 
-export const SIDEBAR_DEFAULT_WIDTH = 260;
+export const SIDEBAR_DEFAULT_WIDTH = 300;
 export const SIDEBAR_MIN_WIDTH = 230;
 export const SIDEBAR_MAX_WIDTH = 500;
 

@@ -12,6 +12,8 @@ import {
 } from '@/lib/db/schemas/schema';
 import { db } from '@/lib/db/server';
 
+// TODO: RETURN INITIAL DATA. RIGHT NOW, POLL FOR CHANGES every 10 seconds, LATER ATTACH A WEBSOCKET CONNECTION.
+
 export async function GET(request: NextRequest) {
 	try {
 		// Authenticate the request
@@ -162,67 +164,5 @@ export async function GET(request: NextRequest) {
 	} catch (error) {
 		console.error('Data sync endpoint error:', error);
 		return NextResponse.json({ error: 'Failed to sync data' }, { status: 500 });
-	}
-}
-
-// Optional: Handle data upload from client to server
-export async function POST(request: NextRequest) {
-	try {
-		const session = await auth.api.getSession({
-			headers: request.headers,
-		});
-
-		if (!session?.user) {
-			return NextResponse.json(
-				{ error: 'Authentication required' },
-				{ status: 401 },
-			);
-		}
-
-		const body = await request.json();
-		const { data, tableName } = body;
-
-		// Security: Validate table name against allowed tables
-		const allowedTables = [
-			'folders',
-			'conversations',
-			'messages',
-			'prompts',
-			'personas',
-		];
-		if (!allowedTables.includes(tableName)) {
-			return NextResponse.json(
-				{ error: 'Invalid table name' },
-				{ status: 400 },
-			);
-		}
-
-		// Security: Ensure all records belong to the authenticated user
-		const userId = session.user.id;
-		const records = Array.isArray(data) ? data : [data];
-
-		for (const record of records) {
-			if (record.userId && record.userId !== userId) {
-				return NextResponse.json(
-					{ error: 'Unauthorized: Cannot modify other users data' },
-					{ status: 403 },
-				);
-			}
-			// Set userId for records that don't have it
-			record.userId = userId;
-		}
-
-		// This would implement upsert logic based on the table
-		// For now, return success response
-		return NextResponse.json({
-			message: `${records.length} records processed for ${tableName}`,
-			success: true,
-		});
-	} catch (error) {
-		console.error('Data upload endpoint error:', error);
-		return NextResponse.json(
-			{ error: 'Failed to upload data' },
-			{ status: 500 },
-		);
 	}
 }

@@ -5,12 +5,18 @@
 		"incremental": true,
 		"isolatedModules": true,
 		"jsx": "preserve",
-		"lib": ["dom", "dom.iterable", "esnext"],
+		"lib": [
+			"dom",
+			"dom.iterable",
+			"esnext"
+		],
 		"module": "esnext",
 		"moduleResolution": "bundler",
 		"noEmit": true,
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": [
+				"./src/*"
+			]
 		},
 		"plugins": [
 			{
@@ -23,6 +29,16 @@
 		"strictNullChecks": true,
 		"target": "ES2017"
 	},
-	"exclude": ["node_modules", "tsconfig.json"],
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"]
+	"exclude": [
+		"node_modules",
+		"tsconfig.json"
+	],
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		".next/types/**/*.ts",
+		"src/lib/db/schemas/_auth.ts",
+		"src/lib/db/schemas/.sync.ts"
+	]
 }

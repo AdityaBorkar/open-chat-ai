@@ -14,7 +14,7 @@ import {
 	type session,
 	user,
 	type verification,
-} from '@/lib/db/schemas/auth';
+} from '@/lib/db/schemas/_auth';
 
 // Chat application tables
 export const folders = pgTable('folders', {
@@ -264,3 +264,5 @@ export type SettingsConfig = typeof settingsConfig.$inferSelect;
 export type NewSettingsConfig = typeof settingsConfig.$inferInsert;
 export type ModelsConfig = typeof modelsConfig.$inferSelect;
 export type NewModelsConfig = typeof modelsConfig.$inferInsert;
+export type SchemaVersion = typeof schemaVersions.$inferSelect;
+export type NewSchemaVersion = typeof schemaVersions.$inferInsert;
