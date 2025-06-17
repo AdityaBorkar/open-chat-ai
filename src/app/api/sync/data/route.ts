@@ -9,7 +9,7 @@ import {
 	messages,
 	personas,
 	prompts,
-} from '@/lib/db/schemas/schema';
+} from '@/lib/db/schemas/conversations';
 import { db } from '@/lib/db/server';
 
 // TODO: RETURN INITIAL DATA. RIGHT NOW, POLL FOR CHANGES every 10 seconds, LATER ATTACH A WEBSOCKET CONNECTION.

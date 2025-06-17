@@ -1,7 +1,7 @@
 import { createId } from '@paralleldrive/cuid2';
 import { ArkErrors, type } from 'arktype';
 
-import { conversations } from '@/lib/db/schemas/schema';
+import { conversations } from '@/lib/db/schemas/conversations';
 import { db } from '@/lib/db/server';
 
 export async function createConvo() {
