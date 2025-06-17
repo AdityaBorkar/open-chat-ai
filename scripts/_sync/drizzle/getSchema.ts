@@ -1,10 +1,12 @@
 import { file } from 'bun';
 
-const DRIZZLE_PATH = './drizzle';
-
-export async function getSchema() {
+export async function getSchema({
+	DRIZZLE_OUT_PATH,
+}: {
+	DRIZZLE_OUT_PATH: string;
+}) {
 	// Get Journal
-	const journal = await file(`${DRIZZLE_PATH}/meta/_journal.json`).json();
+	const journal = await file(`${DRIZZLE_OUT_PATH}/meta/_journal.json`).json();
 
 	// File Validation
 	if (journal.version !== '7') {
@@ -31,6 +33,6 @@ export async function getSchema() {
 		throw new Error('Latest migration version is not supported');
 	}
 	const { tag } = latest_migration;
-	const sql = await file(`${DRIZZLE_PATH}/${tag}.sql`).text();
+	const sql = await file(`${DRIZZLE_OUT_PATH}/${tag}.sql`).text();
 	return { sql, tag };
 }

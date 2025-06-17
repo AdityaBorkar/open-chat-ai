@@ -79,7 +79,7 @@ export function Header() {
 		setExportOpen(false);
 	};
 
-	const handleFolderChange = (folderId: string) => {
+	const _handleFolderChange = (folderId: string) => {
 		const folder = folders.find((f) => f.id === folderId);
 		if (folder) {
 			// Update conversation atom with new folder

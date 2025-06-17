@@ -19,7 +19,7 @@ export function MessageAssistant({ message }: { message: AssistantMessage }) {
 			<div className="-left-16 absolute rounded-full border border-white/40 bg-white/15 px-2 py-0.5">
 				CO
 			</div>
-			<pre>{message.content}</pre>
+			<pre className="whitespace-pre-wrap">{message.content}</pre>
 			<div className="mt-4 flex w-fit flex-row gap-2 rounded-full bg-white/15 p-1">
 				<TbInfoCircle className="size-5" />
 				<TbRefresh className="size-5" />

@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { TbAB, TbShare } from 'react-icons/tb';
 
 import { MessageAssistant } from '@/components/pages/convo/messages/MessageAssistant';
@@ -17,14 +18,71 @@ const MESSAGES = [
 		timestamp: new Date().toISOString(),
 	},
 	{
-		content: `Integrating Webflow with Shippo using Make (formerly Integromat) and webhooks involves setting up an automated workflow that sends order details from Webflow to Shippo for label creation and shipping. Here's how to do it:  Step 1: Set Up Webflow Webhook in Make
+		content: `Integrating Webflow with Shippo using Make (formerly Integromat) and webhooks involves setting up an automated workflow that sends order details from Webflow to Shippo for label creation and shipping. Here's how to do it:Step 1: Set Up Webflow Webhook in Make
 \nLog into Webflow and go to Project Settings > Integrations.
 Scroll down to Webhooks and click Add Webhook.
 Select the event trigger, such as:
 Order Created (for eCommerce sites)
 Form Submission (if orders come via a form)
 Copy the Webhook URL from Make.`,
-		id: '2',
+		id: 'l2',
+		role: 'assistant',
+		timestamp: new Date().toISOString(),
+	},
+	{
+		content:
+			'how to integrate webflow with shippo using make automation webhook',
+		id: 'b1',
+		role: 'user',
+		timestamp: new Date().toISOString(),
+	},
+	{
+		content: `Integrating Webflow with Shippo using Make (formerly Integromat) and webhooks involves setting up an automated workflow that sends order details from Webflow to Shippo for label creation and shipping. Here's how to do it:Step 1: Set Up Webflow Webhook in Make
+\nLog into Webflow and go to Project Settings > Integrations.
+Scroll down to Webhooks and click Add Webhook.
+Select the event trigger, such as:
+Order Created (for eCommerce sites)
+Form Submission (if orders come via a form)
+Copy the Webhook URL from Make.`,
+		id: 'b2',
+		role: 'assistant',
+		timestamp: new Date().toISOString(),
+	},
+	{
+		content:
+			'how to integrate webflow with shippo using make automation webhook',
+		id: '1e',
+		role: 'user',
+		timestamp: new Date().toISOString(),
+	},
+	{
+		content: `Integrating Webflow with Shippo using Make (formerly Integromat) and webhooks involves setting up an automated workflow that sends order details from Webflow to Shippo for label creation and shipping. Here's how to do it:Step 1: Set Up Webflow Webhook in Make
+\nLog into Webflow and go to Project Settings > Integrations.
+Scroll down to Webhooks and click Add Webhook.
+Select the event trigger, such as:
+Order Created (for eCommerce sites)
+Form Submission (if orders come via a form)
+Copy the Webhook URL from Make.`,
+		id: 'e2',
+		role: 'assistant',
+		timestamp: new Date().toISOString(),
+	},
+	{
+		content:
+			'how to integrate webflow with shippo using make automation webhook',
+		id: '1q',
+		role: 'user',
+		timestamp: new Date().toISOString(),
+	},
+	{
+		content: `Integrating Webflow with Shippo using Make (formerly Integromat) and webhooks involves setting up an automated workflow that sends order details from Webflow to Shippo for label creation and shipping. Here's how to do it:Step 1: Set Up Webflow Webhook in Make
+\nLog into Webflow and go to Project Settings > Integrations.
+Scroll down to Webhooks and click Add Webhook.
+Select the event trigger, such as:
+Order Created (for eCommerce sites)
+Form Submission (if orders come via a form)
+Copy the Webhook URL from Make.`,
+		id: '2q',
 		role: 'assistant',
 		timestamp: new Date().toISOString(),
 	},
@@ -85,6 +143,25 @@ function ChatInterface({
 }) {
 	return (
 		<div className=" flex-1 space-y-6 overflow-auto pt-8 pb-72">
+			{/* Header */}
+			<div className="absolute top-4 right-8 z-30 flex items-center justify-between gap-2">
+				<div className="flex flex-row rounded-full bg-white/30">
+					<button className="p-2" type="button">
+						<TbShare className="size-5" />
+					</button>
+					<button className="p-2" type="button">
+						<TbAB className="size-5" />
+					</button>
+				</div>
+				<Link
+					className="size-8 rounded-full border border-white bg-white/50 text-center text-[#7D45E4]"
+					href="/settings"
+					prefetch={false}
+				>
+					<div className="text-lg leading-[1.9]">X</div>
+				</Link>
+			</div>
+
 			{/* Messages */}
 			<main className="mx-auto max-w-[48rem] px-4">
 				{messages.map((message, index) => {
@@ -107,15 +184,9 @@ function ChatInterface({
 				{/* <div ref={messagesEndRef} /> */}
 			</main>
 
-			<div className="absolute bottom-0 left-[calc(50%-24rem)] z-50 mx-auto w-[48rem]">
+			{/* User Input */}
+			<div className="absolute bottom-8 left-[calc(50%-24rem)] z-30 mx-auto w-[48rem]">
 				{/* <ScrollToBottom /> */}
-				{/* <div
-					className="absolute bottom-0 h-12 w-full "
-					style={{
-						background:
-							'linear-gradient(180deg, rgba(220, 196, 230, 0.00) 0%, #DCC4E6 100%)',
-					}}
-				/> */}
 				<UserInput />
 			</div>
 		</div>

@@ -7,7 +7,7 @@ import { db } from '@/lib/db/server';
 export async function createConvo() {
 	// TODO: Generate Temporary ID
 	// TODO: Stream Response from the API
-	const id = crypto.randomUUID();
+	const _id = crypto.randomUUID();
 
 	return {
 		success: true,

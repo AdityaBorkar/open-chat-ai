@@ -7,7 +7,7 @@ interface SchemaResponse {
 	isUpgradeNeeded: boolean;
 }
 
-async function applyMigration(
+async function _applyMigration(
 	migrationSql: string,
 	targetVersion: string,
 	checksum: string,

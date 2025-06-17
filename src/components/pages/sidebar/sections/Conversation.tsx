@@ -34,7 +34,7 @@ const list = [
 
 export function ConversationSection() {
 	const doNotGroupChats = true;
-	const folders = [
+	const _folders = [
 		{ color: 'blue', id: '1', name: 'Default' },
 		{ color: 'green', id: '2', name: 'Work' },
 	];
@@ -99,6 +99,7 @@ function ConvoItem({ convo }: { convo: Partial<Conversation> }) {
 			className="group relative mx-1 block text-clip rounded-lg px-2 py-2 font-medium text-base text-text-primary hover:bg-white/30"
 			href={`/convo/${convo.id}`}
 			key={convo.id}
+			prefetch={false}
 		>
 			<div className="overflow-hidden text-clip whitespace-nowrap bg-gradient-to-r from-[60%] from-text-primary to-transparent bg-clip-text text-transparent">
 				{convo.title}
@@ -121,7 +122,7 @@ function ConvoItem({ convo }: { convo: Partial<Conversation> }) {
 	);
 }
 
-function Icon({
+function _Icon({
 	icon: Icon,
 	className,
 }: {

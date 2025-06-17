@@ -1,8 +1,9 @@
+import { WorkerStatus } from '@/components/dev/WorkerStatus';
 import { cn } from '@/lib/utils';
 
 export default function TestPage() {
 	return (
-		<div className="flex h-screen w-screen flex-col items-center justify-center bg-[#D5D4EB]">
+		<div className="flex h-screen w-screen flex-col items-center justify-center gap-8 bg-[#D5D4EB] p-8">
 			<div
 				className={cn(
 					'size-16 rounded-full',
@@ -17,6 +18,8 @@ export default function TestPage() {
 					].join(', '),
 				}}
 			></div>
+
+			<WorkerStatus />
 		</div>
 	);
 }

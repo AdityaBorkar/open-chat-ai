@@ -3,7 +3,7 @@
 import { ReactScan } from '@/components/dev/ReactScan';
 
 import type { Metadata } from 'next';
-import { Figtree, Geist_Mono } from 'next/font/google';
+import { Inter, Geist_Mono } from 'next/font/google';
 import Script from 'next/script';
 
 import { ThemeProvider } from '@/components/theme/theme-provider';
@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils';
 
 import './globals.css';
 
-const fontSans = Figtree({
+const fontSans = Inter({
 	subsets: ['latin'],
 	variable: '--font-font-sans',
 });

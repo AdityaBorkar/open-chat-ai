@@ -1,8 +1,19 @@
+* Commands:
+"_sync check" -> check all files
+"_sync studio" -> Visualize Graph
+"_sync publish --new" -> generate a new migration
+"_sync publish --update" -> update the existing latest migration
+"_sync rollback -v 1.0.0" -> Cancel the version propagation
 
-// updatedAt
-// isDeleted
-// version
-// Triggers: Use PostgreSQL triggers to auto-update last_modified/version on INSERT/UPDATE.
+* Remember:
+
+Role of the ORM Adapter:
+- SQL generation
+- Migrations
+- Skew Protection
+
+
+Triggers: Use PostgreSQL triggers to auto-update last_modified/version on INSERT/UPDATE.
 
 // local-changes
 

@@ -13,13 +13,18 @@ export const clientSchemaVersions = pgTable('client_schema_versions', {
 	isRolledBack: boolean('isRolledBack').notNull().default(false),
 	snapshot: jsonb('snapshot').notNull(), // ! THIS TEXT-LIMIT IS NOT ADEQUATE FOR THE SQL
 	sql: text('sql').notNull(), // ! THIS TEXT-LIMIT IS NOT ADEQUATE FOR THE SQL
+	tag: text('tag').notNull(),
 	version: smallserial('version').primaryKey(),
 });
 
 export const clientMetadata = pgTable('client_metadata', {
+	key: text('key').notNull().primaryKey(),
+	value: text('value').notNull(),
+});
+
+export const clientLocalChanges = pgTable('client_local_changes', {
 	createdAt: timestamp('createdAt').notNull().defaultNow(),
-	lastSyncedAt: timestamp('lastSyncedAt'),
-	lastSyncedChecksum: text('lastSyncedChecksum'),
-	lastSyncedVersion: smallserial('lastSyncedVersion'),
-	serverVersion: text('serverVersion'),
+	data: jsonb('data').notNull(),
+	operation: text('operation').notNull(),
+	table: text('table').notNull(),
 });

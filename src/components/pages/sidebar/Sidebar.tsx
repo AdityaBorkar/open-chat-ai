@@ -18,7 +18,7 @@ enum SidebarSection {
 
 export function Sidebar() {
 	const { open, width } = useAtomValue(sidebarAtom);
-	const [section, setSection] = useState(SidebarSection.CONVERSATIONS);
+	const [_section, _setSection] = useState(SidebarSection.CONVERSATIONS);
 
 	return (
 		<>
@@ -49,6 +49,7 @@ export function Sidebar() {
 							'backdrop-blur-md',
 						)}
 						href="/"
+						prefetch={false}
 					>
 						<span className="mr-2 group-has-[&_input:focus]:hidden group-has-[&_input:not(:placeholder-shown)]:hidden">
 							New Conversation
