@@ -1,13 +1,7 @@
 import { useState } from 'react';
-import {
-	TbArrowUp,
-	TbBulb,
-	TbChevronDown,
-	TbGlobe,
-	TbMicrophone,
-	TbPaperclip,
-} from 'react-icons/tb';
+import { TbArrowUp, TbBulb, TbChevronDown, TbGlobe } from 'react-icons/tb';
 
+import { ToggleInput } from '@/components/ui/input/toggle';
 import { cn } from '@/lib/utils';
 
 const CONVERSATION_MODES = [
@@ -89,48 +83,12 @@ function DropdownButton({
 	);
 }
 
-interface ToggleButtonProps {
-	active?: boolean;
-	onClick?: () => void;
-	children: React.ReactNode;
-	className?: string;
-}
-
-function ToggleButton({
-	active = false,
-	onClick,
-	children,
-	className,
-}: ToggleButtonProps) {
-	return (
-		<button
-			className={cn(
-				'flex size-12 items-center justify-center rounded-full transition-colors',
-				active
-					? 'text-purple-700'
-					: 'bg-transparent text-neutral-600 hover:bg-white/20',
-				className,
-			)}
-			onClick={onClick}
-			type="button"
-		>
-			{children}
-		</button>
-	);
-}
-
 export default function UserInput() {
 	// const _isLoading = false;
 	const [selectedMode, setSelectedMode] = useState('chat');
 	const [selectedModel, setSelectedModel] = useState('gemini-4.0');
 	const [selectedPersona, setSelectedPersona] = useState('chatbot');
 	// const [_inputMessage, _setInputMessage] = useState('');
-
-	// Toggle states
-	const [lightbulbActive, setLightbulbActive] = useState(true);
-	const [globeActive, setGlobeActive] = useState(false);
-	const [attachActive, setAttachActive] = useState(true);
-	const [micActive, setMicActive] = useState(true);
 
 	const selectedModeLabel = CONVERSATION_MODES.find(
 		(m) => m.value === selectedMode,
@@ -142,7 +100,7 @@ export default function UserInput() {
 		(p) => p.value === selectedPersona,
 	)?.label;
 
-	const [showPlaceholder] = useState(false);
+	const [showPlaceholder] = useState(true);
 
 	return (
 		<div
@@ -161,6 +119,7 @@ export default function UserInput() {
 						'0px 0px 40px 0px rgba(0, 0, 0, 0.12), inset 0px 0px 32.9px 0px rgba(255, 255, 255, 1)',
 				}}
 			>
+				<textarea></textarea>
 				{showPlaceholder && (
 					<div className="mb-4 flex flex-wrap items-center gap-1.5 font-medium text-base">
 						<span className="text-purple-400">{selectedModeLabel}</span>
@@ -193,30 +152,21 @@ export default function UserInput() {
 					{/* Right side - Action buttons */}
 					<div className="flex items-center gap-1.5">
 						<div className="flex items-center">
-							<ToggleButton
-								active={lightbulbActive}
-								onClick={() => setLightbulbActive(!lightbulbActive)}
-							>
-								<TbBulb className="size-5" />
-							</ToggleButton>
-							<ToggleButton
-								active={globeActive}
-								onClick={() => setGlobeActive(!globeActive)}
-							>
-								<TbGlobe className="size-5" />
-							</ToggleButton>
-							<ToggleButton
+							<ToggleInput defaultValue={true} icon={TbBulb} />
+							<ToggleInput defaultValue={false} icon={TbGlobe} />
+							{/* <ToggleInput defaultValue={false} icon={TbGlobe} /> */}
+							{/* <ToggleButton
 								active={attachActive}
 								onClick={() => setAttachActive(!attachActive)}
-							>
+						>
 								<TbPaperclip className="size-5" />
-							</ToggleButton>
-							<ToggleButton
+							</ToggleButton> */}
+							{/* <ToggleButton
 								active={micActive}
 								onClick={() => setMicActive(!micActive)}
 							>
 								<TbMicrophone className="size-5" />
-							</ToggleButton>
+							</ToggleButton> */}
 						</div>
 						<button
 							className="ml-1.5 flex size-12 items-center justify-center rounded-full bg-purple-600 text-white transition-colors hover:bg-purple-700"

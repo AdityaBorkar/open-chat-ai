@@ -34,10 +34,10 @@ export const auth = betterAuth({
 		oneTap(),
 	],
 	session: {
-		// cookieCache: {
-		// 	enabled: true,
-		// 	maxAge: 60 * 60, // 1 hour
-		// },
+		cookieCache: {
+			enabled: true,
+			maxAge: 60 * 60, // 1 hour
+		},
 		expiresIn: 60 * 60 * 24 * 7, // 7 days
 		updateAge: 60 * 60 * 24, // 1 day
 	},
@@ -47,18 +47,6 @@ export const auth = betterAuth({
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
 		},
 	},
-	// user: {
-	// 	additionalFields: {
-	// 		bio: {
-	// 			required: false,
-	// 			type: 'string',
-	// 		},
-	// 		username: {
-	// 			required: false,
-	// 			type: 'string',
-	// 		},
-	// 	},
-	// },
 });
 
 export type Session = typeof auth.$Infer.Session.session;

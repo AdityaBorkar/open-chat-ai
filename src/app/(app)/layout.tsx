@@ -1,53 +1,93 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-
+import Background from '@/components/Background';
 import ShortcutGuide from '@/components/ShortcutGuide';
-import { Link } from '@/components/ui/Link';
-import { signIn, useSession } from '@/lib/auth/client';
+import { signIn } from '@/lib/auth/client';
+import { useAuth } from '@/lib/auth/useAuth';
 import { useDatabase } from '@/lib/db/client';
 
-const _AppLayout = dynamic(() => Promise.resolve(AppLayout), { ssr: false });
-export default _AppLayout;
+export default function NonOfflineLayout({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
+	const {
+		user,
+		isLoading: authLoading,
+		isOnline,
+		hasOfflineCredentials,
+		error: authError,
+	} = useAuth();
 
-function AppLayout({ children }: { children: React.ReactNode }) {
-	const auth = useSession();
-	const database = useDatabase({ userId: 'auth.data?.user.id' });
+	const database = useDatabase({ userId: user?.id });
 
-	if (auth.isPending) return <div>Auth Loading...</div>;
-	if (auth.data === null) {
-		// ! POSSIBLE INFINITE LOOP
+	// Show loading state while initializing
+	if (authLoading || database.isPending) {
+		return (
+			<Bg>
+				<div className="flex flex-col items-center gap-4">
+					<div>Loading...</div>
+					{!isOnline && (
+						<div className="flex items-center gap-2 text-muted-foreground text-sm">
+							<div className="h-2 w-2 rounded-full bg-red-500" />
+							<span>Offline Mode</span>
+						</div>
+					)}
+				</div>
+			</Bg>
+		);
+	}
+
+	// Show error state
+	if (authError || database.error) {
+		console.error('Auth Error:', authError);
+		console.error('Database Error:', database.error);
+		return (
+			<Bg>
+				<div className="flex flex-col items-center gap-4">
+					<div>Trouble loading the app. This must be fixed soon.</div>
+					{!isOnline && hasOfflineCredentials && (
+						<div className="text-muted-foreground text-sm">
+							Offline credentials available - try refreshing
+						</div>
+					)}
+				</div>
+			</Bg>
+		);
+	}
+
+	// Handle anonymous users (only if online or no offline credentials)
+	if (!user && (isOnline || !hasOfflineCredentials)) {
 		console.log('Signing in as Anonymous...');
 		signIn.anonymous();
-		return <div>Signing in as Anonymous...</div>;
+		return (
+			<Bg>
+				<div className="flex flex-col items-center gap-4">
+					<div>Signing in as Anonymous...</div>
+					{!isOnline && (
+						<div className="text-muted-foreground text-sm">
+							Running in offline mode
+						</div>
+					)}
+				</div>
+			</Bg>
+		);
 	}
-	if (auth.error)
-		return (
-			<div>
-				<div>
-					Could not not verify user. This is unusual and not expected. We have
-					reported the issue and shall fix it soon.
-				</div>
-				<Link href="/login?force=true">Go to Login</Link>
-			</div>
-		);
-
-	if (database.isPending) return <div>DB Loading...</div>;
-	if (database.error)
-		return (
-			<div>
-				<div>
-					Could not not connect to database. This is unusual and not expected.
-					We have reported the issue and shall fix it soon.
-				</div>
-			</div>
-		);
 
 	return (
 		<div>
 			{children}
-			{/* <OfflineScript /> */}
 			<ShortcutGuide />
 		</div>
+	);
+}
+
+function Bg({ children }: { children: React.ReactNode }) {
+	return (
+		<Background>
+			<div className="flex h-screen flex-col items-center justify-center">
+				{children}
+			</div>
+		</Background>
 	);
 }

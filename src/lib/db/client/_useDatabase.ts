@@ -1,84 +1,132 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 
 import { _setupDb } from '@/lib/db/client/_setupDb';
 import { _syncData } from '@/lib/db/client/_syncData';
+import { tryCatch } from '@/lib/tryCatch';
 
 const DATABASE_NAME = 'client-postgres';
 
-type DatabaseStatus = 'open' | 'migrating' | 'closed' | 'error';
+type DatabaseStatus = 'initializing' | 'open' | 'error';
 type SyncStatus = 'not-started' | 'in-progress' | 'in-sync' | 'error';
 
 interface DatabaseState {
 	dbStatus: DatabaseStatus;
-	syncStatus: SyncStatus;
 	error: Error | null;
 }
 
-export function useDatabase({ userId }: { userId?: string }) {
-	const [state, setState] = useState<DatabaseState>({
-		dbStatus: 'closed',
-		error: null,
-		syncStatus: 'not-started',
-	});
+// Global state management for database
+let dbState: DatabaseState = { dbStatus: 'initializing', error: null };
+let listeners: (() => void)[] = [];
+let initPromise: Promise<void> | null = null;
 
-	// Database setup effect with cleanup
-	useEffect(() => {
-		let isCancelled = false;
+function notifyListeners() {
+	listeners.forEach((callback) => callback());
+}
 
-		setState((prev) => ({ ...prev, dbStatus: 'migrating' }));
+function updateDbState(newState: Partial<DatabaseState>) {
+	dbState = { ...dbState, ...newState };
+	notifyListeners();
+}
 
-		// TODO: Add a AbortController
-		_setupDb({ name: DATABASE_NAME })
-			.then(() => {
-				if (!isCancelled) {
-					setState((prev) => ({ ...prev, dbStatus: 'open' }));
-				}
-			})
-			.catch((error) => {
-				if (!isCancelled) {
-					setState((prev) => ({ ...prev, dbStatus: 'error', error }));
-				}
+async function initializeDatabase() {
+	if (initPromise) return initPromise;
+
+	initPromise = (async () => {
+		try {
+			updateDbState({ dbStatus: 'initializing', error: null });
+
+			const PERF_START = performance.now();
+			const { error } = await tryCatch(_setupDb({ name: DATABASE_NAME }));
+			const PERF_END = performance.now();
+			console.log(`DATABASE INITIALIZATION TOOK ${PERF_END - PERF_START}ms`);
+
+			if (error) {
+				updateDbState({ dbStatus: 'error', error });
+			} else {
+				updateDbState({ dbStatus: 'open', error: null });
+			}
+		} catch (err) {
+			updateDbState({
+				dbStatus: 'error',
+				error:
+					err instanceof Error
+						? err
+						: new Error('Database initialization failed'),
 			});
+		}
+	})();
+
+	return initPromise;
+}
+
+// External store for database state
+const databaseStore = {
+	getServerSnapshot: () => dbState,
+	getSnapshot: (): DatabaseState => dbState,
+	subscribe: (callback: () => void) => {
+		listeners.push(callback);
+
+		// Start initialization if not already started
+		if (!initPromise) {
+			initializeDatabase();
+		}
 
 		return () => {
-			isCancelled = true;
+			listeners = listeners.filter((l) => l !== callback);
 		};
-	}, []);
+	},
+};
 
-	// Data sync effect with cleanup
+export function useDatabase({ userId }: { userId?: string }) {
+	const [sync, setSync] = useState<{ status: SyncStatus; error: Error | null }>(
+		{
+			error: null,
+			status: 'not-started',
+		},
+	);
+
+	const db = useSyncExternalStore(
+		databaseStore.subscribe,
+		databaseStore.getServerSnapshot,
+		databaseStore.getSnapshot,
+	);
+
 	useEffect(() => {
-		if (!userId) {
-			setState((prev) => ({ ...prev, syncStatus: 'not-started' }));
+		if (!userId || db.dbStatus !== 'open') {
+			setSync({ error: null, status: 'not-started' });
 			return;
 		}
 
-		let isCancelled = false;
+		let cancelled = false;
 
-		setState((prev) => ({ ...prev, syncStatus: 'in-progress' }));
+		async function syncData() {
+			if (cancelled) return;
 
-		// TODO: Add a AbortController
-		_syncData()
-			.then(() => {
-				if (!isCancelled) {
-					setState((prev) => ({ ...prev, syncStatus: 'in-sync' }));
-				}
-			})
-			.catch((error) => {
-				if (!isCancelled) {
-					setState((prev) => ({ ...prev, error, syncStatus: 'error' }));
-				}
-			});
+			setSync({ error: null, status: 'in-progress' });
+
+			const { error } = await tryCatch(_syncData());
+
+			if (!cancelled) {
+				const status = error ? 'error' : 'in-sync';
+				setSync({ error, status });
+			}
+		}
+
+		syncData();
 
 		return () => {
-			isCancelled = true;
+			cancelled = true;
 		};
-	}, [userId]);
+	}, [userId, db.dbStatus]);
 
 	return useMemo(
 		() => ({
-			...state,
-			isPending: !(state.syncStatus === 'in-sync' && state.dbStatus === 'open'),
+			dbStatus: db.dbStatus,
+			error: db.error || sync.error,
+			isPending: db.dbStatus !== 'open' || sync.status === 'in-progress',
+			isReady: db.dbStatus === 'open' && sync.status === 'in-sync',
+			syncStatus: sync.status,
 		}),
-		[state],
+		[db, sync],
 	);
 }

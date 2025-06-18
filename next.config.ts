@@ -1,14 +1,16 @@
 // import { fileURLToPath } from 'node:url';
-// import { createJiti } from 'jiti';
+// import createJiti from 'jiti';
 import type { NextConfig } from 'next';
 
-// const jiti = createJiti(fileURLToPath(import.meta.url));
-
 // Import env here to validate during build. Using jiti@^1 we can import .ts files :)
-// jiti('./app/env');
+// const jiti = createJiti(fileURLToPath(import.meta.url));
+// jiti('./env');
 
 const nextConfig: NextConfig = {
 	devIndicators: false,
+	experimental: {
+		reactCompiler: true,
+	},
 	async headers() {
 		return [
 			{
@@ -34,10 +36,7 @@ const nextConfig: NextConfig = {
 			},
 		];
 	},
-	transpilePackages: [
-		'@electric-sql/pglite-react', // Optional
-		'@electric-sql/pglite',
-	],
+	transpilePackages: ['@electric-sql/pglite-react', '@electric-sql/pglite'],
 };
 
 export default nextConfig;

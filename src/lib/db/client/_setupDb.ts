@@ -5,10 +5,6 @@ export async function _setupDb({ name }: { name: string }) {
 	const LOGS_PREFIX = `[DB:${name}]`;
 	console.log(LOGS_PREFIX, 'Setting up DB');
 
-	// Wait for client to be ready
-	await client.waitReady;
-	console.log(LOGS_PREFIX, 'Ready:', client.ready); // ! BUG: Returns `false`
-
 	// Check current schema version
 	const current = (await client
 		.query(

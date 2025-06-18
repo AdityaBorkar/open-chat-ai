@@ -18679,10 +18679,10 @@ async function q2(g5) {
 // src/app/~workers/db.worker.ts
 se3({
   async init() {
-    console.log("init");
-    return new qe2({
-      dataDir: "idb://converse-ai",
+    const pg = new qe2({
+      fs: new ee2("converse-ai"),
       relaxedDurability: true
     });
+    return pg;
   }
 });
