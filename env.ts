@@ -3,9 +3,8 @@ import { z } from 'zod';
 
 export const env = createEnv({
 	client: {
-		NEXT_PUBLIC_BETTER_AUTH_URL: z.string().min(1),
+		// NEXT_PUBLIC_BETTER_AUTH_URL: z.string().min(1), // Commented out for build
 	},
-	clientPrefix: 'NEXT_PUBLIC_',
 	emptyStringAsUndefined: true,
 	// runtimeEnv: process.env,
 	experimental__runtimeEnv: process.env,

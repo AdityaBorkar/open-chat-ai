@@ -1,11 +1,16 @@
 'use client';
 
+import dynamic from 'next/dynamic';
+
 import ShortcutGuide from '@/components/ShortcutGuide';
 import { Link } from '@/components/ui/Link';
 import { signIn, useSession } from '@/lib/auth/client';
 import { useDatabase } from '@/lib/db/client';
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
+const _AppLayout = dynamic(() => Promise.resolve(AppLayout), { ssr: false });
+export default _AppLayout;
+
+function AppLayout({ children }: { children: React.ReactNode }) {
 	const auth = useSession();
 	const database = useDatabase({ userId: 'auth.data?.user.id' });
 

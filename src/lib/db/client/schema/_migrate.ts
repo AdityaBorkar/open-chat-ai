@@ -1,74 +1,65 @@
-import { client } from '@/lib/db/client';
+// async function _applyMigration(
+// 	migrationSql: string,
+// 	targetVersion: string,
+// 	checksum: string,
+// ): Promise<void> {
+// 	// Security validation
+// 	if (!validateMigrationSql(migrationSql)) {
+// 		throw new Error('Migration contains potentially unsafe SQL operations');
+// 	}
 
-interface SchemaResponse {
-	version: string;
-	checksum: string;
-	migrationSql?: string;
-	isUpgradeNeeded: boolean;
-}
+// 	// Start transaction for atomic migration
+// 	await client.query('BEGIN');
 
-async function _applyMigration(
-	migrationSql: string,
-	targetVersion: string,
-	checksum: string,
-): Promise<void> {
-	// Security validation
-	if (!validateMigrationSql(migrationSql)) {
-		throw new Error('Migration contains potentially unsafe SQL operations');
-	}
+// 	try {
+// 		// Apply migration SQL
+// 		await client.query(migrationSql);
 
-	// Start transaction for atomic migration
-	await client.query('BEGIN');
+// 		// Record successful migration
+// 		await recordSchemaVersion(targetVersion, checksum, migrationSql);
 
-	try {
-		// Apply migration SQL
-		await client.query(migrationSql);
+// 		// Commit transaction
+// 		await client.query('COMMIT');
 
-		// Record successful migration
-		await recordSchemaVersion(targetVersion, checksum, migrationSql);
+// 		console.log(`Successfully migrated to schema version ${targetVersion}`);
+// 	} catch (error) {
+// 		// Rollback on error
+// 		await client.query('ROLLBACK');
+// 		console.error('Migration failed, rolled back:', error);
+// 		throw new Error(
+// 			`Migration failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+// 		);
+// 	}
+// }
 
-		// Commit transaction
-		await client.query('COMMIT');
+// // Security: Validate SQL for migrations (basic checks)
+// function validateMigrationSql(sql: string): boolean {
+// 	const dangerousPatterns = [
+// 		/drop\s+database/i,
+// 		/truncate\s+table/i,
+// 		/delete\s+from.*without.*where/i,
+// 		/grant\s+/i,
+// 		/revoke\s+/i,
+// 		/create\s+user/i,
+// 		/alter\s+user/i,
+// 		/--.*$/gm, // SQL comments
+// 		/\/\*[\s\S]*?\*\//g, // Block comments
+// 	];
 
-		console.log(`Successfully migrated to schema version ${targetVersion}`);
-	} catch (error) {
-		// Rollback on error
-		await client.query('ROLLBACK');
-		console.error('Migration failed, rolled back:', error);
-		throw new Error(
-			`Migration failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-		);
-	}
-}
+// 	return !dangerousPatterns.some((pattern) => pattern.test(sql));
+// }
 
-// Security: Validate SQL for migrations (basic checks)
-function validateMigrationSql(sql: string): boolean {
-	const dangerousPatterns = [
-		/drop\s+database/i,
-		/truncate\s+table/i,
-		/delete\s+from.*without.*where/i,
-		/grant\s+/i,
-		/revoke\s+/i,
-		/create\s+user/i,
-		/alter\s+user/i,
-		/--.*$/gm, // SQL comments
-		/\/\*[\s\S]*?\*\//g, // Block comments
-	];
-
-	return !dangerousPatterns.some((pattern) => pattern.test(sql));
-}
-
-// Record schema version after successful migration
-async function recordSchemaVersion(
-	version: string,
-	checksum: string,
-	migrationSql?: string,
-): Promise<void> {
-	await client.query(
-		`
-		INSERT INTO schema_versions (version, checksum, migration_sql)
-		VALUES ($1, $2, $3)
-	`,
-		[version, checksum, migrationSql || ''],
-	);
-}
+// // Record schema version after successful migration
+// async function recordSchemaVersion(
+// 	version: string,
+// 	checksum: string,
+// 	migrationSql?: string,
+// ): Promise<void> {
+// 	await client.query(
+// 		`
+// 		INSERT INTO schema_versions (version, checksum, migration_sql)
+// 		VALUES ($1, $2, $3)
+// 	`,
+// 		[version, checksum, migrationSql || ''],
+// 	);
+// }

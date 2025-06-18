@@ -1,25 +1,28 @@
 {
 	"tasks": [
 		{
-			"detail": "bun run dev",
 			"group": {
 				"isDefault": true,
 				"kind": "build"
 			},
+			"isBackground": true,
 			"label": "Dev: Server",
 			"problemMatcher": [],
-			"type": "shell"
+			"script": "dev",
+			"type": "npm"
 		},
 		{
-			"detail": "clear",
-			"group": {
-				"isDefault": true,
-				"kind": "build"
-			},
+			"isBackground": true,
 			"label": "Dev: DB",
 			"problemMatcher": [],
-			"script": "clear",
-			"type": "shell"
+			"script": "dev:start-db",
+			"type": "npm"
+		},
+		{
+			"dependsOn": ["Dev: DB", "Dev: Server"],
+			"dependsOrder": "sequence",
+			"label": "Dev: All",
+			"problemMatcher": []
 		}
 	],
 	"version": "2.0.0"

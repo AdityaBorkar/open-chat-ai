@@ -66,6 +66,8 @@
 	"scripts": {
 		"auth:generate": "bunx @better-auth/cli@latest generate --output src/lib/db/schemas/_auth.ts --config src/lib/auth/config.ts --y",
 		"build": "next build",
+		"clear": "rimraf .next node_modules",
+		"compile:worker": "bun run scripts/workers/index.ts",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
 		"db:publish": "drizzle-kit generate && bun run scripts/publishSchema.ts",
@@ -73,8 +75,10 @@
 		"db:studio": "drizzle-kit studio",
 		"dev": "next dev --turbopack",
 		"dev:start-db": "sudo systemctl start postgresql && sudo -u postgres psql",
+		"format": "biome check --write --unsafe",
 		"lint": "next lint",
-		"start": "next start"
+		"start": "next start",
+		"typecheck": "tsc --noEmit"
 	},
 	"trustedDependencies": [
 		"@tailwindcss/oxide",

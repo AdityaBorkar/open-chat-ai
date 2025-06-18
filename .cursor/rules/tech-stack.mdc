@@ -5,6 +5,19 @@ alwaysApply: true
 ---
 # Tech Stack
 
+## Biome Best Practices
+
+- Configure `biome.jsonc` for consistent code formatting and linting.
+- Integrate Biome into your CI/CD pipeline for automated checks.
+- Use Biome for linting, formatting, and organizing imports to maintain code quality.
+
+## ESLint Best Practices
+
+- Configure `eslint.config.mjs` to enforce code style and catch potential errors.
+- Use recommended ESLint configurations and extend them as needed.
+- Integrate ESLint into your development workflow for real-time feedback.
+- Resolve all linting errors and warnings before committing code.
+
 ## TypeScript Best Practices
 
 - Utilize strong typing for all variables, function parameters, and return types.
@@ -46,3 +59,26 @@ alwaysApply: true
 - Use only Tabler icons
 - Use `size` and `color` props for consistent icon styling across your application.
 - Wrap icons in a `<span>` or `<div>` with an `aria-label` for accessibility if the icon is purely decorative.
+
+
+## VS Code Tasks
+
+Defined in @.vscode/tasks.json:
+
+- **Dev: Server** → runs `npm run dev` (Next.js w/ Turbopack), background
+- **Dev: DB** → runs `npm run dev:start-db` (Postgres startup), background
+- **Dev: All** → sequence: Dev: DB → Dev: Server
+
+## Package.json Scripts
+
+Key entries in @package.json:
+
+- `dev` → `next dev --turbopack`
+- `dev:start-db` → `sudo systemctl start postgresql && sudo -u postgres psql`
+- `build`, `start` → production build & serve
+- `db:generate`, `db:migrate`, `db:push`, `db:studio` → Drizzle ORM workflows
+- `format` → `biome check --write --unsafe`
+- `lint` → `next lint`
+- `clear` → `rimraf .next node_modules`
+
+Pick the right npm script, understand which tasks run in the background.

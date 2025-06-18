@@ -1,4 +1,3 @@
-import { WorkerStatus } from '@/components/dev/WorkerStatus';
 import { cn } from '@/lib/utils';
 
 export default function TestPage() {
@@ -19,7 +18,7 @@ export default function TestPage() {
 				}}
 			></div>
 
-			<WorkerStatus />
+			{/* <WorkerStatus /> */}
 		</div>
 	);
 }

@@ -34,23 +34,10 @@ const nextConfig: NextConfig = {
 			},
 		];
 	},
-	serverExternalPackages: ['@electric-sql/pglite'],
-	webpack: (config, { isServer, dev }) => {
-		if (!isServer) {
-			// Handle worker files properly
-			config.output.globalObject = 'self';
-
-			// Resolve worker imports
-			config.resolve.fallback = {
-				...config.resolve.fallback,
-				crypto: false,
-				fs: false,
-				path: false,
-			};
-		}
-
-		return config;
-	},
+	transpilePackages: [
+		'@electric-sql/pglite-react', // Optional
+		'@electric-sql/pglite',
+	],
 };
 
 export default nextConfig;

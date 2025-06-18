@@ -1,7 +1,6 @@
 import { useAtomValue } from 'jotai';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 import { TbPlus, TbSearch } from 'react-icons/tb';
 
 import { sidebarAtom } from '@/app/(app)/atoms';
@@ -11,14 +10,8 @@ import { LibrarySection } from '@/components/pages/sidebar/sections/Library';
 import { Tabs } from '@/components/ui/Tabs';
 import { cn } from '@/lib/utils';
 
-enum SidebarSection {
-	CONVERSATIONS = 'conversations',
-	LIBRARY = 'library',
-}
-
 export function Sidebar() {
 	const { open, width } = useAtomValue(sidebarAtom);
-	const [_section, _setSection] = useState(SidebarSection.CONVERSATIONS);
 
 	return (
 		<>

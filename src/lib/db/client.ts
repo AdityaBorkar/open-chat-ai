@@ -1,88 +1,30 @@
-import 'client-only';
+import 'client-only'; // !  BUG - This is not working as expected
 
+import type { PGlite } from '@electric-sql/pglite';
 import { PGliteWorker } from '@electric-sql/pglite/worker';
-// import { drizzle } from 'drizzle-orm/pglite';
-import { useEffect, useState } from 'react';
+import { drizzle, type PgliteDatabase } from 'drizzle-orm/pglite';
 
-import { _setupDb } from '@/lib/db/client/_setupDb';
-import { _syncData } from '@/lib/db/client/_syncData';
-// import * as schema from './schemas/index';
+import * as schema from './schemas/index';
 
-export const client = new PGliteWorker(
-	new Worker(new URL('./db-worker.ts', import.meta.url), {
-		name: 'pglite-worker',
+const worker =
+	typeof window !== 'undefined' &&
+	new window.Worker('/workers/db.worker.js', {
+		name: 'db-worker',
 		type: 'module',
-	}),
-	{
-		dataDir: 'idb://converse-ai',
-		id: 'converse-ai-db',
-		meta: {
-			appName: 'T3 Chat',
-			version: '1.0.0',
-		},
-	},
-);
+	});
 
-// export const db = drizzle(client, { schema });
+if (worker)
+	worker.onerror = (err) => {
+		console.error(err);
+	};
 
-// ----
+export const client = (worker &&
+	new PGliteWorker(worker)) as unknown as PGliteWorker;
 
-const DATABASE_NAME = 'client-postgres';
+export const db = (worker &&
+	// @ts-expect-error - Type error
+	drizzle(client, { schema })) as unknown as PgliteDatabase<
+	typeof schema & { $client: PGlite }
+>;
 
-type DatabaseStatus = 'open' | 'migrating' | 'closed' | 'error';
-type SyncStatus = 'not-started' | 'in-progress' | 'in-sync' | 'error';
-export function useDatabase({ userId }: { userId?: string }) {
-	const [isPending, setIsPending] = useState(true);
-	const [dbStatus, setDbStatus] = useState<DatabaseStatus>('closed');
-	const [syncStatus, setSyncStatus] = useState<SyncStatus>('not-started');
-	const [error, setError] = useState<Error | null>(null);
-	const [isLeader, setIsLeader] = useState(false);
-
-	useEffect(() => {
-		// Subscribe to leader changes
-		const unsubscribe = client.onLeaderChange(() => {
-			setIsLeader(client.isLeader);
-		});
-
-		// Set initial leader state
-		setIsLeader(client.isLeader);
-
-		return unsubscribe;
-	}, []);
-
-	useEffect(() => {
-		setDbStatus('migrating');
-		_setupDb({ name: DATABASE_NAME })
-			.then(() => {
-				setDbStatus('open');
-			})
-			.catch((err) => {
-				setError(err);
-				setDbStatus('error');
-				setIsPending(false);
-			});
-	}, []);
-
-	useEffect(() => {
-		if (!userId) return;
-		setSyncStatus('in-progress');
-		_syncData()
-			.then(() => {
-				setSyncStatus('in-sync');
-			})
-			.catch((err) => {
-				setError(err);
-				setSyncStatus('error');
-			});
-	}, [userId]);
-
-	useEffect(() => {
-		if (dbStatus === 'open' && syncStatus === 'in-sync') {
-			setIsPending(false);
-		} else {
-			setIsPending(true);
-		}
-	}, [dbStatus, syncStatus]);
-
-	return { dbStatus, error, isLeader, isPending, syncStatus };
-}
+export * from './client/_useDatabase';

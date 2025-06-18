@@ -3,6 +3,7 @@ import { defineConfig } from 'drizzle-kit';
 export default defineConfig({
 	dbCredentials: { url: process.env.SERVER_DB_URL as string },
 	dialect: 'postgresql',
+	// driver: 'pglite',
 	migrations: {
 		schema: 'public',
 		table: 'drizzle_migrations',

@@ -17,10 +17,10 @@ export async function GET(request: NextRequest) {
 	// Request Validation
 	const { searchParams } = new URL(request.url);
 	const data = schema({
-		// @ts-expect-error
+		// @ts-expect-error - parseInt requires string but arktype doesn't have proper number parsing
 		from: searchParams.get('from') ? parseInt(searchParams.get('from')) : null, // TODO: ARKTYPE SUPPORT
 		name: searchParams.get('name'),
-		// @ts-expect-error
+		// @ts-expect-error - parseInt requires string but arktype doesn't have proper number parsing
 		to: searchParams.get('to') ? parseInt(searchParams.get('to')) : null, // TODO: ARKTYPE SUPPORT
 	});
 	if (data instanceof ArkErrors) {

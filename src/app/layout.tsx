@@ -4,11 +4,7 @@ import { ReactScan } from '@/components/dev/ReactScan';
 
 import type { Metadata } from 'next';
 import { Inter, Geist_Mono } from 'next/font/google';
-import Script from 'next/script';
-
-import { ThemeProvider } from '@/components/theme/theme-provider';
 import { APP } from '@/lib/constants';
-import { getThemeClass } from '@/lib/theme-utils';
 import { cn } from '@/lib/utils';
 
 import './globals.css';
@@ -39,20 +35,23 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const themeClass = await getThemeClass();
+	// const themeClass = await getThemeClass();
 	const flags = { reactScan: true };
 	return (
-		<ThemeProvider>
-			<html className={themeClass} lang="en">
-				{flags.reactScan && <ReactScan />}
-				<body
-					className={cn(
-						fontSans.variable,
-						fontMono.variable,
-						'dark min-h-screen bg-background text-base text-foreground antialiased',
-					)}
-				>
-					<Script
+		// <ThemeProvider>
+		<html
+			lang="en"
+			//  className={themeClass}
+		>
+			{flags.reactScan && <ReactScan />}
+			<body
+				className={cn(
+					fontSans.variable,
+					fontMono.variable,
+					'dark min-h-screen bg-background text-base text-foreground antialiased',
+				)}
+			>
+				{/* <Script
 						// biome-ignore lint/security/noDangerouslySetInnerHtml: Custom Script
 						dangerouslySetInnerHTML={{
 							__html: `
@@ -71,10 +70,10 @@ export default async function RootLayout({
 						}}
 						id="theme-script"
 						strategy="beforeInteractive"
-					/>
-					{children}
-				</body>
-			</html>
-		</ThemeProvider>
+					/> */}
+				{children}
+			</body>
+		</html>
+		// </ThemeProvider>
 	);
 }

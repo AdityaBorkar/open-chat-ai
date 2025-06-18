@@ -1,9 +1,7 @@
 import Link from 'next/link';
-import type { IconType } from 'react-icons';
 import { TbPin, TbTrash } from 'react-icons/tb';
 
 import Title from '@/components/pages/sidebar/Title';
-import { cn } from '@/lib/utils';
 
 const list = [
 	{
@@ -34,10 +32,10 @@ const list = [
 
 export function ConversationSection() {
 	const doNotGroupChats = true;
-	const _folders = [
-		{ color: 'blue', id: '1', name: 'Default' },
-		{ color: 'green', id: '2', name: 'Work' },
-	];
+	// const _folders = [
+	// 	{ color: 'blue', id: '1', name: 'Default' },
+	// 	{ color: 'green', id: '2', name: 'Work' },
+	// ];
 	const pinned_list = list;
 	const convo_list = doNotGroupChats
 		? [{ list, title: 'All Conversations' }]
@@ -122,12 +120,12 @@ function ConvoItem({ convo }: { convo: Partial<Conversation> }) {
 	);
 }
 
-function _Icon({
-	icon: Icon,
-	className,
-}: {
-	icon: IconType;
-	className?: string;
-}) {
-	return <Icon className={cn('-mt-1 mr-1.5 inline-block size-4', className)} />;
-}
+// function _Icon({
+// 	icon: Icon,
+// 	className,
+// }: {
+// 	icon: IconType;
+// 	className?: string;
+// }) {
+// 	return <Icon className={cn('-mt-1 mr-1.5 inline-block size-4', className)} />;
+// }

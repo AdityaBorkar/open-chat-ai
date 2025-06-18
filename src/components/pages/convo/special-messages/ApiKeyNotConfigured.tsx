@@ -1,3 +1,13 @@
+import { Button } from '@/components/ui/Button';
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '@/components/ui/dialog';
+
 export default function ApiKeyNotConfigured() {
 	// TODO: Set Spend Limit
 
@@ -5,7 +15,9 @@ export default function ApiKeyNotConfigured() {
 	return (
 		<div>
 			<div className="mx-auto w-lg rounded-lg border border-border p-4 text-center">
-				<div>"Gemini 2.5 Pro" requires an API Key to be configured.</div>
+				<div>
+					&quot;Gemini 2.5 Pro&quot; requires an API Key to be configured.
+				</div>
 				<div className="mt-12 flex flex-row gap-2">
 					<div>
 						Switch Model (open model picker)

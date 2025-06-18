@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { TbCloudOff, TbWifi, TbWifiOff } from 'react-icons/tb';
+import { TbCloudBolt, TbCloudOff, TbWifi, TbWifiOff } from 'react-icons/tb';
 
 import { type OfflineStatus, swManager } from '@/lib/service-worker';
 import { cn } from '@/lib/utils';
@@ -24,8 +24,6 @@ export function OfflineIndicator({
 	const [isVisible, setIsVisible] = useState(false);
 
 	useEffect(() => {
-		let cleanup: (() => void) | undefined;
-
 		const updateStatus = async () => {
 			const currentStatus = await swManager.getOfflineStatus();
 			setStatus(currentStatus);
@@ -65,7 +63,7 @@ export function OfflineIndicator({
 		// Periodic status updates
 		const interval = setInterval(updateStatus, 10000); // Every 10 seconds
 
-		cleanup = () => {
+		const cleanup = () => {
 			window.removeEventListener('online', () => handleOnlineStatus(true));
 			window.removeEventListener('offline', () => handleOnlineStatus(false));
 			clearInterval(interval);
@@ -81,7 +79,7 @@ export function OfflineIndicator({
 			return <TbWifiOff className="size-4" />;
 		}
 		if (status.pendingSync > 0) {
-			return <TbSync className="size-4 animate-spin" />;
+			return <TbCloudBolt className="size-4 animate-spin" />;
 		}
 		return <TbWifi className="size-4" />;
 	};
@@ -131,6 +129,7 @@ export function OfflineIndicator({
 					<button
 						className="rounded px-2 py-1 text-xs hover:bg-white/10"
 						onClick={() => swManager.forceSync()}
+						type="button"
 					>
 						Retry
 					</button>
@@ -205,13 +204,13 @@ export function OfflineBanner() {
 				{isOffline ? (
 					<TbCloudOff className="size-5 flex-shrink-0" />
 				) : (
-					<TbSync className="size-5 flex-shrink-0 animate-spin" />
+					<TbCloudBolt className="size-5 flex-shrink-0 animate-spin" />
 				)}
 
 				<div className="flex-1">
 					{isOffline ? (
 						<div>
-							<div className="font-medium">You're offline</div>
+							<div className="font-medium">You are offline</div>
 							{pendingCount > 0 && (
 								<div className="text-sm opacity-90">
 									{pendingCount} message{pendingCount > 1 ? 's' : ''} will sync
@@ -230,8 +229,9 @@ export function OfflineBanner() {
 				<button
 					className="flex-shrink-0 rounded p-1 hover:bg-white/10"
 					onClick={() => setIsVisible(false)}
+					type="button"
 				>
-					×
+					*
 				</button>
 			</div>
 		</div>

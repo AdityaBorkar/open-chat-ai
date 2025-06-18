@@ -120,11 +120,11 @@ function ToggleButton({
 }
 
 export default function UserInput() {
-	const isLoading = false;
+	// const _isLoading = false;
 	const [selectedMode, setSelectedMode] = useState('chat');
 	const [selectedModel, setSelectedModel] = useState('gemini-4.0');
 	const [selectedPersona, setSelectedPersona] = useState('chatbot');
-	const [inputMessage, setInputMessage] = useState('');
+	// const [_inputMessage, _setInputMessage] = useState('');
 
 	// Toggle states
 	const [lightbulbActive, setLightbulbActive] = useState(true);
@@ -142,7 +142,7 @@ export default function UserInput() {
 		(p) => p.value === selectedPersona,
 	)?.label;
 
-	const [showPlaceholder, setShowPlaceholder] = useState(false);
+	const [showPlaceholder] = useState(false);
 
 	return (
 		<div

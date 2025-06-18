@@ -1,13 +1,9 @@
-import { createId } from '@paralleldrive/cuid2';
 import { ArkErrors, type } from 'arktype';
-
-import { conversations } from '@/lib/db/schemas/conversations';
-import { db } from '@/lib/db/server';
 
 export async function createConvo() {
 	// TODO: Generate Temporary ID
 	// TODO: Stream Response from the API
-	const _id = crypto.randomUUID();
+	// const _id = crypto.randomUUID();
 
 	return {
 		success: true,
@@ -22,20 +18,20 @@ const _NewConversation = type({
 
 export async function $createConvo({
 	convo,
-	question,
+	// question,
 }: {
 	convo: string;
-	question: string;
+	// question: string;
 }) {
 	'use server';
-	const userId = 'get from better-auth';
+	// const userId = 'get from better-auth';
 
 	let convo_data = _NewConversation(convo);
 	if (convo_data instanceof ArkErrors) {
 		convo_data = { folderId: undefined, tags: [], type: 'chat' };
 	}
 
-	db.insert(conversations).values({ id: createId(), ...convo_data, userId });
+	// db.insert(conversations).values({ id: createId(), ...convo_data, userId });
 
 	// TODO: Resumable Stream
 	// '/api/chat/ID' = Return 2 Streams {title, response}

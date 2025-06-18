@@ -138,7 +138,7 @@ function ChatInterface({
 	messages,
 	isLoading,
 }: {
-	messages: ChatMessage[];
+	messages: readonly ChatMessage[];
 	isLoading: boolean;
 }) {
 	return (
@@ -175,8 +175,22 @@ function ChatInterface({
 							)}
 							key={message.id}
 						>
-							<MessageUser message={message} />
-							{reply && <MessageAssistant message={reply} />}
+							<MessageUser
+								message={
+									message as unknown as Parameters<
+										typeof MessageUser
+									>[0]['message']
+								}
+							/>
+							{reply && (
+								<MessageAssistant
+									message={
+										reply as unknown as Parameters<
+											typeof MessageAssistant
+										>[0]['message']
+									}
+								/>
+							)}
 							{isLoading && <TypingIndicator />}
 						</div>
 					);

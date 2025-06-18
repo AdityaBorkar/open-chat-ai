@@ -11,7 +11,7 @@ const openai = new OpenAI({
 	defaultHeaders: REFERRER_HEADERS,
 });
 
-export async function GET(_request: Request) {
+export async function GET(/*_request: Request*/) {
 	const completion = await openai.chat.completions.create({
 		messages: [
 			{

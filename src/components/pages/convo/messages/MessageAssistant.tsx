@@ -19,7 +19,15 @@ export function MessageAssistant({ message }: { message: AssistantMessage }) {
 			<div className="-left-16 absolute rounded-full border border-white/40 bg-white/15 px-2 py-0.5">
 				CO
 			</div>
-			<pre className="whitespace-pre-wrap">{message.content}</pre>
+			<pre className="whitespace-pre-wrap">
+				{typeof message.content === 'string'
+					? message.content
+					: Array.isArray(message.content)
+						? message.content
+								.map((part) => (part.type === 'text' ? part.text : ''))
+								.join('')
+						: ''}
+			</pre>
 			<div className="mt-4 flex w-fit flex-row gap-2 rounded-full bg-white/15 p-1">
 				<TbInfoCircle className="size-5" />
 				<TbRefresh className="size-5" />

@@ -116,26 +116,6 @@ export function PasskeyAuth() {
 					Enable Conditional UI
 				</button>
 			</div>
-
-			<div className="text-gray-600 text-sm">
-				<h3 className="mb-2 font-semibold">How to use:</h3>
-				<ol className="list-inside list-decimal space-y-1">
-					<li>First sign in with your existing method (GitHub/Google)</li>
-					<li>
-						Click "Add Passkey" to register a new passkey for your account
-					</li>
-					<li>Use "Sign in with Passkey" for future logins</li>
-					<li>"Enable Conditional UI" allows browser autofill for passkeys</li>
-				</ol>
-			</div>
-
-			<div className="text-gray-500 text-xs">
-				<p>
-					<strong>Note:</strong> Passkeys require HTTPS in production and modern
-					browser support. For conditional UI, add{' '}
-					<code>autocomplete="webauthn"</code> to your input fields.
-				</p>
-			</div>
 		</div>
 	);
 }

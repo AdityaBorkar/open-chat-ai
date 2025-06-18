@@ -3,10 +3,11 @@ import type { clientSchemaVersions } from '@/lib/db/schemas';
 
 export async function _setupDb({ name }: { name: string }) {
 	const LOGS_PREFIX = `[DB:${name}]`;
+	console.log(LOGS_PREFIX, 'Setting up DB');
 
 	// Wait for client to be ready
 	await client.waitReady;
-	console.log(LOGS_PREFIX, 'Ready:', client.ready);
+	console.log(LOGS_PREFIX, 'Ready:', client.ready); // ! BUG: Returns `false`
 
 	// Check current schema version
 	const current = (await client
@@ -56,8 +57,10 @@ export async function _setupDb({ name }: { name: string }) {
 			: `Setting up schema ${latest.version}`,
 	);
 
-	const commands: (string | { query: string; params: any[] })[] =
-		latest.sql.split('--> statement-breakpoint');
+	const commands: (
+		| string
+		| { query: string; params: (string | number | boolean | null | Date)[] }
+	)[] = latest.sql.split('--> statement-breakpoint');
 	commands.push({
 		params: [
 			latest.checksum,

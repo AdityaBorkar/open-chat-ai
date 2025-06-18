@@ -1,4 +1,4 @@
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import {
@@ -36,13 +36,13 @@ import {
 } from '@/components/ui/popover';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { cn } from '@/lib/utils';
-import { configAtom, conversationAtom, foldersAtom } from './atoms';
+import { configAtom, conversationAtom } from './atoms';
 
 export function Header() {
 	const { statsForNerds } = useAtomValue(configAtom);
 	const { open } = useAtomValue(sidebarAtom);
 	const conversation = useAtomValue(conversationAtom);
-	const [folders] = useAtom(foldersAtom);
+	// const [folders] = useAtom(foldersAtom);
 	const router = useRouter();
 	const [exportOpen, setExportOpen] = useState(false);
 	const [deleteOpen, setDeleteOpen] = useState(false);
@@ -79,13 +79,13 @@ export function Header() {
 		setExportOpen(false);
 	};
 
-	const _handleFolderChange = (folderId: string) => {
-		const folder = folders.find((f) => f.id === folderId);
-		if (folder) {
-			// Update conversation atom with new folder
-			toast(`Moved to ${folder.name} folder`);
-		}
-	};
+	// const _handleFolderChange = (folderId: string) => {
+	// 	const folder = folders.find((f) => f.id === folderId);
+	// 	if (folder) {
+	// 		// Update conversation atom with new folder
+	// 		toast(`Moved to ${folder.name} folder`);
+	// 	}
+	// };
 
 	// const handleCreateFolder = (folderName: string) => {
 	// 	const newFolder: Folder = {
