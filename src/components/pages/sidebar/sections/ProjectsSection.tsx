@@ -74,9 +74,7 @@ export function ProjectsSection() {
 		}
 	};
 
-	const openProject = (project: Project) => {
-		console.log(`Opening project: ${project.name}`);
-	};
+	const openProject = (_project: Project) => {};
 
 	return (
 		<div className="relative">
@@ -147,7 +145,7 @@ export function ProjectsSection() {
 												<div className="flex items-center gap-1">
 													<div
 														className={`h-2 w-2 rounded-full ${getStatusColor(project.status)}`}
-													></div>
+													/>
 													<span className="text-pink-200/70 text-xs">
 														{getStatusText(project.status)}
 													</span>

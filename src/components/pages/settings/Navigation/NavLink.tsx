@@ -19,10 +19,14 @@ export function NavLink({
 
 	// Find the first occurrence of shortKey in label and highlight it
 	const highlightShortKey = (text: string, key: string) => {
-		if (!isAltPressed) return text;
+		if (!isAltPressed) {
+			return text;
+		}
 
 		const keyIndex = text.toLowerCase().indexOf(key.toLowerCase());
-		if (keyIndex === -1) return text;
+		if (keyIndex === -1) {
+			return text;
+		}
 
 		const before = text.slice(0, keyIndex);
 		const highlighted = text.slice(keyIndex, keyIndex + 1);

@@ -1,119 +1,108 @@
 'use client';
 
 import { redirect } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
+import Background from '@/components/Background';
 import { Button } from '@/components/ui/Button';
-import { Link } from '@/components/ui/Link';
-import { useAuth } from '@/lib/auth/useAuth';
+import { useNetworkStatus } from '@/hooks/useNetworkStatus';
+import { signIn, useSession } from '@/lib/auth/client';
+import { tryCatch } from '@/lib/tryCatch';
+
+type SigningInState = {
+	error: Error | null;
+	provider: string | null;
+	isPending: boolean;
+};
+
+// TODO: Offline Support, Passkeys, Multiple Sessions, hCAPTCHA, ?force=signout
 
 export default function LoginPage() {
-	const {
-		isAuthenticated,
-		isLoading,
-		isOnline,
-		hasOfflineCredentials,
-		login,
-		error,
-	} = useAuth();
+	const { online } = useNetworkStatus();
+	const { session } = useSession();
+	if (session.data?.user && !session.data?.user.isAnonymous) {
+		redirect('/');
+	}
 
-	const [isSigningIn, setIsSigningIn] = useState(false);
-	const [authError, setAuthError] = useState<string | null>(null);
+	const [signingIn, setSigningIn] = useState<SigningInState>({
+		error: null,
+		isPending: false,
+		provider: null,
+	});
 
-	// Redirect if already authenticated
-	if (isAuthenticated) redirect('/');
-
-	// Auto-login with stored credentials
-	useEffect(() => {
-		if (!isAuthenticated && hasOfflineCredentials && !isOnline) {
-			handleAutoLogin();
-		}
-
-		async function handleAutoLogin() {
-			const { success, error } = await login({ mediation: 'silent' });
-			if (!success && error) {
-				console.log('Auto-login failed:', error.message);
-			}
-		}
-	}, [isAuthenticated, hasOfflineCredentials, isOnline, login]);
+	// const onSuccess = useCallback(() => {
+	// 	console.log('onSuccess');
+	// 	// TODO: Store credentials
+	// 	redirect('/');
+	// }, []);
 
 	const handleGoogleSignIn = async () => {
-		setIsSigningIn(true);
-		setAuthError(null);
-
-		const { success, error } = await login();
-
-		if (!success && error) {
-			setAuthError(error.message);
+		// TODO: Handle offline login
+		if (!online) {
+			return;
 		}
 
-		setIsSigningIn(false);
+		const provider = 'google';
+		setSigningIn({ error: null, isPending: true, provider });
+		const { error } = await tryCatch(signIn.social({ provider: 'google' }));
+		setSigningIn({ error, isPending: false, provider });
 	};
 
-	const handleOfflineLogin = async () => {
-		setIsSigningIn(true);
-		setAuthError(null);
-
-		const { success, error } = await login({ force: true });
-
-		if (!success && error) {
-			setAuthError(error.message);
+	const handleGuestSignIn = async () => {
+		if (session.data?.user.isAnonymous) {
+			redirect('/');
 		}
 
-		setIsSigningIn(false);
+		// TODO: Handle offline login
+		if (!online) {
+			return;
+		}
+
+		const provider = 'guest';
+		setSigningIn({ error: null, isPending: true, provider });
+		const { error } = await tryCatch(signIn.anonymous({}));
+		setSigningIn({ error, isPending: false, provider });
 	};
+
+	// useEffect(() => {
+	// 	if (online) {
+	// 		oneTap({ fetchOptions: { onSuccess } });
+	// 	}
+	// }, [online, onSuccess]);
 
 	return (
 		<div className="flex h-screen w-screen items-center justify-center">
-			<div className="mx-auto flex w-md flex-col gap-4 rounded-xl border border-border/20 px-6 py-4">
-				<div className="mb-6 text-center font-semibold text-xl">Login</div>
+			{session.isPending ? (
+				<Background>Loading...</Background>
+			) : (
+				<div className="mx-auto flex w-md flex-col gap-4 rounded-xl border border-border/20 px-6 py-4">
+					<div className="mb-6 text-center font-semibold text-xl">Login</div>
 
-				{/* Online Status Indicator */}
-				<div className="flex items-center justify-center gap-2 text-sm">
-					<div
-						className={`h-2 w-2 rounded-full ${isOnline ? 'bg-green-500' : 'bg-red-500'}`}
-					/>
-					<span className="text-muted-foreground">
-						{isOnline ? 'Online' : 'Offline'}
-					</span>
-				</div>
-
-				{/* Error Display */}
-				{(authError || error) && (
-					<div className="rounded-md bg-red-50 p-3 text-red-700 text-sm">
-						{authError || error?.message}
-					</div>
-				)}
-
-				{/* Google Sign In Button */}
-				<Button
-					disabled={isSigningIn || isLoading}
-					onClick={handleGoogleSignIn}
-				>
-					{isSigningIn ? 'Signing in...' : 'Sign in with Google'}
-				</Button>
-
-				{/* Offline Login Button */}
-				{!isOnline && hasOfflineCredentials && (
 					<Button
-						disabled={isSigningIn || isLoading}
-						onClick={handleOfflineLogin}
+						className="data-[not-allowed=true]:cursor-not-allowed"
+						data-not-allowed={signingIn.isPending || !online}
+						disabled={signingIn.provider === 'google' && signingIn.isPending}
+						onClick={handleGoogleSignIn}
 						variant="shadow"
 					>
-						{isSigningIn ? 'Signing in...' : 'Use Offline Credentials'}
+						{signingIn.provider === 'google' && signingIn.isPending
+							? 'Signing in...'
+							: 'Sign in with Google'}
 					</Button>
-				)}
 
-				{/* Guest Option */}
-				<Link href="/">Continue as Guest</Link>
-
-				{/* Offline Credentials Info */}
-				{hasOfflineCredentials && (
-					<div className="mt-4 text-center text-muted-foreground text-xs">
-						✓ Offline credentials available
-					</div>
-				)}
-			</div>
+					<Button
+						className="data-[not-allowed=true]:cursor-not-allowed"
+						data-not-allowed={signingIn.isPending || !online}
+						disabled={signingIn.provider === 'guest' && signingIn.isPending}
+						onClick={handleGuestSignIn}
+						variant="shadow"
+					>
+						{signingIn.provider === 'guest' && signingIn.isPending
+							? 'Signing in...'
+							: 'Continue as Guest'}
+					</Button>
+				</div>
+			)}
 		</div>
 	);
 }

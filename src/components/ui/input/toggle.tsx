@@ -1,32 +1,56 @@
 import { useState } from 'react';
+import type { FieldValues, Path, UseFormRegister } from 'react-hook-form';
 
-import { cn } from '@/lib/utils';
-
-interface ToggleInputProps {
+interface ToggleInputProps<T extends FieldValues = FieldValues> {
 	className?: string;
 	defaultValue?: boolean;
 	icon: React.ElementType;
+	name: Path<T>;
+	register?: UseFormRegister<T>;
+	value?: boolean;
+	onChange?: (value: boolean) => void;
 }
 
-export function ToggleInput({
-	defaultValue = false,
+export function ToggleInput<T extends FieldValues = FieldValues>({
 	icon: Icon,
+	name,
+	defaultValue = false,
+	register,
+	value,
+	onChange,
 	className,
-}: ToggleInputProps) {
-	const [active, setActive] = useState(defaultValue);
+}: ToggleInputProps<T>) {
+	const [isToggled, setIsToggled] = useState(defaultValue);
+	const currentValue = value !== undefined ? value : isToggled;
+
+	const handleToggle = () => {
+		const newValue = !currentValue;
+		setIsToggled(newValue);
+		onChange?.(newValue);
+	};
+
 	return (
-		<button
-			className={cn(
-				'flex size-12 items-center justify-center rounded-full transition-colors',
-				active
-					? 'text-purple-700'
-					: 'bg-transparent text-neutral-600 hover:bg-white/20',
-				className,
+		<div className="relative">
+			{register && (
+				<input
+					{...register(name)}
+					checked={currentValue}
+					className="sr-only"
+					onChange={handleToggle}
+					type="checkbox"
+				/>
 			)}
-			onClick={() => setActive(!active)}
-			type="button"
-		>
-			<Icon className="size-5" />
-		</button>
+			<button
+				className={`flex size-10 items-center justify-center rounded-full transition-colors ${
+					currentValue
+						? 'bg-purple-100 text-purple-700 hover:bg-purple-200'
+						: 'text-neutral-600 hover:bg-white/20'
+				} ${className}`}
+				onClick={handleToggle}
+				type="button"
+			>
+				<Icon className="size-5" />
+			</button>
+		</div>
 	);
 }

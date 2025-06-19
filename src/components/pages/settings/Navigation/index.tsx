@@ -1,6 +1,4 @@
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useHotkeys } from 'react-hotkeys-hook';
 import { TbExternalLink } from 'react-icons/tb';
 
 import { SETTINGS_NAVIGATION } from '@/components/pages/settings/Navigation/constants';
@@ -34,19 +32,18 @@ export function Navigation() {
 	}, [isAltPressed]);
 
 	// ALT + shortkey combinations for navigation
-	const router = useRouter();
-	for (const { href, shortKey } of SETTINGS_NAVIGATION) {
-		// eslint-disable-next-line
-		useHotkeys(`alt+${shortKey}`, () => {
-			router.push(`/settings${href}`);
-			// setTimeout(() => {
-			// 	const firstFocusable = mainContentRef.current?.querySelector(
-			// 		'input, select, textarea, button, a, [tabindex]:not([tabindex="-1"])',
-			// 	) as HTMLElement;
-			// 	firstFocusable?.focus();
-			// }, 100);
-		});
-	}
+	// const router = useRouter();
+	// for (const { href, shortKey } of SETTINGS_NAVIGATION) {
+	// 	useHotkeys(`alt+${shortKey}`, () => {
+	// 		router.push(`/settings${href}`);
+	// 		// setTimeout(() => {
+	// 		// 	const firstFocusable = mainContentRef.current?.querySelector(
+	// 		// 		'input, select, textarea, button, a, [tabindex]:not([tabindex="-1"])',
+	// 		// 	) as HTMLElement;
+	// 		// 	firstFocusable?.focus();
+	// 		// }, 100);
+	// 	});
+	// }
 
 	return (
 		<nav className="flex w-56 flex-col gap-1 rounded-l-3xl border border-border/30 bg-bg-secondary/50 p-4">

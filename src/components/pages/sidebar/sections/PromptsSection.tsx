@@ -44,10 +44,7 @@ export function PromptsSection() {
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [prompts] = useState<Prompt[]>(samplePrompts);
 
-	const toggleStarred = (promptId: string) => {
-		// In a real app, this would update the database
-		console.log(`Toggle starred for prompt ${promptId}`);
-	};
+	const toggleStarred = (_promptId: string) => {};
 
 	// const usePrompt = (prompt: Prompt) => {
 	// 	// In a real app, this would apply the prompt to the chat

@@ -105,9 +105,7 @@ async function handleApiRequest(request) {
 		}
 
 		throw new Error(`HTTP ${networkResponse.status}`);
-	} catch (error) {
-		console.log('Network failed, trying cache:', error);
-
+	} catch (_error) {
 		// Try cache if network fails
 		const cachedResponse = await cache.match(request);
 		if (cachedResponse) {
@@ -162,9 +160,7 @@ async function handleNavigationRequest(request) {
 			cache.put(request, networkResponse.clone());
 			return networkResponse;
 		}
-	} catch (error) {
-		console.log('Navigation request failed:', error);
-	}
+	} catch (_error) {}
 
 	// Try cache
 	const cache = await caches.open(CACHE_NAMES.runtime);
@@ -196,9 +192,7 @@ async function handleStaticAsset(request) {
 			cache.put(request, networkResponse.clone());
 			return networkResponse;
 		}
-	} catch (error) {
-		console.log('Failed to fetch static asset:', error);
-	}
+	} catch (_error) {}
 
 	// Return fallback or cached version
 	return (
@@ -232,14 +226,12 @@ async function storeFailedRequest(request) {
 				});
 			});
 		});
-	} catch (error) {
-		console.error('Failed to store request for sync:', error);
-	}
+	} catch (_error) {}
 }
 
 // Get offline page HTML
 function getOfflinePage() {
-	const offlineHTML = `
+	const offlineHtml = `
 		<!DOCTYPE html>
 		<html>
 			<head>
@@ -289,15 +281,15 @@ function getOfflinePage() {
 				</style>
 			</head>
 			<body>
-				<div class="offline-container">
-					<div class="offline-icon">📡</div>
+				<div className="offline-container">
+					<div className="offline-icon">📡</div>
 					<h1>You're Offline</h1>
 					<p>Don't worry! Your conversations are saved locally and will sync when you're back online.</p>
-					<div class="status" id="sync-status">
+					<div className="status" id="sync-status">
 						<span id="pending-count">0</span> messages pending sync
 					</div>
-					<a href="/" class="btn">Try Again</a>
-					<button onclick="window.location.reload()" class="btn">Reload</button>
+					<Link href="/" className="btn">Try Again</a>
+					<button onclick="window.location.reload()" className="btn">Reload</button>
 				</div>
 				<script>
 					// Check for pending messages
@@ -313,7 +305,7 @@ function getOfflinePage() {
 		</html>
 	`;
 
-	return new Response(offlineHTML, {
+	return new Response(offlineHtml, {
 		headers: { 'Content-Type': 'text/html' },
 	});
 }
@@ -331,7 +323,9 @@ async function syncFailedRequests() {
 		const stored = localStorage.getItem('failed-requests') || '[]';
 		const failedRequests = JSON.parse(stored);
 
-		if (failedRequests.length === 0) return;
+		if (failedRequests.length === 0) {
+			return;
+		}
 
 		const syncedRequests = [];
 
@@ -356,9 +350,7 @@ async function syncFailedRequests() {
 						});
 					});
 				}
-			} catch (error) {
-				console.error('Failed to sync request:', error);
-			}
+			} catch (_error) {}
 		}
 
 		// Remove synced requests
@@ -366,9 +358,7 @@ async function syncFailedRequests() {
 			(req) => !syncedRequests.includes(req),
 		);
 		localStorage.setItem('failed-requests', JSON.stringify(remainingRequests));
-	} catch (error) {
-		console.error('Background sync failed:', error);
-	}
+	} catch (_error) {}
 }
 
 // Listen for client messages
@@ -387,12 +377,11 @@ self.addEventListener('message', (event) => {
 	}
 
 	if (event.data && event.data.type === 'FORCE_SYNC') {
-		syncFailedRequests();
+		syncFailedRequests().catch((error) => {
+			console.error(error);
+		});
 	}
 });
-
-// Debug logging
-console.log('T3 Chat Service Worker loaded');
 
 // Export for debugging
 self.CACHE_NAMES = CACHE_NAMES;

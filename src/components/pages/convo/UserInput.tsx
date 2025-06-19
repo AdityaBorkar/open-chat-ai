@@ -1,94 +1,20 @@
-import { useState } from 'react';
-import { TbArrowUp, TbBulb, TbChevronDown, TbGlobe } from 'react-icons/tb';
+import { TbArrowUp, TbBulb, TbTelescope, TbWorld } from 'react-icons/tb';
 
 import { ToggleInput } from '@/components/ui/input/toggle';
-import { cn } from '@/lib/utils';
-
-const CONVERSATION_MODES = [
-	{ label: 'Chat', value: 'chat' },
-	{ label: 'Generate', value: 'generate' },
-	{ label: 'Talk', value: 'talk' },
-	{ label: 'Assist', value: 'assist' },
-];
-
-const MODEL_LIST = [
-	{ label: 'Gemini 4.0', value: 'gemini-4.0' },
-	{ label: 'Gemini 2.5 Pro (Exp)', value: 'gemini-2.5-pro-exp' },
-	{ label: 'Gemini 2.5 Flash', value: 'gemini-2.5-flash' },
-];
-
-const PERSONA_LIST = [
-	{ label: 'Chatbot', value: 'chatbot' },
-	{ label: 'Doctor', value: 'doctor' },
-	{ label: 'Professor', value: 'professor' },
-	{ label: 'Philosopher', value: 'philosopher' },
-];
-
-interface DropdownButtonProps {
-	value: string;
-	options: Array<{ label: string; value: string }>;
-	onChange: (value: string) => void;
-	className?: string;
-}
-
-function DropdownButton({
-	value,
-	options,
-	onChange,
-	className,
-}: DropdownButtonProps) {
-	const [isOpen, setIsOpen] = useState(false);
-	const selectedOption = options.find((opt) => opt.value === value);
-
-	return (
-		<div className="relative">
-			<button
-				className={cn(
-					'flex items-center gap-1 rounded-full bg-white px-4 py-2 font-semibold text-base text-black',
-					'border border-white/20 backdrop-blur-sm',
-					className,
-				)}
-				onClick={() => setIsOpen(!isOpen)}
-				style={{
-					boxShadow: 'inset 0px 0px 16px 0px rgba(242, 242, 242, 1)',
-				}}
-				type="button"
-			>
-				{selectedOption?.label}
-				<TbChevronDown className="size-6" />
-			</button>
-			{isOpen && (
-				<div className="absolute top-full left-0 z-10 mt-2 min-w-full rounded-2xl border border-white/30 bg-white/75 p-2.5 shadow-lg backdrop-blur-md">
-					{options.map((option) => (
-						<button
-							className={cn(
-								'w-full rounded-lg px-1.5 py-2 text-left font-medium text-base',
-								value === option.value
-									? 'bg-black/5 text-black'
-									: 'text-black hover:bg-black/5',
-							)}
-							key={option.value}
-							onClick={() => {
-								onChange(option.value);
-								setIsOpen(false);
-							}}
-							type="button"
-						>
-							{option.label}
-						</button>
-					))}
-				</div>
-			)}
-		</div>
-	);
-}
+import { type ConvoFormData, useConvoForm } from '@/hooks/useConvoForm';
+import { CONVERSATION_MODES, MODEL_LIST, PERSONA_LIST } from './constants';
+import { DropdownButton } from './DropdownButton';
 
 export default function UserInput() {
-	// const _isLoading = false;
-	const [selectedMode, setSelectedMode] = useState('chat');
-	const [selectedModel, setSelectedModel] = useState('gemini-4.0');
-	const [selectedPersona, setSelectedPersona] = useState('chatbot');
-	// const [_inputMessage, _setInputMessage] = useState('');
+	const { register, handleSubmit, watch, setValue } = useConvoForm();
+
+	// Watch form values for display
+	const selectedMode = watch('mode');
+	const selectedModel = watch('model');
+	const selectedPersona = watch('persona');
+	const thinking = watch('thinking');
+	const webSearch = watch('webSearch');
+	const research = watch('research');
 
 	const selectedModeLabel = CONVERSATION_MODES.find(
 		(m) => m.value === selectedMode,
@@ -100,83 +26,97 @@ export default function UserInput() {
 		(p) => p.value === selectedPersona,
 	)?.label;
 
-	const [showPlaceholder] = useState(true);
+	function onSubmit(_data: ConvoFormData) {
+		// Handle form submission here
+	}
 
 	return (
-		<div
-			className="relative z-20 mb-8 rounded-[26px] border border-white/20 p-2 backdrop-blur-2xl"
+		<form
+			className="relative z-20 mb-8 rounded-[26px] border border-white/20 bg-white/25 p-2 backdrop-blur-2xl"
+			onSubmit={handleSubmit(onSubmit)}
 			style={{
-				background: 'rgba(255, 255, 255, 0.24)',
 				boxShadow:
 					'0px 0px 11px 0px rgba(0, 0, 0, 0.08), inset -1px -1px 0px 0px rgba(242, 242, 242, 1), inset 1px 1px 0px 0px rgba(242, 242, 242, 1)',
 			}}
 		>
 			<div
-				className="rounded-[18px] border-[3px] border-white/50 bg-white/60 p-4 backdrop-blur-2xl"
+				className="relative rounded-[18px] border-2 border-white/50 bg-white/60 backdrop-blur-2xl"
 				style={{
-					background: 'rgba(255, 255, 255, 0.6)',
 					boxShadow:
 						'0px 0px 40px 0px rgba(0, 0, 0, 0.12), inset 0px 0px 32.9px 0px rgba(255, 255, 255, 1)',
 				}}
 			>
-				<textarea></textarea>
-				{showPlaceholder && (
-					<div className="mb-4 flex flex-wrap items-center gap-1.5 font-medium text-base">
-						<span className="text-purple-400">{selectedModeLabel}</span>
-						<span className="text-gray-500">with</span>
-						<span className="text-purple-400">{selectedModelLabel}</span>
-						<span className="text-gray-500">as</span>
-						<span className="text-purple-400">{selectedPersonaLabel}</span>
-					</div>
-				)}
+				<textarea
+					{...register('message')}
+					className="peer min-h-24 w-full resize-none border-none bg-transparent p-4 font-medium text-base text-black focus:outline-none"
+					placeholder=""
+				/>
+				<div className="pointer-events-none absolute top-4 left-4 hidden flex-wrap items-center gap-1.5 font-medium text-base peer-placeholder-shown:flex">
+					<span className="text-purple-400">{selectedModeLabel}</span>
+					<span className="text-gray-500">with</span>
+					<span className="text-purple-400">{selectedModelLabel}</span>
+					<span className="text-gray-500">as</span>
+					<span className="text-purple-400">{selectedPersonaLabel}</span>
+				</div>
 
-				<div className="flex items-end justify-between">
+				<div className="mx-4 mt-2 mb-4 flex items-end justify-between">
 					<div className="flex items-center gap-3">
-						<DropdownButton
-							onChange={setSelectedMode}
+						<DropdownButton<ConvoFormData>
+							name="mode"
+							onChange={(value) => setValue('mode', value)}
 							options={CONVERSATION_MODES}
+							register={register}
 							value={selectedMode}
 						/>
-						<DropdownButton
-							onChange={setSelectedModel}
+						<DropdownButton<ConvoFormData>
+							name="model"
+							onChange={(value) => setValue('model', value)}
 							options={MODEL_LIST}
+							register={register}
 							value={selectedModel}
 						/>
-						<DropdownButton
-							onChange={setSelectedPersona}
+						<DropdownButton<ConvoFormData>
+							name="persona"
+							onChange={(value) => setValue('persona', value)}
 							options={PERSONA_LIST}
+							register={register}
+							side="top"
 							value={selectedPersona}
 						/>
 					</div>
 
 					{/* Right side - Action buttons */}
-					<div className="flex items-center gap-1.5">
-						<div className="flex items-center">
-							<ToggleInput defaultValue={true} icon={TbBulb} />
-							<ToggleInput defaultValue={false} icon={TbGlobe} />
-							{/* <ToggleInput defaultValue={false} icon={TbGlobe} /> */}
-							{/* <ToggleButton
-								active={attachActive}
-								onClick={() => setAttachActive(!attachActive)}
-						>
-								<TbPaperclip className="size-5" />
-							</ToggleButton> */}
-							{/* <ToggleButton
-								active={micActive}
-								onClick={() => setMicActive(!micActive)}
-							>
-								<TbMicrophone className="size-5" />
-							</ToggleButton> */}
-						</div>
+					<div className="flex items-center">
+						<ToggleInput<ConvoFormData>
+							icon={TbBulb}
+							name="thinking"
+							onChange={(value) => setValue('thinking', value)}
+							register={register}
+							value={thinking}
+						/>
+						<ToggleInput<ConvoFormData>
+							icon={TbWorld}
+							name="webSearch"
+							onChange={(value) => setValue('webSearch', value)}
+							register={register}
+							value={webSearch}
+						/>
+						<ToggleInput<ConvoFormData>
+							icon={TbTelescope}
+							name="research"
+							onChange={(value) => setValue('research', value)}
+							register={register}
+							value={research}
+						/>
 						<button
-							className="ml-1.5 flex size-12 items-center justify-center rounded-full bg-purple-600 text-white transition-colors hover:bg-purple-700"
-							type="button"
+							className="ml-2 flex size-8 items-center justify-center rounded-full bg-purple-600 text-white transition-colors hover:bg-purple-700"
+							type="submit"
 						>
 							<TbArrowUp className="size-5" />
 						</button>
 					</div>
 				</div>
 			</div>
-		</div>
+		</form>
 	);
 }

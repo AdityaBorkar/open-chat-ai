@@ -7,7 +7,6 @@ export default function DangerZone() {
 			'This will permanently delete all your chat history. This action cannot be undone. Are you sure?',
 		);
 		if (confirmClear) {
-			console.log('Clearing all history');
 			// TODO: Implement actual clearing
 			alert('All history cleared (Demo mode)');
 		}

@@ -29,16 +29,17 @@ function updateDbState(newState: Partial<DatabaseState>) {
 }
 
 async function initializeDatabase() {
-	if (initPromise) return initPromise;
+	if (initPromise) {
+		return initPromise;
+	}
 
 	initPromise = (async () => {
 		try {
 			updateDbState({ dbStatus: 'initializing', error: null });
 
-			const PERF_START = performance.now();
+			const _PerfStart = performance.now();
 			const { error } = await tryCatch(_setupDb({ name: DATABASE_NAME }));
-			const PERF_END = performance.now();
-			console.log(`DATABASE INITIALIZATION TOOK ${PERF_END - PERF_START}ms`);
+			const _PerfEnd = performance.now();
 
 			if (error) {
 				updateDbState({ dbStatus: 'error', error });
@@ -77,7 +78,7 @@ const databaseStore = {
 	},
 };
 
-export function useDatabase({ userId }: { userId?: string }) {
+export function useDatabase() {
 	const [sync, setSync] = useState<{ status: SyncStatus; error: Error | null }>(
 		{
 			error: null,
@@ -92,7 +93,7 @@ export function useDatabase({ userId }: { userId?: string }) {
 	);
 
 	useEffect(() => {
-		if (!userId || db.dbStatus !== 'open') {
+		if (db.dbStatus !== 'open') {
 			setSync({ error: null, status: 'not-started' });
 			return;
 		}
@@ -100,7 +101,9 @@ export function useDatabase({ userId }: { userId?: string }) {
 		let cancelled = false;
 
 		async function syncData() {
-			if (cancelled) return;
+			if (cancelled) {
+				return;
+			}
 
 			setSync({ error: null, status: 'in-progress' });
 
@@ -117,7 +120,7 @@ export function useDatabase({ userId }: { userId?: string }) {
 		return () => {
 			cancelled = true;
 		};
-	}, [userId, db.dbStatus]);
+	}, [db.dbStatus]);
 
 	return useMemo(
 		() => ({

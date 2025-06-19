@@ -1,11 +1,12 @@
 'use client';
 
-import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useMemo, useRef } from 'react';
 import { TbAB, TbShare } from 'react-icons/tb';
 
 import { MessageAssistant } from '@/components/pages/convo/messages/MessageAssistant';
 import { MessageUser } from '@/components/pages/convo/messages/MessageUser';
-import TypingIndicator from '@/components/pages/convo/messages/TypingIndicator';
+import ScrollToBottom from '@/components/pages/convo/ScrollToBottom';
 import UserInput from '@/components/pages/convo/UserInput';
 import { cn } from '@/lib/utils';
 
@@ -88,12 +89,15 @@ Copy the Webhook URL from Make.`,
 	},
 ] as const;
 
-type ChatMessage = (typeof MESSAGES)[number];
-
 export default function ChatPage() {
-	const messages = MESSAGES;
-	const isLoading = false;
-	const showRightSidebar = false;
+	const { id } = useParams();
+	const { isPending, data: messages } = {
+		data: [] as (typeof MESSAGES)[number][], // MESSAGES
+		isPending: false,
+	};
+
+	const IsMessagesEmpty = useMemo(() => messages.length === 0, [messages]);
+	const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
 	// <div>Token Count, Thinking Budgets, System Instructions, Memories and Personalized Information</div>
 	// Attachments:
@@ -101,72 +105,24 @@ export default function ChatPage() {
 	// Record Audio
 	// Camera / Webcam
 	// Share Screen
-
 	// Stream (Gemini) - LIVE CHAT
 
+	if (isPending) {
+		return <div>Loading...</div>;
+	}
 	return (
 		<div className="relative flex h-full flex-row">
-			{/* <Header /> */}
-
-			{/* Chat Controls */}
-			<aside className="absolute top-4 right-8 flex items-center justify-between gap-2">
-				<div className="flex flex-row rounded-full bg-white/30">
-					<button className="p-2" type="button">
-						<TbShare className="size-5" />
-					</button>
-					<button className="p-2" type="button">
-						<TbAB className="size-5" />
-					</button>
-				</div>
-				<div className="size-8 rounded-full border border-white bg-white/50 text-center text-[#7D45E4]">
-					<div className="text-lg leading-[1.9]">X</div>
-				</div>
-			</aside>
-
-			{/* Chat Interface */}
-			<ChatInterface isLoading={isLoading} messages={messages} />
-
-			{/* Right Sidebar */}
-			{showRightSidebar && (
-				<aside>{/* Document Outline / Artifacts / Bookmarks / Notes */}</aside>
-			)}
-		</div>
-	);
-}
-
-function ChatInterface({
-	messages,
-	isLoading,
-}: {
-	messages: readonly ChatMessage[];
-	isLoading: boolean;
-}) {
-	return (
-		<div className=" flex-1 space-y-6 overflow-auto pt-8 pb-72">
 			{/* Header */}
-			<div className="absolute top-4 right-8 z-30 flex items-center justify-between gap-2">
-				<div className="flex flex-row rounded-full bg-white/30">
-					<button className="p-2" type="button">
-						<TbShare className="size-5" />
-					</button>
-					<button className="p-2" type="button">
-						<TbAB className="size-5" />
-					</button>
-				</div>
-				<Link
-					className="size-8 rounded-full border border-white bg-white/50 text-center text-[#7D45E4]"
-					href="/settings"
-					prefetch={false}
-				>
-					<div className="text-lg leading-[1.9]">X</div>
-				</Link>
-			</div>
+			{id && <ChatHeader />}
 
 			{/* Messages */}
 			<main className="mx-auto max-w-[48rem] px-4">
+				{IsMessagesEmpty && <ChatPlaceholder />}
 				{messages.map((message, index) => {
 					const reply = messages[index + 1];
-					if (index % 2 === 1) return null;
+					if (index % 2 === 1) {
+						return null;
+					}
 					return (
 						<div
 							className={cn(
@@ -191,18 +147,51 @@ function ChatInterface({
 									}
 								/>
 							)}
-							{isLoading && <TypingIndicator />}
+							{/* {isLoading && <TypingIndicator />} */}
 						</div>
 					);
 				})}
-				{/* <div ref={messagesEndRef} /> */}
+				<div ref={messagesEndRef} />
 			</main>
 
 			{/* User Input */}
 			<div className="absolute bottom-8 left-[calc(50%-24rem)] z-30 mx-auto w-[48rem]">
-				{/* <ScrollToBottom /> */}
+				<ScrollToBottom messagesEndRef={messagesEndRef} />
 				<UserInput />
 			</div>
 		</div>
 	);
 }
+
+function ChatPlaceholder() {
+	return (
+		<div className="flex min-h-full items-center justify-center pb-[20vh]">
+			<h1 className="font-bold text-2xl text-text-secondary/50">
+				Empty Chat Placeholder
+			</h1>
+		</div>
+	);
+}
+
+function ChatHeader() {
+	return (
+		<aside className="absolute top-4 right-8 flex items-center justify-between gap-2">
+			<div className="flex flex-row rounded-full bg-white/30">
+				<button className="p-2" type="button">
+					<TbShare className="size-5" />
+				</button>
+				<button className="p-2" type="button">
+					<TbAB className="size-5" />
+				</button>
+			</div>
+		</aside>
+	);
+}
+
+// function Chat_Right() {
+// 	return (
+// 		<div className="flex flex-1 flex-col items-center justify-center">
+// 			{/* Document Outline / Artifacts / Bookmarks / Notes */}
+// 		</div>
+// 	);
+// }

@@ -1,11 +1,11 @@
-import { clientSchemaVersions } from '@/lib/db/schemas';
+import { clientSchemaVersions } from '@/lib/db/schemas/index';
 import { client, db } from '@/lib/db/server';
 import { getSchema } from './_sync/drizzle/getSchema';
 import { calculateChecksum } from './_sync/utils/calculateChecksum';
 
 const DRIZZLE_OUT_PATH = './drizzle/server';
 
-async function _sync_public_new(): Promise<void> {
+async function _syncPublicNew(): Promise<void> {
 	try {
 		// Generate Latest Schema
 		const { sql, tag } = await getSchema({ DRIZZLE_OUT_PATH });
@@ -22,17 +22,18 @@ async function _sync_public_new(): Promise<void> {
 		await db
 			.insert(clientSchemaVersions)
 			.values({ checksum, snapshot, sql, tag });
-
-		console.log(`Schema tag "${tag}" published successfully`);
-	} catch (error) {
-		console.error('Error publishing schema:', error);
-		throw error;
 	} finally {
 		await client.end();
 	}
 }
 
-_sync_public_new();
+_syncPublicNew()
+	.then(() => {
+		console.log('done');
+	})
+	.catch((error) => {
+		console.error(error);
+	});
 
 // import fs from 'node:fs/promises'
 

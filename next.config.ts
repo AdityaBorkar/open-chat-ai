@@ -1,3 +1,4 @@
+// import MillionLint from '@million/lint';
 // import { fileURLToPath } from 'node:url';
 // import createJiti from 'jiti';
 import type { NextConfig } from 'next';
@@ -23,15 +24,16 @@ const nextConfig: NextConfig = {
 						key: 'Critical-CH',
 						value: 'Sec-CH-Prefers-Color-Scheme',
 					},
-					{
-						key: 'Cross-Origin-Embedder-Policy',
-						value: 'require-corp',
-					},
-					{
-						key: 'Cross-Origin-Opener-Policy',
-						value: 'same-origin',
-					},
+					// {
+					// 	key: 'Cross-Origin-Embedder-Policy',
+					// 	value: 'require-corp',
+					// },
+					// {
+					// 	key: 'Cross-Origin-Opener-Policy',
+					// 	value: 'same-origin',
+					// },
 				],
+
 				source: '/(.*)',
 			},
 		];
@@ -40,3 +42,11 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+// export default MillionLint.next({
+// 	enabled: true,
+// 	experimental: {
+// 		stabilize: true,
+// 	},
+// 	rsc: true,
+// })(nextConfig);

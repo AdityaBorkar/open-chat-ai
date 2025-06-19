@@ -1,4 +1,9 @@
+'use client';
+
+import { useId } from 'react';
+
 export default function AttachmentsPage() {
+	const maxFileSizeId = useId();
 	return (
 		<div className="max-w-4xl">
 			<div className="mb-8">
@@ -23,8 +28,12 @@ export default function AttachmentsPage() {
 							</p>
 						</div>
 						<label className="relative inline-flex cursor-pointer items-center">
-							<input className="peer sr-only" defaultChecked type="checkbox" />
-							<div className="peer h-6 w-11 rounded-full bg-gray-600 after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-pink-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
+							<input
+								className="peer sr-only"
+								defaultChecked={true}
+								type="checkbox"
+							/>
+							<div className="peer h-6 w-11 rounded-full bg-gray-600 after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-pink-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none" />
 						</label>
 					</div>
 
@@ -36,21 +45,31 @@ export default function AttachmentsPage() {
 							</p>
 						</div>
 						<label className="relative inline-flex cursor-pointer items-center">
-							<input className="peer sr-only" defaultChecked type="checkbox" />
-							<div className="peer h-6 w-11 rounded-full bg-gray-600 after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-pink-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
+							<input
+								className="peer sr-only"
+								defaultChecked={true}
+								type="checkbox"
+							/>
+							<div className="peer h-6 w-11 rounded-full bg-gray-600 after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-pink-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none" />
 						</label>
 					</div>
 
 					<div>
-						<label className="mb-2 block font-medium text-white">
+						<label
+							className="mb-2 block font-medium text-white"
+							htmlFor={maxFileSizeId}
+						>
 							Max File Size
 						</label>
 						<p className="mb-3 text-gray-400 text-sm">
 							Maximum file size for uploads (in MB)
 						</p>
-						<select className="w-full rounded-lg border border-gray-600 bg-gray-700 px-4 py-3 text-white focus:border-pink-500 focus:outline-none">
+						<select
+							className="w-full rounded-lg border border-gray-600 bg-gray-700 px-4 py-3 text-white focus:border-pink-500 focus:outline-none"
+							id={maxFileSizeId}
+						>
 							<option value="5">5 MB</option>
-							<option selected value="10">
+							<option selected={true} value="10">
 								10 MB
 							</option>
 							<option value="25">25 MB</option>
@@ -77,7 +96,7 @@ export default function AttachmentsPage() {
 							{['JPEG', 'PNG', 'GIF', 'WebP', 'SVG'].map((format) => (
 								<div className="flex items-center justify-between" key={format}>
 									<span className="text-gray-400 text-sm">{format}</span>
-									<div className="h-3 w-3 rounded-full bg-green-500"></div>
+									<div className="h-3 w-3 rounded-full bg-green-500" />
 								</div>
 							))}
 						</div>
@@ -93,7 +112,7 @@ export default function AttachmentsPage() {
 							{['PDF', 'DOC', 'DOCX', 'TXT', 'MD'].map((format) => (
 								<div className="flex items-center justify-between" key={format}>
 									<span className="text-gray-400 text-sm">{format}</span>
-									<div className="h-3 w-3 rounded-full bg-green-500"></div>
+									<div className="h-3 w-3 rounded-full bg-green-500" />
 								</div>
 							))}
 						</div>
@@ -109,7 +128,7 @@ export default function AttachmentsPage() {
 							{['JS', 'TS', 'PY', 'HTML', 'CSS'].map((format) => (
 								<div className="flex items-center justify-between" key={format}>
 									<span className="text-gray-400 text-sm">{format}</span>
-									<div className="h-3 w-3 rounded-full bg-green-500"></div>
+									<div className="h-3 w-3 rounded-full bg-green-500" />
 								</div>
 							))}
 						</div>
@@ -125,7 +144,7 @@ export default function AttachmentsPage() {
 							{['JSON', 'CSV', 'XML', 'YAML', 'SQL'].map((format) => (
 								<div className="flex items-center justify-between" key={format}>
 									<span className="text-gray-400 text-sm">{format}</span>
-									<div className="h-3 w-3 rounded-full bg-green-500"></div>
+									<div className="h-3 w-3 rounded-full bg-green-500" />
 								</div>
 							))}
 						</div>
@@ -148,7 +167,7 @@ export default function AttachmentsPage() {
 						<div
 							className="h-2 rounded-full bg-pink-500"
 							style={{ width: '23.4%' }}
-						></div>
+						/>
 					</div>
 				</div>
 

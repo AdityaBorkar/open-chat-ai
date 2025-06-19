@@ -1,4 +1,15 @@
+'use client';
+
+import Link from 'next/link';
+import { useId } from 'react';
+
 export default function ContactPage() {
+	const nameId = useId();
+	const emailId = useId();
+	const subjectId = useId();
+	const messageId = useId();
+	const includeLogsId = useId();
+
 	return (
 		<div className="max-w-4xl">
 			<div className="mb-8">
@@ -19,13 +30,13 @@ export default function ContactPage() {
 						<div>
 							<label
 								className="mb-2 block font-medium text-white"
-								htmlFor="contact-name"
+								htmlFor={nameId}
 							>
 								Name
 							</label>
 							<input
 								className="w-full rounded-lg border border-gray-600 bg-gray-700 px-4 py-3 text-white placeholder-gray-400 focus:border-pink-500 focus:outline-none"
-								id="contact-name"
+								id={nameId}
 								placeholder="Your name"
 								type="text"
 							/>
@@ -33,13 +44,13 @@ export default function ContactPage() {
 						<div>
 							<label
 								className="mb-2 block font-medium text-white"
-								htmlFor="contact-email"
+								htmlFor={emailId}
 							>
 								Email
 							</label>
 							<input
 								className="w-full rounded-lg border border-gray-600 bg-gray-700 px-4 py-3 text-white placeholder-gray-400 focus:border-pink-500 focus:outline-none"
-								id="contact-email"
+								id={emailId}
 								placeholder="your@email.com"
 								type="email"
 							/>
@@ -49,13 +60,13 @@ export default function ContactPage() {
 					<div>
 						<label
 							className="mb-2 block font-medium text-white"
-							htmlFor="contact-subject"
+							htmlFor={subjectId}
 						>
 							Subject
 						</label>
 						<select
 							className="w-full rounded-lg border border-gray-600 bg-gray-700 px-4 py-3 text-white focus:border-pink-500 focus:outline-none"
-							id="contact-subject"
+							id={subjectId}
 						>
 							<option value="">Select a topic</option>
 							<option value="bug">Bug Report</option>
@@ -70,25 +81,25 @@ export default function ContactPage() {
 					<div>
 						<label
 							className="mb-2 block font-medium text-white"
-							htmlFor="contact-message"
+							htmlFor={messageId}
 						>
 							Message
 						</label>
 						<textarea
 							className="w-full resize-none rounded-lg border border-gray-600 bg-gray-700 px-4 py-3 text-white placeholder-gray-400 focus:border-pink-500 focus:outline-none"
-							id="contact-message"
+							id={messageId}
 							placeholder="Describe your issue or question in detail..."
 							rows={6}
-						></textarea>
+						/>
 					</div>
 
 					<div className="flex items-center gap-3">
 						<input
 							className="h-4 w-4 rounded border-gray-600 bg-gray-700 text-pink-600 focus:ring-2 focus:ring-pink-500"
-							id="include-logs"
+							id={includeLogsId}
 							type="checkbox"
 						/>
-						<label className="text-gray-400 text-sm" htmlFor="include-logs">
+						<label className="text-gray-400 text-sm" htmlFor={includeLogsId}>
 							Include system logs with my message (helps with troubleshooting)
 						</label>
 					</div>
@@ -131,12 +142,12 @@ export default function ContactPage() {
 							<p className="mb-3 text-gray-400 text-sm">
 								Check our comprehensive guides and FAQs
 							</p>
-							<a
+							<Link
 								className="font-medium text-pink-400 text-sm transition-colors hover:text-pink-300"
-								href="#"
+								href="/"
 							>
 								View Documentation →
-							</a>
+							</Link>
 						</div>
 					</div>
 
@@ -162,12 +173,12 @@ export default function ContactPage() {
 							<p className="mb-3 text-gray-400 text-sm">
 								Get help from other users and share tips
 							</p>
-							<a
+							<Link
 								className="font-medium text-pink-400 text-sm transition-colors hover:text-pink-300"
-								href="#"
+								href="/"
 							>
 								Join Community →
-							</a>
+							</Link>
 						</div>
 					</div>
 
@@ -193,12 +204,12 @@ export default function ContactPage() {
 							<p className="mb-3 text-gray-400 text-sm">
 								Check if there are any ongoing issues
 							</p>
-							<a
+							<Link
 								className="font-medium text-pink-400 text-sm transition-colors hover:text-pink-300"
-								href="#"
+								href="/"
 							>
 								View Status →
-							</a>
+							</Link>
 						</div>
 					</div>
 
@@ -224,12 +235,12 @@ export default function ContactPage() {
 							<p className="mb-3 text-gray-400 text-sm">
 								Reach out to us directly via email
 							</p>
-							<a
+							<Link
 								className="font-medium text-pink-400 text-sm transition-colors hover:text-pink-300"
 								href="mailto:support@t3chat.com"
 							>
 								support@t3chat.com →
-							</a>
+							</Link>
 						</div>
 					</div>
 				</div>

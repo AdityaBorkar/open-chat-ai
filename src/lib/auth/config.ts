@@ -1,3 +1,5 @@
+import process from 'node:process';
+
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { anonymous, oneTap } from 'better-auth/plugins';
@@ -8,6 +10,15 @@ import { db } from '../db/server';
 
 export const auth = betterAuth({
 	database: drizzleAdapter(db, { provider: 'pg', schema }),
+	fetchOptions: {
+		// @ts-expect-error `context` is not typed
+		async onError(context) {
+			const { response } = context;
+			if (response.status === 429) {
+				const _retryAfter = response.headers.get('X-Retry-After');
+			}
+		},
+	},
 	plugins: [
 		passkey({
 			authenticatorSelection: {
@@ -23,16 +34,33 @@ export const auth = betterAuth({
 		anonymous({
 			emailDomainName: process.env.NEXT_PUBLIC_DOMAIN,
 			onLinkAccount: async ({ anonymousUser, newUser }) => {
-				// Handle anonymous user data transfer when linking to a real account
-				console.log('Linking anonymous user to real account:', {
-					anonymousUser,
-					newUser,
-				});
+				console.log('onLinkAccount', anonymousUser, newUser);
 				// You can implement custom logic here like transferring cart items, preferences, etc.
 			},
 		}),
 		oneTap(),
 	],
+	rateLimit: {
+		max: 100, // time window in seconds
+		// storage: 'secondary-storage',
+		window: 60, // max requests in the window
+	},
+	// TODO: Add Redis
+	// secondaryStorage: {
+	// 	delete: async (key) => {
+	// 		await redis.del(key);
+	// 	},
+	// 	get: async (key) => {
+	// 		const value = await redis.get(key);
+	// 		return value ? value : null;
+	// 	},
+	// 	set: async (key, value, ttl) => {
+	// 		if (ttl) await redis.set(key, value, { EX: ttl });
+	// 		// or for ioredis:
+	// 		// if (ttl) await redis.set(key, value, 'EX', ttl)
+	// 		else await redis.set(key, value);
+	// 	},
+	// },
 	session: {
 		cookieCache: {
 			enabled: true,

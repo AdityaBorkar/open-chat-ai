@@ -18,9 +18,8 @@ export async function GET(request: NextRequest) {
 	// }
 
 	const params = request.nextUrl.searchParams;
-	const cursor = params.get('cursor');
-	const lastUpdatedAt = params.get('lastUpdatedAt');
-	console.log({ cursor, lastUpdatedAt });
+	const _cursor = params.get('cursor');
+	const _lastUpdatedAt = params.get('lastUpdatedAt');
 
 	// const data = await db
 	// 	.select()

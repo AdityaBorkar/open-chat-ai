@@ -16,7 +16,7 @@ export default function TestPage() {
 						'-1.5px -1.5px 0px 0px #F2F2F2 inset',
 					].join(', '),
 				}}
-			></div>
+			/>
 
 			{/* <WorkerStatus /> */}
 		</div>

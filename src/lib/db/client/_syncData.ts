@@ -1,6 +1,6 @@
 // Sync user data from server
 export async function _syncData(): Promise<void> {
-	const PERF_START = performance.now();
+	const _PerfStart = performance.now();
 	// TODO: Poll for changes every 10 seconds
 	// try {
 	// 	const data = await fetch('/api/sync/data')
@@ -30,6 +30,5 @@ export async function _syncData(): Promise<void> {
 	// 	console.error('Failed to sync user data:', error);
 	// 	throw new Error('Unable to sync user data. Please check your connection.');
 	// }
-	const PERF_END = performance.now();
-	console.log(`Sync data took ${PERF_END - PERF_START}ms`);
+	const _PerfEnd = performance.now();
 }

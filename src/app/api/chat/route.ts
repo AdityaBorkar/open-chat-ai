@@ -1,18 +1,18 @@
-import OpenAI from 'openai';
+import OpenAi from 'openai';
 
 const REFERRER_HEADERS = {
 	'HTTP-Referer': 'https://www.open-convo.ai',
 	'X-Title': 'Open Convo',
 };
 
-const openai = new OpenAI({
+const openai = new OpenAi({
 	apiKey: '<OPENROUTER_API_KEY>',
 	baseURL: 'https://openrouter.ai/api/v1',
 	defaultHeaders: REFERRER_HEADERS,
 });
 
 export async function GET(/*_request: Request*/) {
-	const completion = await openai.chat.completions.create({
+	const _completion = await openai.chat.completions.create({
 		messages: [
 			{
 				content: 'What is the meaning of life?',
@@ -21,8 +21,6 @@ export async function GET(/*_request: Request*/) {
 		],
 		model: 'openai/gpt-4o',
 	});
-
-	console.log(completion.choices[0].message);
 
 	return new Response('Hello, world!');
 }

@@ -20,10 +20,7 @@ export function Minibar() {
 		setSidebar((prev) => ({ ...prev, open: !prev.open }));
 	}
 
-	function openCommandK() {
-		// TODO: IMPLEMENT
-		console.log('openCommandK');
-	}
+	function openCommandK() {}
 
 	const pathname = usePathname();
 	const router = useRouter();

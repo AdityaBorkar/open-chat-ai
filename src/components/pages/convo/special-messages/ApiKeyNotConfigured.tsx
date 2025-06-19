@@ -24,7 +24,7 @@ export default function ApiKeyNotConfigured() {
 						{/* (Model Picker) */}
 					</div>
 					<Dialog>
-						<DialogTrigger asChild>
+						<DialogTrigger asChild={true}>
 							<Button>Connect API Key (open dialog)</Button>
 						</DialogTrigger>
 						<DialogContent className="w-84 rounded-4xl">
@@ -45,7 +45,7 @@ export default function ApiKeyNotConfigured() {
 				<div>{/* Show Options - Google / OpenRouter */}</div>
 			</div>
 			<Dialog>
-				<DialogTrigger asChild>
+				<DialogTrigger asChild={true}>
 					<Button>Connect using OpenRouter</Button>
 				</DialogTrigger>
 				<DialogContent className="w-84 rounded-4xl">

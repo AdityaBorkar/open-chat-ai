@@ -36,8 +36,8 @@ export function ConversationSection() {
 	// 	{ color: 'blue', id: '1', name: 'Default' },
 	// 	{ color: 'green', id: '2', name: 'Work' },
 	// ];
-	const pinned_list = list;
-	const convo_list = doNotGroupChats
+	const pinnedList = list;
+	const convoList = doNotGroupChats
 		? [{ list, title: 'All Conversations' }]
 		: [
 				{ list, title: 'Today' },
@@ -52,7 +52,7 @@ export function ConversationSection() {
 	return (
 		<div className="contents">
 			<Title icon={TbPin}>Pinned</Title>
-			{pinned_list.map((convo) => (
+			{pinnedList.map((convo) => (
 				<ConvoItem convo={convo} key={convo.id} />
 			))}
 			{/* <Title icon={TbFolder}>Folders</Title>
@@ -60,7 +60,7 @@ export function ConversationSection() {
 				<FolderItem folder={folder} key={folder.id} />
 			))} */}
 			<div className="flex-1 overflow-y-auto">
-				{convo_list.map((convo) => (
+				{convoList.map((convo) => (
 					<div className="mb-2 contents" key={convo.title}>
 						<Title>{convo.title}</Title>
 						{convo.list.map((chat) => (

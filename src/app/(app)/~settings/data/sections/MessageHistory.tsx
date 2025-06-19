@@ -19,15 +19,13 @@ export default function MessageHistory() {
 				const reader = new FileReader();
 				reader.onload = (e) => {
 					try {
-						const json = JSON.parse(e.target?.result as string);
-						console.log('Imported data:', json);
+						const _json = JSON.parse(e.target?.result as string);
 						// TODO: Process imported data
 						alert(
 							'Import successful! (Demo mode - data not actually imported)',
 						);
-					} catch (error) {
+					} catch (_error) {
 						alert('Error parsing JSON file');
-						console.error(error);
 					}
 				};
 				reader.readAsText(file);
@@ -72,7 +70,6 @@ export default function MessageHistory() {
 			`Delete ${selectedMessageIds.length} selected message(s)?`,
 		);
 		if (confirmDelete) {
-			console.log('Deleting messages:', selectedMessageIds);
 			// TODO: Implement actual deletion
 			alert(`${selectedMessageIds.length} message(s) deleted (Demo mode)`);
 			setSelectedMessageIds([]);

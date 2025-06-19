@@ -3,14 +3,10 @@
 		"quickfix.biome": "explicit",
 		"source.action.useSortedAttributes.biome": "explicit",
 		"source.action.useSortedKeys.biome": "explicit",
+		"source.action.useSortedProperties.biome": "explicit",
 		"source.fixAll.biome": "explicit",
 		"source.organizeImports.biome": "explicit"
 	},
-	"editor.quickSuggestions": {
-		"strings": "on"
-	},
 	"javascript.preferences.importModuleSpecifier": "non-relative",
-	"typescript.experimental.useTsgo": true,
-	"typescript.preferences.autoImportSpecifierExcludeRegexes": ["^(node:)?os$"],
 	"typescript.preferences.importModuleSpecifier": "non-relative"
 }

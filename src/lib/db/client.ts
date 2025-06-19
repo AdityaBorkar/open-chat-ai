@@ -13,10 +13,9 @@ const worker =
 		type: 'module',
 	});
 
-if (worker)
-	worker.onerror = (err) => {
-		console.error(err);
-	};
+if (worker) {
+	worker.onerror = (_err) => {};
+}
 
 export const client = (worker &&
 	new PGliteWorker(worker)) as unknown as PGliteWorker;
@@ -27,4 +26,4 @@ export const db = (worker &&
 	typeof schema & { $client: PGlite }
 >;
 
-export * from './client/_useDatabase';
+export { useDatabase } from './client/_useDatabase';

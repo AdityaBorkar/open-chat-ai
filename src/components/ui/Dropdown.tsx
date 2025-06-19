@@ -25,7 +25,7 @@ export default function Dropdown({
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
+			<DropdownMenuTrigger asChild={true}>
 				<button
 					className="flex w-fit items-center rounded-full border border-border/10 bg-bg-secondary px-4 py-2 font-semibold text-text-primary hover:bg-bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
 					style={{ boxShadow: '0px 0px 16px 0px #F2F2F2 inset' }}

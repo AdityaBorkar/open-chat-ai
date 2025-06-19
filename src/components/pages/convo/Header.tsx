@@ -72,8 +72,7 @@ export function Header() {
 			} else {
 				toast('Failed to export conversation');
 			}
-		} catch (error) {
-			console.error(error);
+		} catch (_error) {
 			toast('Error exporting conversation');
 		}
 		setExportOpen(false);
@@ -105,7 +104,7 @@ export function Header() {
 			)}
 		>
 			<Popover onOpenChange={setFolderOpen} open={folderOpen}>
-				<PopoverTrigger asChild>
+				<PopoverTrigger asChild={true}>
 					<Button
 						className="flex items-center gap-2 px-2 py-1.5 text-text-secondary hover:bg-bg-tertiary"
 						variant="compact"
@@ -193,7 +192,7 @@ export function Header() {
 					<TbShare className="mx-auto size-4" />
 				</Button>
 				<Popover>
-					<PopoverTrigger asChild>
+					<PopoverTrigger asChild={true}>
 						<Button className="block size-8 p-0" variant="shadow">
 							<TbDotsVertical className="mx-auto size-4" />
 						</Button>
@@ -219,8 +218,7 @@ export function Header() {
 										);
 										toast('Conversation archived');
 										// router.push('/');
-									} catch (error) {
-										console.error(error);
+									} catch (_error) {
 										toast('Failed to archive conversation');
 									}
 								}}
@@ -305,8 +303,7 @@ export function Header() {
 									});
 									toast('Conversation deleted');
 									router.push('/');
-								} catch (error) {
-									console.error(error);
+								} catch (_error) {
 									toast('Failed to delete conversation');
 								}
 							}}

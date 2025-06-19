@@ -22,9 +22,8 @@ export function PasskeyAuth() {
 			} else {
 				setSuccess('Passkey added successfully!');
 			}
-		} catch (err) {
+		} catch (_err) {
 			setError('An unexpected error occurred');
-			console.error('Passkey registration error:', err);
 		} finally {
 			setIsLoading(false);
 		}
@@ -43,20 +42,21 @@ export function PasskeyAuth() {
 			} else {
 				setSuccess('Signed in successfully with passkey!');
 			}
-		} catch (err) {
+		} catch (_err) {
 			setError('An unexpected error occurred');
-			console.error('Passkey signin error:', err);
 		} finally {
 			setIsLoading(false);
 		}
 	};
 
-	const handleSignInWithConditionalUI = async () => {
+	const handleSignInWithConditionalUi = async () => {
 		try {
 			// Check if conditional UI is supported
 			if (
-				!window.PublicKeyCredential?.isConditionalMediationAvailable ||
-				!(await window.PublicKeyCredential.isConditionalMediationAvailable())
+				!(
+					window.PublicKeyCredential?.isConditionalMediationAvailable &&
+					(await window.PublicKeyCredential.isConditionalMediationAvailable())
+				)
 			) {
 				setError('Conditional UI not supported in this browser');
 				return;
@@ -64,8 +64,7 @@ export function PasskeyAuth() {
 
 			// Start conditional UI authentication
 			await authClient.signIn.passkey({ autoFill: true });
-		} catch (err) {
-			console.error('Conditional UI error:', err);
+		} catch (_err) {
 			// Don't show error for conditional UI as it's meant to be passive
 		}
 	};
@@ -110,7 +109,7 @@ export function PasskeyAuth() {
 				<button
 					className="w-full rounded-md bg-purple-600 px-4 py-2 text-white hover:bg-purple-700 disabled:cursor-not-allowed disabled:opacity-50"
 					disabled={isLoading}
-					onClick={handleSignInWithConditionalUI}
+					onClick={handleSignInWithConditionalUi}
 					type="button"
 				>
 					Enable Conditional UI

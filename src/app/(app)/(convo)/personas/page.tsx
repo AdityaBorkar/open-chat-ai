@@ -6,7 +6,7 @@ export default function PersonasPage() {
 			<div>Name</div>
 			<div>System Prompt</div>
 			<hr />
-			<div></div>
+			<div />
 			<div>Model Temperature</div>
 			<div>Model Max Tokens</div>
 			<div>Model Top P</div>

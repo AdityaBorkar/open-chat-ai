@@ -61,7 +61,7 @@ export function OfflineIndicator({
 		});
 
 		// Periodic status updates
-		const interval = setInterval(updateStatus, 10000); // Every 10 seconds
+		const interval = setInterval(updateStatus, 10_000); // Every 10 seconds
 
 		const cleanup = () => {
 			window.removeEventListener('online', () => handleOnlineStatus(true));
@@ -72,7 +72,9 @@ export function OfflineIndicator({
 		return cleanup;
 	}, [status.pendingSync]);
 
-	if (!isVisible) return null;
+	if (!isVisible) {
+		return null;
+	}
 
 	const getIcon = () => {
 		if (!status.isOnline) {
@@ -189,7 +191,9 @@ export function OfflineBanner() {
 		};
 	}, []);
 
-	if (!isVisible) return null;
+	if (!isVisible) {
+		return null;
+	}
 
 	return (
 		<div className="fixed top-4 right-4 z-50 max-w-sm">
@@ -267,8 +271,12 @@ export function OfflineStatusDot({ className }: { className?: string }) {
 	}, []);
 
 	const getColor = () => {
-		if (!isOnline) return 'bg-red-500';
-		if (hasPending) return 'bg-yellow-500 animate-pulse';
+		if (!isOnline) {
+			return 'bg-red-500';
+		}
+		if (hasPending) {
+			return 'bg-yellow-500 animate-pulse';
+		}
 		return 'bg-green-500';
 	};
 

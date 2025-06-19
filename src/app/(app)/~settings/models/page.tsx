@@ -10,7 +10,7 @@ import {
 	IconStar,
 	IconTable,
 } from '@tabler/icons-react';
-import { useMemo, useState } from 'react';
+import { useId, useMemo, useState } from 'react';
 
 import models from '@/lib/constants/models.json';
 
@@ -298,6 +298,8 @@ export default function ModelsPage() {
 	const [showBenchmarks, setShowBenchmarks] = useState(false);
 	const [temperature, setTemperature] = useState(0.7);
 
+	const temperatureId = useId();
+
 	const sortedModels = useMemo(
 		() => [...enhancedModels].sort((a, b) => b.overall - a.overall),
 		[],
@@ -362,6 +364,7 @@ export default function ModelsPage() {
 								: 'border-border-primary bg-bg-primary text-text-tertiary hover:text-text-primary'
 						}`}
 						onClick={() => setShowBenchmarks(!showBenchmarks)}
+						type="button"
 					>
 						<IconChartBar size={16} />
 						AI Benchmarks
@@ -396,7 +399,7 @@ export default function ModelsPage() {
 					<div>
 						<label
 							className="mb-2 block font-medium text-sm text-text-primary"
-							htmlFor="temperature-slider"
+							htmlFor={temperatureId}
 						>
 							Temperature: {temperature}
 						</label>
@@ -405,11 +408,11 @@ export default function ModelsPage() {
 						</p>
 						<input
 							className="w-full accent-pink-600"
-							id="temperature-slider"
+							id={temperatureId}
 							max="1"
 							min="0"
 							onChange={(e) => setTemperature(Number(e.target.value))}
-							step="0.1"
+							step="0.01"
 							type="range"
 							value={temperature}
 						/>

@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export function Sidebar() {
 	return (
 		<aside className="">
@@ -5,12 +7,12 @@ export function Sidebar() {
 				{/* Profile Section */}
 				<div className="mb-8">
 					<div className="mb-6 flex flex-col items-center gap-4">
-						{/* eslint-disable-next-line @next/next/no-img-element */}
-						<img
-							// ignore for accessibility
-							alt=""
+						<Image
+							alt="User profile picture"
 							className="size-48 rounded-full object-cover ring-2 ring-gray-700/50"
+							height={192}
 							src="/api/placeholder/80/80"
+							width={192}
 						/>
 						<div className="text-center">
 							<div className="mb-1 font-semibold text-xl">Aditya Borkar</div>
@@ -42,7 +44,7 @@ export function Sidebar() {
 							<div
 								className="h-2 rounded-full bg-pink-500"
 								style={{ width: '5%' }}
-							></div>
+							/>
 						</div>
 					</div>
 					<p className="font-medium text-pink-400 ">19 messages remaining</p>

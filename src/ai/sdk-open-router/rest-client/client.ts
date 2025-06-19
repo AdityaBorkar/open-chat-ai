@@ -30,9 +30,9 @@ export default class OpenRouterClient {
 		});
 
 		// Validate Output
-		const raw_data = await response.json();
+		const rawData = await response.json();
 		const parseJson = type('string.json.parse').to(schema.response);
-		const data = parseJson(raw_data);
+		const data = parseJson(rawData);
 		if (data instanceof type.errors) {
 			throw new Error(data.summary);
 		}

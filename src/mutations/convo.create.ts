@@ -1,5 +1,11 @@
 import { ArkErrors, type } from 'arktype';
 
+const _NewConversation = type({
+	'folderId?': 'string',
+	tags: 'string[]',
+	type: 'string',
+});
+
 export async function createConvo() {
 	// TODO: Generate Temporary ID
 	// TODO: Stream Response from the API
@@ -9,12 +15,6 @@ export async function createConvo() {
 		success: true,
 	};
 }
-
-const _NewConversation = type({
-	'folderId?': 'string',
-	tags: 'string[]',
-	type: 'string',
-});
 
 export async function $createConvo({
 	convo,
@@ -26,9 +26,9 @@ export async function $createConvo({
 	'use server';
 	// const userId = 'get from better-auth';
 
-	let convo_data = _NewConversation(convo);
-	if (convo_data instanceof ArkErrors) {
-		convo_data = { folderId: undefined, tags: [], type: 'chat' };
+	let convoData = _NewConversation(convo);
+	if (convoData instanceof ArkErrors) {
+		convoData = { folderId: undefined, tags: [], type: 'chat' };
 	}
 
 	// db.insert(conversations).values({ id: createId(), ...convo_data, userId });

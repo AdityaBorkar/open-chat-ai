@@ -11,7 +11,9 @@ export async function getThemeClass(): Promise<string> {
 	const colorSchemeHint = headersList.get('sec-ch-prefers-color-scheme');
 
 	// Client hint values: 'dark', 'light', or null
-	if (colorSchemeHint === 'light') return 'light';
+	if (colorSchemeHint === 'light') {
+		return 'light';
+	}
 
 	// Default to dark if no hint or hint is 'dark'
 	return 'dark';

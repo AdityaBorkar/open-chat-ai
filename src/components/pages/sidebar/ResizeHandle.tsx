@@ -14,7 +14,9 @@ export function ResizeHandle() {
 	const [isDragging, setIsDragging] = useState(false);
 
 	const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
-		if (!isDragging) return;
+		if (!isDragging) {
+			return;
+		}
 		const width = Math.min(
 			SIDEBAR_MAX_WIDTH,
 			Math.max(SIDEBAR_MIN_WIDTH, e.clientX),

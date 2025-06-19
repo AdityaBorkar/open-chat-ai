@@ -1,4 +1,5 @@
 export default function AccountPage() {
+	// https://www.better-auth.com/docs/concepts/session-management
 	return (
 		<div>
 			<section>

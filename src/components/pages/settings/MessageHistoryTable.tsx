@@ -167,7 +167,7 @@ export function MessageHistoryTable({
 										{message.isArchived && (
 											<Badge variant="archived">Archived</Badge>
 										)}
-										{!message.isPinned && !message.isArchived && (
+										{!(message.isPinned || message.isArchived) && (
 											<span className="text-text-tertiary text-xs">—</span>
 										)}
 									</div>

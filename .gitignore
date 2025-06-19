@@ -43,3 +43,9 @@ next-env.d.ts
 drizzle
 
 .cursor
+
+# TODO: PLACE ALL THE BELOW FILES IN A SINGLE "generated" FOLDER
+# pglite
+pglite.data
+pglite.wasm
+public/workers

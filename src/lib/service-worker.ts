@@ -10,19 +10,17 @@ export interface OfflineStatus {
 
 export interface SyncMessage {
 	type: 'SYNC_SUCCESS' | 'SYNC_FAILED' | 'MESSAGE_QUEUED' | 'SW_ACTIVATED';
-	// eslint-disable-next-line
-	data?: any;
+	data?: unknown;
 	timestamp?: number;
 }
 
 class ServiceWorkerManager {
 	private sw: ServiceWorker | null = null;
-	// eslint-disable-next-line
-	private callbacks: Map<string, ((data: any) => void)[]> = new Map();
+	private readonly callbacks: Map<string, ((data: SyncMessage) => void)[]> =
+		new Map();
 
 	async register(): Promise<ServiceWorkerRegistration | null> {
 		if (typeof window === 'undefined' || !('serviceWorker' in navigator)) {
-			console.log('Service Worker not supported');
 			return null;
 		}
 
@@ -30,8 +28,6 @@ class ServiceWorkerManager {
 			const registration = await navigator.serviceWorker.register('/sw.js', {
 				scope: '/',
 			});
-
-			console.log('Service Worker registered:', registration);
 
 			// Listen for updates
 			registration.addEventListener('updatefound', () => {
@@ -42,7 +38,6 @@ class ServiceWorkerManager {
 							newWorker.state === 'installed' &&
 							navigator.serviceWorker.controller
 						) {
-							console.log('New service worker available');
 							this.notifyUpdate();
 						}
 					});
@@ -64,15 +59,12 @@ class ServiceWorkerManager {
 			}
 
 			return registration;
-		} catch (error) {
-			console.error('Service Worker registration failed:', error);
+		} catch (_error) {
 			return null;
 		}
 	}
 
 	private handleMessage(data: SyncMessage) {
-		console.log('Message from SW:', data);
-
 		const callbacks = this.callbacks.get(data.type) || [];
 		callbacks.forEach((callback) => callback(data));
 
@@ -84,19 +76,17 @@ class ServiceWorkerManager {
 	private notifyUpdate() {
 		// Notify components about SW update
 		const callbacks = this.callbacks.get('UPDATE_AVAILABLE') || [];
-		callbacks.forEach((callback) => callback({}));
+		callbacks.forEach((callback) => callback({ type: 'SW_ACTIVATED' }));
 	}
 
-	// eslint-disable-next-line
-	on(event: string, callback: (data: any) => void) {
+	on(event: string, callback: (data: SyncMessage) => void) {
 		if (!this.callbacks.has(event)) {
 			this.callbacks.set(event, []);
 		}
 		this.callbacks.get(event)?.push(callback);
 	}
 
-	// eslint-disable-next-line
-	off(event: string, callback: (data: any) => void) {
+	off(event: string, callback: (data: SyncMessage) => void) {
 		const callbacks = this.callbacks.get(event);
 		if (callbacks) {
 			const index = callbacks.indexOf(callback);
@@ -185,11 +175,7 @@ class ServiceWorkerManager {
 			await Promise.all(
 				cacheNames.map((cacheName) => caches.delete(cacheName)),
 			);
-
-			console.log('Offline data cleared');
-		} catch (error) {
-			console.error('Failed to clear offline data:', error);
-		}
+		} catch (_error) {}
 	}
 }
 
@@ -207,13 +193,10 @@ export async function initServiceWorker() {
 				const registration = await navigator.serviceWorker.ready;
 				// Check if sync is supported
 				if ('sync' in registration) {
-					// eslint-disable-next-line
-					await (registration as any).sync.register('chat-sync');
-					console.log('Background sync registered');
+					// @ts-expect-error - Type error
+					await registration.sync?.register('chat-sync');
 				}
-			} catch (error) {
-				console.log('Background sync not supported:', error);
-			}
+			} catch (_error) {}
 		}
 	}
 }
@@ -251,8 +234,6 @@ export async function offlineFetch(
 
 		return response;
 	} catch (error) {
-		console.log('Fetch failed, checking if queued for sync:', error);
-
 		// Check if this was queued for background sync
 		const url = typeof input === 'string' ? input : input.toString();
 		if (url.includes('/api/chat')) {

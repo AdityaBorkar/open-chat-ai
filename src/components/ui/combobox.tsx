@@ -1,7 +1,7 @@
 'use client';
 
 import { Check, ChevronsUpDown } from 'lucide-react';
-import * as React from 'react';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/Button';
 import {
@@ -42,8 +42,8 @@ export function Combobox({
 	allowCustom = false,
 	onCreateNew,
 }: ComboboxProps) {
-	const [open, setOpen] = React.useState(false);
-	const [searchValue, setSearchValue] = React.useState('');
+	const [open, setOpen] = useState(false);
+	const [searchValue, setSearchValue] = useState('');
 
 	const selectedOption = options.find((option) => option.value === value);
 
@@ -71,11 +71,11 @@ export function Combobox({
 
 	return (
 		<Popover onOpenChange={setOpen} open={open}>
-			<PopoverTrigger asChild>
+			<PopoverTrigger asChild={true}>
 				<Button
 					aria-expanded={open}
 					className={cn('w-[200px] justify-between', className)}
-					role="combobox"
+					// role="combobox"
 					variant="compact"
 				>
 					{selectedOption ? selectedOption.label : placeholder}
